@@ -51,8 +51,13 @@ public class Rational {
   }
 
   static Rational arrayReader(long[] array) {
-    Rational rational = new Rational();
-
-    return rational;
+    switch (array.length) {
+    case 1:
+      return new Rational(array[0]);
+    case 2:
+      return (array[1] == 0) ? null : new Rational(array[0], array[1]);
+    default:
+      return null;
+    }
   }
 }

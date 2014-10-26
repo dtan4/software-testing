@@ -37,4 +37,41 @@ public class RationalTest {
   //   assertEquals(rational.getNum(), 2);
   //   assertEquals(rational.getDen(), 3);
   // }
+
+  @Test
+  public void testArrayReader_empty() {
+    long[] array = {};
+    Rational rational = Rational.arrayReader(array);
+    assertNull(rational);
+  }
+
+  @Test
+  public void testArrayReader_12() {
+    long[] array = {12};
+    Rational rational = Rational.arrayReader(array);
+    assertEquals(rational.getNum(), 12);
+    assertEquals(rational.getDen(), 1);
+  }
+
+  @Test
+  public void testArrayReader_12_18(){
+    long[] array = {12, 18};
+    Rational rational = Rational.arrayReader(array);
+    assertEquals(rational.getNum(), 12);
+    assertEquals(rational.getDen(), 18);
+  }
+
+  @Test
+  public void testArrayReader_12_0(){
+    long[] array = {12, 0};
+    Rational rational = Rational.arrayReader(array);
+    assertNull(rational);
+  }
+
+  @Test
+  public void testArrayReader_12_18_2(){
+    long[] array = {12, 18, 2};
+    Rational rational = Rational.arrayReader(array);
+    assertNull(rational);
+  }
 }
