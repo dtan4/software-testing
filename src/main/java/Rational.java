@@ -73,4 +73,13 @@ public class Rational {
       return false;
     }
   }
+
+  @Override
+  public String toString() {
+    if (this.den == 1) {
+      return String.valueOf(this.num);
+    } else {
+      return String.valueOf(this.num) + "/" + String.valueOf(this.den);
+    }
+  }
 }

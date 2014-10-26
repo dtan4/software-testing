@@ -94,4 +94,16 @@ public class RationalTest {
     Rational rational1 = new Rational(2, 3);
     assertFalse(rational1.equals("hoge"));
   }
+
+  @Test
+  public void testToString_12_18() {
+    Rational rational = new Rational(12, 18);
+    assertEquals(rational.toString(), "12/18");
+  }
+
+  @Test
+  public void testToString_12_1() {
+    Rational rational = new Rational(12, 1);
+    assertEquals(rational.toString(), "12");
+  }
 }
