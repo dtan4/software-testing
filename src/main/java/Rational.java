@@ -82,4 +82,38 @@ public class Rational {
       return String.valueOf(this.num) + "/" + String.valueOf(this.den);
     }
   }
+
+  public Rational add(Rational r) {
+    long newNum = this.num * r.getDen() + this.den * r.getNum();
+    long newDen = this.den * r.getDen();
+
+    return new Rational(newNum, newDen);
+  }
+
+  public Rational multiply(Rational r) {
+    long newNum = this.num * r.getNum();
+    long newDen = this.den * r.getDen();
+
+    return new Rational(newNum, newDen);
+  }
+
+  public Rational inverse() {
+    if (num == 0) {
+      return null;
+    }
+
+    return new Rational(this.den, this.num);
+  }
+
+  private long compareWith(Rational r) {
+    return this.num * r.getDen() - this.den * r.getNum*();
+  }
+
+  public boolean greaterThan(Rational r) {
+    return compareWith(r) > 0;
+  }
+
+  public boolean lessThan(Rational r) {
+    return compareWith(r) < 0;
+  }
 }
