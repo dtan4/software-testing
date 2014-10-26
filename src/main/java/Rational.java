@@ -60,4 +60,17 @@ public class Rational {
       return null;
     }
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Rational)) {
+      return false;
+    }
+
+    if ((((Rational)o).getNum() == this.num) && (((Rational)o).getDen() == this.den)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
