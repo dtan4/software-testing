@@ -106,7 +106,7 @@ public class Rational {
   }
 
   private long compareWith(Rational r) {
-    return this.num * r.getDen() - this.den * r.getNum*();
+    return this.num * r.getDen() - this.den * r.getNum();
   }
 
   public boolean greaterThan(Rational r) {
