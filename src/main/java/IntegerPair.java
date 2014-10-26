@@ -1,15 +1,15 @@
 public class IntegerPair {
-  private int a;
-  private int b;
+  private long a;
+  private long b;
 
-  public IntegerPair(int a, int b) {
+  public IntegerPair(long a, long b) {
     this.a = a;
     this.b = b;
   }
 
-  public int gcd() {
-    int _a = a;
-    int _b = b;
+  public long gcd() {
+    long _a = a;
+    long _b = b;
 
     if ((_a <= 0) || (_b <= 0)) {
         return 0;
@@ -20,7 +20,7 @@ public class IntegerPair {
         return _a;
       }
 
-      int tmp = _b;
+      long tmp = _b;
       _b = _a % _b;
       _a = tmp;
     }
