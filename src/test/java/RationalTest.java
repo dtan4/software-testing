@@ -2,6 +2,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RationalTest {
+  // ********************************
+  // Rational(num, den)
+  // ********************************
+
+  // when:   約分の生じない有理数
+  // expect: 有理数
   @Test
   public void testRational_2_3() {
     Rational rational = new Rational(2, 3);
@@ -9,6 +15,8 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
+  // when:   約分を生じる有理数
+  // expect: 正規化された有理数
   public void testRational_12_18() {
     Rational rational = new Rational(12, 18);
 
@@ -16,6 +24,8 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
+  // when:   1に正規化される有理数
+  // expect: 1に正規化された有理数
   @Test
   public void testRational_12_12() {
     Rational rational = new Rational(12, 12);
@@ -24,6 +34,8 @@ public class RationalTest {
     assertEquals(rational.getDen(), 1);
   }
 
+  // when:   分母に0が与えられた
+  // expect: 1に正規化された有理数
   @Test
   public void testRational_12_0() {
     Rational rational = new Rational(12, 0);
@@ -32,6 +44,34 @@ public class RationalTest {
     assertEquals(rational.getDen(), 1);
   }
 
+  // when:   分子に負数が与えられた
+  // expect: 有理数
+  @Test
+  public void testNormalize_minus12_18() {
+    Rational rational = new Rational(-12, 18);
+    rational.normalize();
+
+    assertEquals(rational.getNum(), -2);
+    assertEquals(rational.getDen(), 3);
+  }
+
+  // when:   分母に負数が与えられた
+  // expect: 分母が正数化された有理数
+  @Test
+  public void testNormalize_12_minus18() {
+    Rational rational = new Rational(12, -18);
+    rational.normalize();
+
+    assertEquals(rational.getNum(), -2);
+    assertEquals(rational.getDen(), 3);
+  }
+
+  // ********************************
+  // Rational(num)
+  // ********************************
+
+  // when:   1つの数値のみ与えられた
+  // expect: 分母1の有理数
   @Test
   public void testRational_12() {
     Rational rational = new Rational(12);
@@ -40,6 +80,12 @@ public class RationalTest {
     assertEquals(rational.getDen(), 1);
   }
 
+  // ********************************
+  // Rational()
+  // ********************************
+
+  // when:   無引数
+  // expect: 分子・分母ともに1の有理数
   @Test
   public void testRational_no_args() {
     Rational rational = new Rational();
@@ -48,15 +94,12 @@ public class RationalTest {
     assertEquals(rational.getDen(), 1);
   }
 
-  @Test
-  public void testNormalize_minus() {
-    Rational rational = new Rational(12, -18);
-    rational.normalize();
+  // ********************************
+  // testArrayReader(array)
+  // ********************************
 
-    assertEquals(rational.getNum(), -2);
-    assertEquals(rational.getDen(), 3);
-  }
-
+  // when:   空配列を与える
+  // expect: null
   @Test
   public void testArrayReader_empty() {
     long[] array = {};
@@ -64,6 +107,8 @@ public class RationalTest {
     assertNull(rational);
   }
 
+  // when:   1要素配列を与える
+  // expect: 分母1の有理数
   @Test
   public void testArrayReader_12() {
     long[] array = {12};
@@ -72,6 +117,8 @@ public class RationalTest {
     assertEquals(rational.getDen(), 1);
   }
 
+  // when:   約分を生じない2要素配列を与える
+  // expect: 有理数
   @Test
   public void testArrayReader_2_3(){
     long[] array = {12, 18};
@@ -80,6 +127,8 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
+  // when:   約分を生じる2要素配列を与える
+  // expect: 正規化された有理数
   @Test
   public void testArrayReader_12_18(){
     long[] array = {12, 18};
@@ -88,6 +137,8 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
+  // when:   分母が0となる2要素配列を与える
+  // expect: null
   @Test
   public void testArrayReader_12_0(){
     long[] array = {12, 0};
@@ -95,6 +146,8 @@ public class RationalTest {
     assertNull(rational);
   }
 
+  // when:   3要素配列を与える
+  // expect: null
   @Test
   public void testArrayReader_12_18_2(){
     long[] array = {12, 18, 2};
@@ -102,6 +155,12 @@ public class RationalTest {
     assertNull(rational);
   }
 
+  // ********************************
+  // equals(o)
+  // ********************************
+
+  // when:   メソッド呼び出し元と等価な有理数を与える
+  // expect: true
   @Test
   public void testEquals_same() {
     Rational rational1 = new Rational(2, 3);
@@ -109,6 +168,8 @@ public class RationalTest {
     assertTrue(rational1.equals(rational2));
   }
 
+  // when:   メソッド呼び出し元と等価でない有理数を与える
+  // expect: false
   @Test
   public void testEquals_different() {
     Rational rational1 = new Rational(2, 3);
@@ -116,27 +177,47 @@ public class RationalTest {
     assertFalse(rational1.equals(rational2));
   }
 
+  // when:   Rational 以外のインスタンスを与える
+  // expect: false
   @Test
   public void testEquals_wrongClass() {
     Rational rational1 = new Rational(2, 3);
     assertFalse(rational1.equals("hoge"));
   }
 
+  // ********************************
+  // toString()
+  // ********************************
+
+  // when:   約分を生じない有理数を与える
+  // expect: 文字列として出力
   @Test
   public void testToString_2_3() {
     Rational rational = new Rational(2, 3);
     assertEquals(rational.toString(), "2/3");
   }
 
+  // when:   約分を生じる有理数を与える
+  // expect: 正規化した有理数を文字列として出力
   @Test
   public void testToString_12_18() {
     Rational rational = new Rational(12, 18);
     assertEquals(rational.toString(), "2/3");
   }
 
+  // when:   分母が1の有理数を与える
+  // expect: 整数として文字列を出力
   @Test
   public void testToString_12_1() {
     Rational rational = new Rational(12, 1);
     assertEquals(rational.toString(), "12");
+  }
+
+  // when:   負の有理数を与える
+  // expect: 符号付き文字列を出力
+  @Test
+  public void testToString_minus2_3() {
+    Rational rational = new Rational(12, 18);
+    assertEquals(rational.toString(), "-2/3");
   }
 }
