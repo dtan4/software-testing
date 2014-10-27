@@ -10,6 +10,8 @@ public class Rational {
     } else {
       this.den = den;
     }
+
+    normalize();
   }
 
   public Rational(long num) {

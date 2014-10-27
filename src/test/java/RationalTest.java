@@ -3,29 +3,48 @@ import static org.junit.Assert.*;
 
 public class RationalTest {
   @Test
-  public void testNormalize_12_18() {
+  public void testRational_2_3() {
+    Rational rational = new Rational(2, 3);
+    assertEquals(rational.getNum(), 2);
+    assertEquals(rational.getDen(), 3);
+  }
+
+  public void testRational_12_18() {
     Rational rational = new Rational(12, 18);
-    rational.normalize();
 
     assertEquals(rational.getNum(), 2);
     assertEquals(rational.getDen(), 3);
   }
 
   @Test
-  public void testNormalize_12_12() {
+  public void testRational_12_12() {
     Rational rational = new Rational(12, 12);
-    rational.normalize();
 
     assertEquals(rational.getNum(), 1);
     assertEquals(rational.getDen(), 1);
   }
 
   @Test
-  public void testNormalize_12_0() {
+  public void testRational_12_0() {
     Rational rational = new Rational(12, 0);
-    rational.normalize();
 
     assertEquals(rational.getNum(), 12);
+    assertEquals(rational.getDen(), 1);
+  }
+
+  @Test
+  public void testRational_12() {
+    Rational rational = new Rational(12);
+
+    assertEquals(rational.getNum(), 12);
+    assertEquals(rational.getDen(), 1);
+  }
+
+  @Test
+  public void testRational_no_args() {
+    Rational rational = new Rational();
+
+    assertEquals(rational.getNum(), 0);
     assertEquals(rational.getDen(), 1);
   }
 
@@ -54,11 +73,19 @@ public class RationalTest {
   }
 
   @Test
+  public void testArrayReader_2_3(){
+    long[] array = {12, 18};
+    Rational rational = Rational.arrayReader(array);
+    assertEquals(rational.getNum(), 2);
+    assertEquals(rational.getDen(), 3);
+  }
+
+  @Test
   public void testArrayReader_12_18(){
     long[] array = {12, 18};
     Rational rational = Rational.arrayReader(array);
-    assertEquals(rational.getNum(), 12);
-    assertEquals(rational.getDen(), 18);
+    assertEquals(rational.getNum(), 2);
+    assertEquals(rational.getDen(), 3);
   }
 
   @Test
@@ -96,9 +123,15 @@ public class RationalTest {
   }
 
   @Test
+  public void testToString_2_3() {
+    Rational rational = new Rational(2, 3);
+    assertEquals(rational.toString(), "2/3");
+  }
+
+  @Test
   public void testToString_12_18() {
     Rational rational = new Rational(12, 18);
-    assertEquals(rational.toString(), "12/18");
+    assertEquals(rational.toString(), "2/3");
   }
 
   @Test
