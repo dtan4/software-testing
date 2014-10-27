@@ -11,7 +11,7 @@ public class IntegerPair {
     long _a = a;
     long _b = b;
 
-    if ((_a <= 0) || (_b <= 0)) {
+    if ((_a == 0) || (_b == 0)) {
         return 0;
       }
 

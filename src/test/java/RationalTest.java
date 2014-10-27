@@ -48,14 +48,14 @@ public class RationalTest {
     assertEquals(rational.getDen(), 1);
   }
 
-  // @Test
-  // public void testNormalize_minus() {
-  //   Rational rational = new Rational(12, -18);
-  //   rational.normalize();
+  @Test
+  public void testNormalize_minus() {
+    Rational rational = new Rational(12, -18);
+    rational.normalize();
 
-  //   assertEquals(rational.getNum(), 2);
-  //   assertEquals(rational.getDen(), 3);
-  // }
+    assertEquals(rational.getNum(), -2);
+    assertEquals(rational.getDen(), 3);
+  }
 
   @Test
   public void testArrayReader_empty() {
