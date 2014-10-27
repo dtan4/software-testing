@@ -100,7 +100,7 @@ public class Rational {
   }
 
   public Rational inverse() {
-    if (num == 0) {
+    if (this.num == 0) {
       return null;
     }
 

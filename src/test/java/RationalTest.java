@@ -230,7 +230,7 @@ public class RationalTest {
   // expect: 符号付き文字列を出力
   @Test
   public void testToString_minus2_3() {
-    Rational rational = new Rational(12, 18);
+    Rational rational = new Rational(-2, 3);
 
     assertEquals(rational.toString(), "-2/3");
   }
