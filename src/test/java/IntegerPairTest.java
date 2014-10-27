@@ -31,18 +31,26 @@ public class IntegerPairTest {
   }
 
   // when:   0を含む整数ペア
-  // expect: 0
+  // expect: 0でない整数
   @Test
   public void testGcd_12_0() {
     IntegerPair pair = new IntegerPair(12, 0);
+    assertEquals(pair.gcd(), 12);
+  }
+
+  // when:   両方0
+  // expect: 0
+  @Test
+  public void testGcd_0_0() {
+    IntegerPair pair = new IntegerPair(0, 0);
     assertEquals(pair.gcd(), 0);
   }
 
   // when:   負数を含む整数ペア
-  // expect: 最大公約数
+  // expect: 正の最大公約数
   @Test
   public void testGcd_12_minus18() {
     IntegerPair pair = new IntegerPair(12, -18);
-    assertEquals(pair.gcd(), -6);
+    assertEquals(pair.gcd(), 6);
   }
 }

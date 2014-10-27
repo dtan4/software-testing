@@ -11,13 +11,13 @@ public class IntegerPair {
     long _a = a;
     long _b = b;
 
-    if ((_a == 0) || (_b == 0)) {
-        return 0;
-      }
+    if ((_a == 0) && (_b == 0)) {
+      return 0;
+    }
 
     while (true) {
       if (_b == 0) {
-        return _a;
+        return _a > 0 ? _a : -_a;
       }
 
       long tmp = _b;
