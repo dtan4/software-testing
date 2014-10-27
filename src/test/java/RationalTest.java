@@ -18,6 +18,7 @@ public class RationalTest {
 
   // when:   約分を生じる有理数
   // expect: 正規化された有理数
+  @Test
   public void testRational_12_18() {
     Rational rational = new Rational(12, 18);
 
