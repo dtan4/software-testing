@@ -11,12 +11,12 @@ class IntegerPairSpec extends Specification {
         integerPair.gcd() == result
 
         where:
-        a | b || result
-        2 | 3 || 1
-        12 | 18 || 6
-        12 | 12 || 12
-        12 | 0 || 12
-        0 | 0 || 0
+        a  | b   || result
+        2  | 3   || 1
+        12 | 18  || 6
+        12 | 12  || 12
+        12 | 0   || 12
+        0  | 0   || 0
         12 | -18 || 6
     }
 }
