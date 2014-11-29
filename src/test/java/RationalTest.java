@@ -197,6 +197,21 @@ public class RationalTest {
   }
 
   // ********************************
+  // clone(o)
+  // ********************************
+
+  // when:
+  // expect: same Rational
+  @Test
+  public void testClone() {
+    Rational rational = new Rational(2, 3);
+    Rational cloned = (Rational)rational.clone();
+
+    assertEquals(rational.getNum(), cloned.getNum());
+    assertEquals(rational.getDen(), cloned.getDen());
+  }
+
+  // ********************************
   // toString()
   // ********************************
 
