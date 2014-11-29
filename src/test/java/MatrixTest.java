@@ -61,7 +61,10 @@ public class MatrixTest {
   // expect: Matrix
   @Test
   public void testArrayReader() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
 
     assertTrue(matrix.getElem()[0][0].equals(new Rational(1, 2)));
@@ -71,7 +74,10 @@ public class MatrixTest {
   // expect: Matrix
   @Test
   public void testArrayReader_over_columns() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}, {9, 10}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}, {9, 10}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
 
     assertEquals(2, matrix.getElem()[1].length);
@@ -81,7 +87,10 @@ public class MatrixTest {
   // expect: Matrix
   @Test
   public void testArrayReader_few_columns() {
-    long[][][] array = {{{1, 2}, {3, 4}, {5, 6}}, {{7, 8}, {9, 10}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}, {5, 6}},
+            {{7, 8}, {9, 10}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
 
     assertEquals(3, matrix.getElem()[1].length);
@@ -91,7 +100,11 @@ public class MatrixTest {
   // expect: Matrix
   @Test
   public void testArrayReader_over_rows() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9, 10}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{9, 10}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
 
     assertEquals(3, matrix.getElem().length);
@@ -106,7 +119,10 @@ public class MatrixTest {
   // expect: true
   @Test
   public void testEquals_same() {
-    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array1 = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     long[][][] array2 = array1.clone();
     Matrix matrix1 = Matrix.arrayReader(array1);
     Matrix matrix2 = Matrix.arrayReader(array2);
@@ -118,8 +134,14 @@ public class MatrixTest {
   // expect: false
   @Test
   public void testEquals_different() {
-    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-    long[][][] array2 = {{{1, 2}, {3, 4}}, {{5, 6}, {9, 10}}};
+    long[][][] array1 = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
+    long[][][] array2 = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {9, 10}}
+    };
     Matrix matrix1 = Matrix.arrayReader(array1);
     Matrix matrix2 = Matrix.arrayReader(array2);
 
@@ -130,8 +152,14 @@ public class MatrixTest {
   // expect: false
   @Test
   public void testEquals_differentSize() {
-    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-    long[][][] array2 = {{{1, 2}}, {{3, 4}, {5, 6}}};
+    long[][][] array1 = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
+    long[][][] array2 = {
+            {{1, 2}},
+            {{3, 4}, {5, 6}}
+    };
     Matrix matrix1 = Matrix.arrayReader(array1);
     Matrix matrix2 = Matrix.arrayReader(array2);
 
@@ -142,7 +170,10 @@ public class MatrixTest {
   // expect: false
   @Test
   public void testEquals_wrongClass() {
-    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array1 = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix1 = Matrix.arrayReader(array1);
 
     assertNotEquals(matrix1, "hoge");
@@ -156,7 +187,10 @@ public class MatrixTest {
   // expect: same matrix
   @Test
   public void testClone() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
     Matrix cloned = (Matrix)matrix.clone();
 
@@ -171,7 +205,10 @@ public class MatrixTest {
   // expect: string of matrix
   @Test
   public void testToString() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
 
     assertEquals(matrix.toString(), "1/2, 3/4\n5/6, 7/8\n");
@@ -185,7 +222,10 @@ public class MatrixTest {
   // expect: vector
   @Test
   public void testSubstVector_sameSize() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
     Rational[] x = {new Rational(1), new Rational(1)};
     Rational[] result = matrix.substVector(x);
@@ -198,7 +238,10 @@ public class MatrixTest {
   // expect: vector
   @Test
   public void testSubstVector_smallSize() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
     Rational[] x = {new Rational(1)};
     Rational[] result = matrix.substVector(x);
@@ -211,7 +254,10 @@ public class MatrixTest {
   // expect: vector
   @Test
   public void testSubstVector_biggerSize() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
     Rational[] x = {new Rational(1), new Rational(1), new Rational(1)};
     Rational[] result = matrix.substVector(x);
@@ -245,7 +291,10 @@ public class MatrixTest {
   // expect: null
   @Test
   public void testRightLower_outRange() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
     Matrix rightLower = matrix.rightLower(1, 2);
 
@@ -277,7 +326,10 @@ public class MatrixTest {
   // expect: null
   @Test
   public void testLeftUpper_outRange() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
     Matrix leftUpper = matrix.leftUpper(1, 2);
 
