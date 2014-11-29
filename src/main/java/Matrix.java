@@ -119,4 +119,23 @@ public class Matrix {
 
     return sb.toString();
   }
+
+  public Rational[] substVector(Rational[] x) {
+    Rational[] result = new Rational[nRow];
+
+    for (int i = 0; i < nRow; i++) {
+      Rational addResult = new Rational();
+
+      for (int j = 0; j < nCol; j++) {
+        if (j < x.length) {
+          Rational multiplyResult = elem[i][j].multiply(x[j]);
+          addResult = addResult.add(multiplyResult);
+        }
+      }
+
+      result[i] = addResult;
+    }
+
+    return result;
+  }
 }

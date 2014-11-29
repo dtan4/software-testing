@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 public class MatrixTest {
   // ********************************
-  // arrayReader()
+  // arrayReader(array)
   // ********************************
 
   // when:   array.length == 0
@@ -64,7 +64,7 @@ public class MatrixTest {
 
 
   // ********************************
-  // equals()
+  // equals(o)
   // ********************************
 
   // when:   same matrix is given
@@ -140,5 +140,48 @@ public class MatrixTest {
     Matrix matrix = Matrix.arrayReader(array);
 
     assertEquals(matrix.toString(), "1/2, 3/4\n5/6, 7/8\n");
+  }
+
+  // ********************************
+  // substVector(x)
+  // ********************************
+
+  // when:   matrix and x have the same size
+  // expect: vector
+  @Test
+  public void testSubstVector_sameSize() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational[] x = {new Rational(1), new Rational(1)};
+    Rational[] result = matrix.substVector(x);
+
+    assertEquals(new Rational(5, 4), result[0]);
+    assertEquals(new Rational(41, 24), result[1]);
+  }
+
+  // when:   x have smaller size
+  // expect: vector
+  @Test
+  public void testSubstVector_smallSize() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational[] x = {new Rational(1)};
+    Rational[] result = matrix.substVector(x);
+
+    assertEquals(new Rational(1, 2), result[0]);
+    assertEquals(new Rational(3, 4), result[1]);
+  }
+
+  // when:   x have bigger size
+  // expect: vector
+  @Test
+  public void testSubstVector_biggerSize() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational[] x = {new Rational(1), new Rational(1), new Rational(1)};
+    Rational[] result = matrix.substVector(x);
+
+    assertEquals(new Rational(5, 6), result[0]);
+    assertEquals(new Rational(41, 24), result[1]);
   }
 }
