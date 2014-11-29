@@ -139,8 +139,16 @@ public class Matrix {
     return result;
   }
 
+  private boolean isInRowRange(int row) {
+    return (0 <= row) && (row < nRow);
+  }
+
+  private boolean isInColumnRange(int col) {
+    return (0 <= col) && (col < nCol);
+  }
+
   public Matrix rightLower(int row, int col) {
-    if ((row <= 0) || (nRow < row) || (col <= 0) || (nCol < col)) {
+    if (!(isInRowRange(row) && isInColumnRange(col))) {
       return null;
     }
 
@@ -160,7 +168,7 @@ public class Matrix {
   }
 
   public Matrix leftUpper(int row, int col) {
-    if ((row <= 0) || (nRow < row) || (col <= 0) || (nCol < col)) {
+    if (!(isInRowRange(row) && isInColumnRange(col))) {
       return null;
     }
 
@@ -178,7 +186,7 @@ public class Matrix {
    }
 
   public void replace(int row, int col, Matrix m) {
-    if ((row <= 0) || (nRow < row) || (col <= 0) || (nCol < col)) {
+    if (!(isInRowRange(row) && isInColumnRange(col))) {
       return;
     }
 
@@ -200,7 +208,7 @@ public class Matrix {
   }
 
   public void multiplyRow(int row, Rational r) {
-    if ((row < 0) || (row >= nRow)) {
+    if (!isInRowRange(row)) {
       return;
     }
 
@@ -210,7 +218,7 @@ public class Matrix {
   }
 
   public void addMultipliedRow(int row1, Rational r, int row2) {
-    if ((row1 < 0) || (row1 >= nRow) || (row2 < 0) || (row2 >= nRow)) {
+    if (!(isInRowRange(row1) && isInRowRange(row2))) {
       return;
     }
 
@@ -220,7 +228,7 @@ public class Matrix {
   }
 
   public void exchangeRow(int row1, int row2) {
-    if ((row1 < 0) || (row1 >= nRow) || (row2 < 0) || (row2 >= nRow)) {
+    if (!(isInRowRange(row1) && isInRowRange(row2))) {
       return;
     }
 
@@ -230,7 +238,7 @@ public class Matrix {
   }
 
   public void exchangeCol(int col1, int col2) {
-    if ((col1 < 0) || (col1 >= nCol) || (col2 < 0) || (col2 >= nCol)) {
+    if (!(isInColumnRange(col1) && isInColumnRange(col2))) {
       return;
     }
 
