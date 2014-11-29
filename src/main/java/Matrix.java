@@ -228,4 +228,16 @@ public class Matrix {
     elem[row1] = elem[row2];
     elem[row2] = tmpRow;
   }
+
+  public void exchangeCol(int col1, int col2) {
+    if ((col1 < 0) || (col1 >= nCol) || (col2 < 0) || (col2 >= nCol)) {
+      return;
+    }
+
+    for (int i = 0; i < nRow; i++) {
+      Rational tmpRational = elem[i][col1];
+      elem[i][col1] = elem[i][col2];
+      elem[i][col2] = tmpRational;
+    }
+  }
 }

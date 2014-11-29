@@ -480,4 +480,40 @@ public class MatrixTest {
     assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
     assertEquals(new Rational(5, 6), matrix.getElem()[1][0]);
   }
+
+  // ********************************
+  // exchangeCol(col1, col2)
+  // ********************************
+
+  // when:   col is in range
+  // expect: exchange col
+  @Test
+  public void testExchangeCol_inRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.exchangeCol(0, 1);
+
+    assertEquals(new Rational(3, 4), matrix.getElem()[0][0]);
+    assertEquals(new Rational(1, 2), matrix.getElem()[0][1]);
+  }
+
+  // when:   col is out of range
+  // expect: do nothing
+  @Test
+  public void testExchangeCol_outRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.exchangeCol(0, 2);
+
+    assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
+    assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
+  }
 }
