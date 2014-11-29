@@ -265,4 +265,16 @@ public class Matrix {
       addMultipliedRow(row, elem[i][row], i);
     }
   }
+
+  protected int nonZeroColumn(int row) {
+    assert(isInRowRange(row));
+
+    for (int colIndex = 0; colIndex < nCol; colIndex++) {
+      if (!elem[row][colIndex].equals(zero)) {
+        return colIndex;
+      }
+    }
+
+    return nCol;
+  }
 }

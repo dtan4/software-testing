@@ -552,4 +552,49 @@ public class MatrixTest {
 
     assertEquals(new Rational(5, 1), matrix.getElem()[1][1]);
   }
+
+  // ********************************
+  // nonZeroColumn(row)
+  // ********************************
+
+  // when:   non-zero column exists
+  // expect: index of non-zero column
+  @Test
+  public void testNonZeroColumn_exist() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(2, matrix.nonZeroColumn(1));
+  }
+
+  // when:   non-zero column does not exist
+  // expect: number of columns
+  @Test
+  public void testNonZeroColumn_not_exist() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {0, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(3, matrix.nonZeroColumn(1));
+  }
+
+  // when:   row is out of range
+  // expect: raise AssertionError
+  @Test(expected = AssertionError.class)
+  public void testNonZeroColumn_outRange() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.nonZeroColumn(3);
+  }
 }
