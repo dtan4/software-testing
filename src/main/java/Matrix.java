@@ -85,4 +85,19 @@ public class Matrix {
 
     return true;
   }
+
+  @Override
+  public Object clone() {
+    Rational[][] elem = new Rational[nRow][];
+
+    for (int i = 0; i < nRow; i++) {
+      elem[i] = new Rational[nCol];
+
+      for (int j = 0; j < nCol; j++) {
+        elem[i][j] = (Rational)this.elem[i][j].clone();
+      }
+    }
+
+    return new Matrix(elem);
+  }
 }

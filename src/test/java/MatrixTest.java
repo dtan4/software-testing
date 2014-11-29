@@ -112,4 +112,19 @@ public class MatrixTest {
 
     assertFalse(matrix1.equals("hoge"));
   }
+
+  // ********************************
+  // clone()
+  // ********************************
+
+  // when:
+  // expect: same matrix
+  @Test
+  public void testClone() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Matrix cloned = (Matrix)matrix.clone();
+
+    assertTrue(cloned.getElem()[0][0].equals(new Rational(1, 2)));
+  }
 }
