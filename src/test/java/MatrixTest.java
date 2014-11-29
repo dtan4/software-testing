@@ -389,7 +389,7 @@ public class MatrixTest {
   }
 
   // ********************************
-  // addMultipliedRow(row, r)
+  // addMultipliedRow(row1, r, row2)
   // ********************************
 
   // when:   row is in range
@@ -443,5 +443,41 @@ public class MatrixTest {
 
     assertEquals(new Rational(1, 3), matrix.getElem()[2][0]);
     assertEquals(new Rational(5, 7), matrix.getElem()[2][1]);
+  }
+
+  // ********************************
+  // exchangeRow(row1, row2)
+  // ********************************
+
+  // when:   row is in range
+  // expect: exchange row
+  @Test
+  public void testExchangeRow_inRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.exchangeRow(0, 1);
+
+    assertEquals(new Rational(5, 6), matrix.getElem()[0][0]);
+    assertEquals(new Rational(1, 2), matrix.getElem()[1][0]);
+  }
+
+  // when:   row is out of range
+  // expect: do nothing
+  @Test
+  public void testExchangeRow_outRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.exchangeRow(0, 3);
+
+    assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
+    assertEquals(new Rational(5, 6), matrix.getElem()[1][0]);
   }
 }

@@ -218,4 +218,14 @@ public class Matrix {
       elem[row2][i] = elem[row2][i].add(elem[row1][i].multiply(r));
     }
   }
+
+  public void exchangeRow(int row1, int row2) {
+    if ((row1 < 0) || (row1 >= nRow) || (row2 < 0) || (row2 >= nRow)) {
+      return;
+    }
+
+    Rational[] tmpRow = elem[row1];
+    elem[row1] = elem[row2];
+    elem[row2] = tmpRow;
+  }
 }
