@@ -13,7 +13,7 @@ public class MatrixTest {
     Rational[][] elem = new Rational[2][];
 
     for (int i = 0; i < 2; i++) {
-      elem[i] = new Rational[2];
+      elem[i] = new Rational[3];
 
       for (int j = 0; j < 3; j++) {
         elem[i][j] = new Rational(i + 1, j + 1);
