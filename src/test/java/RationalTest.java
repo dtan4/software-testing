@@ -255,8 +255,8 @@ public class RationalTest {
   // add(r)
   // ********************************
 
-  // when:   負の有理数を与える
-  // expect: 符号付き文字列を出力
+  // when:   0以上の有理数を与える
+  // expect: 加算結果を出力
   @Test
   public void testAdd() {
     Rational rational1 = new Rational(2, 3);
@@ -267,12 +267,24 @@ public class RationalTest {
     assertEquals(added.getDen(), 12);
   }
 
+  // when:   0を与える
+  // expect: 加算結果を出力
+  @Test
+  public void testAdd_num0() {
+    Rational rational1 = new Rational();
+    Rational rational2 = new Rational(3, 4);
+    Rational added = rational1.add(rational2);
+
+    assertEquals(added.getNum(), 3);
+    assertEquals(added.getDen(), 4);
+  }
+
   // ********************************
   // multiply(r)
   // ********************************
 
-  // when:   負の有理数を与える
-  // expect: 符号付き文字列を出力
+  // when:   0以上の有理数を与える
+  // expect: 乗算結果を出力
   @Test
   public void testMultiply() {
     Rational rational1 = new Rational(2, 3);
