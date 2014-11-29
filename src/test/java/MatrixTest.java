@@ -516,4 +516,40 @@ public class MatrixTest {
     assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
     assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
   }
+
+  // ********************************
+  // eliminate(row, col)
+  // ********************************
+
+  // when:   row and col are in range
+  // expect: eliminate
+  @Test
+  public void testElimintate_inRange() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{4, 1}, {5, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.eliminate(1, 1);
+
+    assertEquals(new Rational(-1, 1), matrix.getElem()[1][1]);
+    assertEquals(new Rational(0), matrix.getElem()[0][1]);
+    assertEquals(new Rational(0), matrix.getElem()[2][1]);
+  }
+
+  // when:   row and col are out of range
+  // expect: do nothing
+  @Test
+  public void testEliminate_outRange() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{4, 1}, {5, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.eliminate(1, 3);
+
+    assertEquals(new Rational(5, 1), matrix.getElem()[1][1]);
+  }
 }

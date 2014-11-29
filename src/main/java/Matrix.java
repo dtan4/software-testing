@@ -248,4 +248,21 @@ public class Matrix {
       elem[i][col2] = tmpRational;
     }
   }
+
+  public void eliminate(int row, int col) {
+    if (!(isInRowRange(row) && isInColumnRange(col))) {
+      return;
+    }
+
+    Rational inversed = elem[row][col].inverse().multiply(new Rational(-1));
+    multiplyRow(row, inversed);
+
+    for (int i = 0; i < nRow; i++) {
+      if (i == row) {
+        continue;
+      }
+
+      addMultipliedRow(row, elem[i][row], i);
+    }
+  }
 }
