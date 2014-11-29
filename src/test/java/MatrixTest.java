@@ -629,4 +629,67 @@ public class MatrixTest {
 
     assertFalse(matrix.isEchelonForm());
   }
+
+  // ********************************
+  // echelonForm()
+  // ********************************
+
+  // when:
+  // expect: introduce echelon form
+  @Test
+  public void testEchelonForm() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{4, 1}, {5, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.echelonForm();
+
+    // -1 -2 -3
+    // 0 -1 -2
+    // 0 0 0
+    assertTrue(matrix.isEchelonForm());
+    assertEquals(new Rational(-3), matrix.getElem()[0][2]);
+    assertEquals(new Rational(-2), matrix.getElem()[1][2]);
+  }
+
+  // when:
+  // expect: introduce echelon form
+  @Test
+  public void testEchelonForm_2() {
+    long[][][] array = {
+            {{0, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {5, 1}, {6, 1}},
+            {{0, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.echelonForm();
+
+    // 0 -1 -3/2
+    // 0 0 -1
+    // 0 0 0
+    assertTrue(matrix.isEchelonForm());
+    assertEquals(new Rational(-3, 2), matrix.getElem()[0][2]);
+  }
+
+  // when:
+  // expect: introduce echelon form
+  @Test
+  public void testEchelonForm_3() {
+    long[][][] array = {
+            {{0, 1}, {2, 1}, {3, 1}},
+            {{1, 1}, {5, 1}, {6, 1}},
+            {{0, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.echelonForm();
+
+    // -1 -5 -6
+    // 0 -1 -3/2
+    // 0 0 -1
+    assertTrue(matrix.isEchelonForm());
+    assertEquals(new Rational(-6), matrix.getElem()[0][2]);
+    assertEquals(new Rational(-3, 2), matrix.getElem()[1][2]);
+  }
 }

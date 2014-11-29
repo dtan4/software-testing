@@ -299,4 +299,36 @@ public class Matrix {
 
     return true;
   }
+
+  public void echelonForm() {
+    if (elem[0][0].equals(zero)) {
+      for (int i = 1; i < nRow; i++) {
+        if (!elem[i][0].equals(zero)) {
+          exchangeRow(0, i);
+          echelonForm();
+
+          return;
+        }
+      }
+
+      if (nCol == 1) {
+        return;
+      }
+
+      Matrix rightLower = rightLower(0, 1);
+      rightLower.echelonForm();
+      replace(0, 1, rightLower);
+
+    } else {
+      eliminate(0, 0);
+
+      if ((nRow == 1) || (nCol == 1)) {
+        return;
+      }
+
+      Matrix rightLower = rightLower(1, 1);
+      rightLower.echelonForm();
+      replace(1, 1, rightLower);
+    }
+  }
 }
