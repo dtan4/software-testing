@@ -216,4 +216,36 @@ public class MatrixTest {
 
     assertNull(rightLower);
   }
+
+  // ********************************
+  // leftUpper(row, col)
+  // ********************************
+
+  // when:   row and col are in range
+  // expect: matrix
+  @Test
+  public void testLeftUpper_inRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Matrix leftUpper = matrix.leftUpper(2, 2);
+
+    assertEquals(2, leftUpper.getNRow());
+    assertEquals(new Rational(1, 2), leftUpper.getElem()[0][0]);
+    assertEquals(new Rational(7, 8), leftUpper.getElem()[1][1]);
+  }
+
+  // when:   row and col are out of range
+  // expect: null
+  @Test
+  public void testLeftUpper_outRange() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Matrix leftUpper = matrix.leftUpper(3, 4);
+
+    assertNull(leftUpper);
+  }
 }

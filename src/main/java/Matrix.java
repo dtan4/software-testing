@@ -158,4 +158,22 @@ public class Matrix {
 
     return new Matrix(rightLowerElem);
   }
+
+  public Matrix leftUpper(int row, int col) {
+    if ((row <= 0) || (nRow < row) || (col <= 0) || (nCol < col)) {
+      return null;
+    }
+
+    Rational[][] leftUpperElem = new Rational[row][];
+
+    for (int i = 0; i < row; i++) {
+      leftUpperElem[i] = new Rational[col];
+
+      for (int j = 0; j < col; j++) {
+        leftUpperElem[i][j] = elem[i][j];
+      }
+    }
+
+    return new Matrix(leftUpperElem);
+   }
 }
