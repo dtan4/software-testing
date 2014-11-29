@@ -3,6 +3,41 @@ import static org.junit.Assert.*;
 
 public class MatrixTest {
   // ********************************
+  // Matrix(elem)
+  // ********************************
+
+  // when:   elements
+  // expect: matrix
+  @Test
+  public void testMatrix() {
+    Rational[][] elem = new Rational[2][];
+
+    for (int i = 0; i < 2; i++) {
+      elem[i] = new Rational[3];
+
+      for (int j = 0; j < 3; j++) {
+        elem[i][j] = new Rational(i + 1, j + 1);
+      }
+    }
+
+    Matrix matrix = new Matrix(elem);
+
+    assertEquals(2, matrix.getNRow());
+    assertEquals(3, matrix.getNCol());
+  }
+
+  // when:   no elements
+  // expect: empty matrix
+  @Test
+  public void testMatrix_empty() {
+    Rational[][] elem = {};
+    Matrix matrix = new Matrix(elem);
+
+    assertEquals(0, matrix.getNRow());
+    assertEquals(0, matrix.getNCol());
+  }
+
+  // ********************************
   // arrayReader(array)
   // ********************************
 
@@ -623,6 +658,20 @@ public class MatrixTest {
     long[][][] array = {
             {{1, 1}, {2, 1}, {3, 1}},
             {{0, 1}, {0, 1}, {0, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertFalse(matrix.isEchelonForm());
+  }
+
+  // when:   matrix is not echelon form
+  // expect: false
+  @Test
+  public void testIsEchelonForm_false2() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {1, 1}},
             {{7, 1}, {8, 1}, {9, 1}},
     };
     Matrix matrix = Matrix.arrayReader(array);
