@@ -31,4 +31,34 @@ public class MatrixTest {
 
     assertTrue(matrix.getElem()[0][0].equals(new Rational(1, 2)));
   }
+
+  // when:   non-empty array, over columns
+  // expect: Matrix
+  @Test
+  public void testArrayReader_over_columns() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}, {9, 10}}};
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(2, matrix.getElem()[1].length);
+  }
+
+  // when:   non-empty array, few columns
+  // expect: Matrix
+  @Test
+  public void testArrayReader_few_columns() {
+    long[][][] array = {{{1, 2}, {3, 4}, {5, 6}}, {{7, 8}, {9, 10}}};
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(3, matrix.getElem()[1].length);
+  }
+
+  // when:   non-empty array, over rows
+  // expect: Matrix
+  @Test
+  public void testArrayReader_over_rows() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9, 10}}};
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(3, matrix.getElem().length);
+  }
 }
