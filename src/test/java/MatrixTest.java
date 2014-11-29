@@ -169,7 +169,7 @@ public class MatrixTest {
     Rational[] result = matrix.substVector(x);
 
     assertEquals(new Rational(1, 2), result[0]);
-    assertEquals(new Rational(3, 4), result[1]);
+    assertEquals(new Rational(5, 6), result[1]);
   }
 
   // when:   x have bigger size
@@ -181,7 +181,7 @@ public class MatrixTest {
     Rational[] x = {new Rational(1), new Rational(1), new Rational(1)};
     Rational[] result = matrix.substVector(x);
 
-    assertEquals(new Rational(5, 6), result[0]);
+    assertEquals(new Rational(5, 4), result[0]);
     assertEquals(new Rational(41, 24), result[1]);
   }
 }
