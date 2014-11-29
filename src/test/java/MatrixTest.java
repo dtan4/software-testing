@@ -248,4 +248,88 @@ public class MatrixTest {
 
     assertNull(leftUpper);
   }
+
+  // ********************************
+  // replace(row, col, m)
+  // ********************************
+
+  // when:   row and col are in range
+  // expect: replace matrix
+  @Test
+  public void testReplace_inRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    long[][][] replaceArray = {
+            {{11, 12}, {13, 14}}
+    };
+    Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
+    matrix.replace(1, 1, replaceMatrix);
+
+    assertEquals(new Rational(11, 12), matrix.getElem()[0][0]);
+    assertEquals(new Rational(13, 14), matrix.getElem()[0][1]);
+  }
+
+  // when:   m is small
+  // expect: replace matrix
+  @Test
+  public void testReplace_inRange_small() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    long[][][] replaceArray = {
+            {{11, 12}}
+    };
+    Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
+    matrix.replace(1, 1, replaceMatrix);
+
+    assertEquals(new Rational(11, 12), matrix.getElem()[0][0]);
+    assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
+  }
+
+  // when:   m is big
+  // expect: replace matrix
+  @Test
+  public void testReplace_inRange_big() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    long[][][] replaceArray = {
+            {{11, 12}, {13, 14}, {15, 16}}
+    };
+    Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
+    matrix.replace(1, 1, replaceMatrix);
+
+    assertEquals(new Rational(11, 12), matrix.getElem()[0][0]);
+    assertEquals(new Rational(13, 14), matrix.getElem()[0][1]);
+  }
+
+  // when:   row and col are out of range
+  // expect: do nothing
+  @Test
+  public void testReplace_outRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    long[][][] replaceArray = {
+            {{11, 12}, {13, 14}}
+    };
+    Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
+    matrix.replace(0, 1, replaceMatrix);
+
+    assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
+    assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
+  }
 }

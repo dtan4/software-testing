@@ -176,4 +176,26 @@ public class Matrix {
 
     return new Matrix(leftUpperElem);
    }
+
+  public void replace(int row, int col, Matrix m) {
+    if ((row <= 0) || (nRow < row) || (col <= 0) || (nCol < col)) {
+      return;
+    }
+
+    Rational[][] replaceElem = m.getElem();
+
+    for (int i = 0; i < m.getNRow(); i++) {
+      if (i >= nRow) {
+        return;
+      }
+
+      for (int j = 0; j < m.getNCol(); j++) {
+        if (j >= nCol) {
+          break;
+        }
+
+        elem[row - 1 + i][col - 1 + j] = replaceElem[i][j];
+      }
+    }
+  }
 }
