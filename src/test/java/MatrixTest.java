@@ -193,13 +193,17 @@ public class MatrixTest {
   // expect: matrix
   @Test
   public void testRightLower_inRange() {
-    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
     Matrix matrix = Matrix.arrayReader(array);
-    Matrix rightLower = matrix.rightLower(1, 2);
+    Matrix rightLower = matrix.rightLower(2, 2);
 
-    assertEquals(1, rightLower.getNRow());
-    assertEquals(new Rational(1, 2), rightLower.getElem()[0][0]);
-    assertEquals(new Rational(3, 4), rightLower.getElem()[0][1]);
+    assertEquals(2, rightLower.getNRow());
+    assertEquals(new Rational(7, 8), rightLower.getElem()[0][0]);
+    assertEquals(new Rational(5, 7), rightLower.getElem()[1][0]);
   }
 
   // when:   row and col are out of range

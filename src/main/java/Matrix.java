@@ -144,13 +144,15 @@ public class Matrix {
       return null;
     }
 
-    Rational[][] rightLowerElem = new Rational[row][];
+    int resultNRow = nRow - row + 1;
+    int resultNCol = nCol - col + 1;
+    Rational[][] rightLowerElem = new Rational[resultNRow][];
 
-    for (int i = 0; i < row; i++) {
-      rightLowerElem[i] = new Rational[col];
+    for (int i = 0; i < resultNRow; i++) {
+      rightLowerElem[i] = new Rational[resultNCol];
 
-      for (int j = 0; j < col; j++) {
-        rightLowerElem[i][j] = elem[i][j];
+      for (int j = 0; j < resultNCol; j++) {
+        rightLowerElem[i][j] = elem[row + i - 1][col + j - 1];
       }
     }
 
