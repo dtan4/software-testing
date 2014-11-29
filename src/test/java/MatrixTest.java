@@ -184,4 +184,32 @@ public class MatrixTest {
     assertEquals(new Rational(5, 4), result[0]);
     assertEquals(new Rational(41, 24), result[1]);
   }
+
+  // ********************************
+  // rightLower(row, col)
+  // ********************************
+
+  // when:   row and col are in range
+  // expect: matrix
+  @Test
+  public void testRightLower_inRange() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Matrix rightLower = matrix.rightLower(1, 2);
+
+    assertEquals(1, rightLower.getNRow());
+    assertEquals(new Rational(1, 2), rightLower.getElem()[0][0]);
+    assertEquals(new Rational(3, 4), rightLower.getElem()[0][1]);
+  }
+
+  // when:   row and col are out of range
+  // expect: null
+  @Test
+  public void testRightLower_outRange() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+    Matrix rightLower = matrix.rightLower(3, 4);
+
+    assertNull(rightLower);
+  }
 }
