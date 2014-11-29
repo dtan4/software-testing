@@ -254,7 +254,7 @@ public class Matrix {
       return;
     }
 
-    Rational inversed = elem[row][col].inverse().multiply(new Rational(-1));
+    Rational inversed = elem[row][col].inverse().multiply(minusOne);
     multiplyRow(row, inversed);
 
     for (int i = 0; i < nRow; i++) {
