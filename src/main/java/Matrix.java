@@ -277,4 +277,26 @@ public class Matrix {
 
     return nCol;
   }
+
+  public boolean isEchelonForm() {
+    int previousNonZeroColumn = -1;
+
+    for (int i = 0; i < nRow; i++) {
+      int currentNonZeroColumn = nonZeroColumn(i);
+
+      if (previousNonZeroColumn == nCol) {
+        if (currentNonZeroColumn != nCol) {
+          return false;
+        }
+      } else {
+        if (currentNonZeroColumn <= previousNonZeroColumn) {
+          return false;
+        }
+
+        previousNonZeroColumn = currentNonZeroColumn;
+      }
+    }
+
+    return true;
+  }
 }

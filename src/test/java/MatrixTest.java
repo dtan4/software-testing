@@ -597,4 +597,36 @@ public class MatrixTest {
     Matrix matrix = Matrix.arrayReader(array);
     matrix.nonZeroColumn(3);
   }
+
+  // ********************************
+  // isEchelonForm()
+  // ********************************
+
+  // when:   matrix is echelon form
+  // expect: true
+  @Test
+  public void testIsEchelonForm_true() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {5, 1}, {0, 1}},
+            {{0, 1}, {0, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertTrue(matrix.isEchelonForm());
+  }
+
+  // when:   matrix is not echelon form
+  // expect: false
+  @Test
+  public void testIsEchelonForm_false() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {0, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertFalse(matrix.isEchelonForm());
+  }
 }
