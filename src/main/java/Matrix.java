@@ -152,15 +152,15 @@ public class Matrix {
       return null;
     }
 
-    int resultNRow = nRow - row + 1;
-    int resultNCol = nCol - col + 1;
+    int resultNRow = nRow - row;
+    int resultNCol = nCol - col;
     Rational[][] rightLowerElem = new Rational[resultNRow][];
 
     for (int i = 0; i < resultNRow; i++) {
       rightLowerElem[i] = new Rational[resultNCol];
 
       for (int j = 0; j < resultNCol; j++) {
-        rightLowerElem[i][j] = elem[row + i - 1][col + j - 1];
+        rightLowerElem[i][j] = elem[row + i][col + j];
       }
     }
 
@@ -172,12 +172,12 @@ public class Matrix {
       return null;
     }
 
-    Rational[][] leftUpperElem = new Rational[row][];
+    Rational[][] leftUpperElem = new Rational[row + 1][];
 
-    for (int i = 0; i < row; i++) {
-      leftUpperElem[i] = new Rational[col];
+    for (int i = 0; i <= row; i++) {
+      leftUpperElem[i] = new Rational[col + 1];
 
-      for (int j = 0; j < col; j++) {
+      for (int j = 0; j <= col; j++) {
         leftUpperElem[i][j] = elem[i][j];
       }
     }
@@ -202,7 +202,7 @@ public class Matrix {
           break;
         }
 
-        elem[row - 1 + i][col - 1 + j] = replaceElem[i][j];
+        elem[row + i][col + j] = replaceElem[i][j];
       }
     }
   }
