@@ -10,14 +10,22 @@ public class Matrix {
     this.nRow = elem.length;
 
     if (elem.length > 0) {
-      this.nRow = elem[0].length;
+      this.nCol = elem[0].length;
     } else {
-      this.nRow = 0;
+      this.nCol = 0;
     }
   }
 
   public Rational[][] getElem() {
     return this.elem;
+  }
+
+  public int getNRow() {
+    return this.nRow;
+  }
+
+  public int getNCol() {
+    return this.nCol;
   }
 
   static Matrix arrayReader(long[][][] array) {
@@ -51,5 +59,30 @@ public class Matrix {
     }
 
     return new Matrix(elem);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Matrix)) {
+      return false;
+    }
+
+    Matrix m = (Matrix)o;
+
+    if ((nRow != m.getNRow()) || (nCol != m.getNCol())) {
+      return false;
+    }
+
+    Rational[][] givenElem = m.getElem();
+
+    for (int i = 0; i < nRow; i++) {
+      for (int j = 0; j < nCol; j++) {
+        if (!elem[i][j].equals(givenElem[i][j])) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 }

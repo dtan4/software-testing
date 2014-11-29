@@ -61,4 +61,55 @@ public class MatrixTest {
 
     assertEquals(3, matrix.getElem().length);
   }
+
+
+  // ********************************
+  // equals()
+  // ********************************
+
+  // when:   same matrix is given
+  // expect: true
+  @Test
+  public void testEquals_same() {
+    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array2 = array1.clone();
+    Matrix matrix1 = Matrix.arrayReader(array1);
+    Matrix matrix2 = Matrix.arrayReader(array2);
+
+    assertTrue(matrix1.equals(matrix2));
+  }
+
+  // when:   different matrix is given
+  // expect: false
+  @Test
+  public void testEquals_different() {
+    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array2 = {{{1, 2}, {3, 4}}, {{5, 6}, {9, 10}}};
+    Matrix matrix1 = Matrix.arrayReader(array1);
+    Matrix matrix2 = Matrix.arrayReader(array2);
+
+    assertFalse(matrix1.equals(matrix2));
+  }
+
+  // when:   different size matrix is given
+  // expect: false
+  @Test
+  public void testEquals_differentSize() {
+    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    long[][][] array2 = {{{1, 2}}, {{3, 4}, {5, 6}}};
+    Matrix matrix1 = Matrix.arrayReader(array1);
+    Matrix matrix2 = Matrix.arrayReader(array2);
+
+    assertFalse(matrix1.equals(matrix2));
+  }
+
+  // when:   not a Matrix instance is given
+  // expect: false
+  @Test
+  public void testEquals_wrongClass() {
+    long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix1 = Matrix.arrayReader(array1);
+
+    assertFalse(matrix1.equals("hoge"));
+  }
 }
