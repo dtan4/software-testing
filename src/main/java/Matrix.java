@@ -198,4 +198,46 @@ public class Matrix {
       }
     }
   }
+
+  public void multiplyRow(int row, Rational r) {
+    if ((row < 0) || (row >= nRow)) {
+      return;
+    }
+
+    for (int i = 0; i < nCol; i++) {
+      elem[row][i] = elem[row][i].multiply(r);
+    }
+  }
+
+  public void addMultipliedRow(int row1, Rational r, int row2) {
+    if ((row1 < 0) || (row1 >= nRow) || (row2 < 0) || (row2 >= nRow)) {
+      return;
+    }
+
+    for (int i = 0; i < nCol; i++) {
+      elem[row2][i] = elem[row2][i].add(elem[row1][i].multiply(r));
+    }
+  }
+
+  public void exchangeRow(int row1, int row2) {
+    if ((row1 < 0) || (row1 >= nRow) || (row2 < 0) || (row2 >= nRow)) {
+      return;
+    }
+
+    Rational[] tmpRow = elem[row1];
+    elem[row1] = elem[row2];
+    elem[row2] = tmpRow;
+  }
+
+  public void exchangeCol(int col1, int col2) {
+    if ((col1 < 0) || (col1 >= nCol) || (col2 < 0) || (col2 >= nCol)) {
+      return;
+    }
+
+    for (int i = 0; i < nRow; i++) {
+      Rational tmpRational = elem[i][col1];
+      elem[i][col1] = elem[i][col2];
+      elem[i][col2] = tmpRational;
+    }
+  }
 }
