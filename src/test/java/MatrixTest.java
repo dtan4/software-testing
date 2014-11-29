@@ -76,7 +76,7 @@ public class MatrixTest {
     Matrix matrix1 = Matrix.arrayReader(array1);
     Matrix matrix2 = Matrix.arrayReader(array2);
 
-    assertTrue(matrix1.equals(matrix2));
+    assertEquals(matrix1, matrix2);
   }
 
   // when:   different matrix is given
@@ -88,7 +88,7 @@ public class MatrixTest {
     Matrix matrix1 = Matrix.arrayReader(array1);
     Matrix matrix2 = Matrix.arrayReader(array2);
 
-    assertFalse(matrix1.equals(matrix2));
+    assertNotEquals(matrix1, matrix2);
   }
 
   // when:   different size matrix is given
@@ -100,7 +100,7 @@ public class MatrixTest {
     Matrix matrix1 = Matrix.arrayReader(array1);
     Matrix matrix2 = Matrix.arrayReader(array2);
 
-    assertFalse(matrix1.equals(matrix2));
+    assertNotEquals(matrix1, matrix2);
   }
 
   // when:   not a Matrix instance is given
@@ -110,7 +110,7 @@ public class MatrixTest {
     long[][][] array1 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
     Matrix matrix1 = Matrix.arrayReader(array1);
 
-    assertFalse(matrix1.equals("hoge"));
+    assertNotEquals(matrix1, "hoge");
   }
 
   // ********************************
@@ -125,7 +125,7 @@ public class MatrixTest {
     Matrix matrix = Matrix.arrayReader(array);
     Matrix cloned = (Matrix)matrix.clone();
 
-    assertTrue(cloned.getElem()[0][0].equals(new Rational(1, 2)));
+    assertEquals(cloned.getElem()[0][0], new Rational(1, 2));
   }
 
   // ********************************
