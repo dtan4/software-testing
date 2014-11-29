@@ -198,4 +198,14 @@ public class Matrix {
       }
     }
   }
+
+  public void multiplyRow(int row, Rational r) {
+    if ((row < 0) || (row >= nRow)) {
+      return;
+    }
+
+    for (int i = 0; i < nCol; i++) {
+      elem[row][i] = elem[row][i].multiply(r);
+    }
+  }
 }

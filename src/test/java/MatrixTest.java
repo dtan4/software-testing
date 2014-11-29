@@ -332,4 +332,59 @@ public class MatrixTest {
     assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
     assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
   }
+
+  // ********************************
+  // multiplyRow(row, r)
+  // ********************************
+
+  // when:   row is in range
+  // expect: multiply
+  @Test
+  public void testMultiplyRow_inRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational r = new Rational(2);
+    matrix.multiplyRow(1, r);
+
+    assertEquals(new Rational(5, 3), matrix.getElem()[1][0]);
+    assertEquals(new Rational(7, 4), matrix.getElem()[1][1]);
+  }
+
+  // when:   r is zero
+  // expect: multiply with zero
+  @Test
+  public void testMultiplyRow_zero() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational r = new Rational();
+    matrix.multiplyRow(1, r);
+
+    assertEquals(new Rational(), matrix.getElem()[1][0]);
+    assertEquals(new Rational(), matrix.getElem()[1][1]);
+  }
+
+  // when:   row is out of range
+  // expect: do nothing
+  @Test
+  public void testMultiplyRow_outRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational r = new Rational();
+    matrix.multiplyRow(3, r);
+
+    assertEquals(new Rational(5, 6), matrix.getElem()[1][0]);
+    assertEquals(new Rational(7, 8), matrix.getElem()[1][1]);
+  }
 }
