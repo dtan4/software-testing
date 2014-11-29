@@ -387,4 +387,61 @@ public class MatrixTest {
     assertEquals(new Rational(5, 6), matrix.getElem()[1][0]);
     assertEquals(new Rational(7, 8), matrix.getElem()[1][1]);
   }
+
+  // ********************************
+  // addMultipliedRow(row, r)
+  // ********************************
+
+  // when:   row is in range
+  // expect: add multiplied row
+  @Test
+  public void testAddMultipliedRow_inRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational r = new Rational(2);
+    matrix.addMultipliedRow(1, r, 2);
+
+    assertEquals(new Rational(6, 3), matrix.getElem()[2][0]);
+    assertEquals(new Rational(69, 28), matrix.getElem()[2][1]);
+  }
+
+  // when:   r is zero
+  // expect: add multiplied row (= do nothing)
+  @Test
+  public void testAddMultipliedRow_zero() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational r = new Rational();
+    matrix.addMultipliedRow(1, r, 2);
+
+    assertEquals(new Rational(1, 3), matrix.getElem()[2][0]);
+    assertEquals(new Rational(5, 7), matrix.getElem()[2][1]);
+  }
+
+  // when:   row is out of range
+  // expect: do nothing
+  @Test
+  public void testAddMultipliedRow_outRange() {
+    long[][][] array = {
+            {{1, 2}, {3, 4}},
+            {{5, 6}, {7, 8}},
+            {{1, 3}, {5, 7}}
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    Rational r = new Rational();
+    matrix.multiplyRow(3, r);
+
+    matrix.addMultipliedRow(3, r, 2);
+
+    assertEquals(new Rational(1, 3), matrix.getElem()[2][0]);
+    assertEquals(new Rational(5, 7), matrix.getElem()[2][1]);
+  }
 }

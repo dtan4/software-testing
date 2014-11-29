@@ -208,4 +208,14 @@ public class Matrix {
       elem[row][i] = elem[row][i].multiply(r);
     }
   }
+
+  public void addMultipliedRow(int row1, Rational r, int row2) {
+    if ((row1 < 0) || (row1 >= nRow) || (row2 < 0) || (row2 >= nRow)) {
+      return;
+    }
+
+    for (int i = 0; i < nCol; i++) {
+      elem[row2][i] = elem[row2][i].add(elem[row1][i].multiply(r));
+    }
+  }
 }
