@@ -516,4 +516,180 @@ public class MatrixTest {
     assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
     assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
   }
+
+  // ********************************
+  // eliminate(row, col)
+  // ********************************
+
+  // when:   row and col are in range
+  // expect: eliminate
+  @Test
+  public void testElimintate_inRange() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{4, 1}, {5, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.eliminate(1, 1);
+
+    assertEquals(new Rational(-1, 1), matrix.getElem()[1][1]);
+    assertEquals(new Rational(0), matrix.getElem()[0][1]);
+    assertEquals(new Rational(0), matrix.getElem()[2][1]);
+  }
+
+  // when:   row and col are out of range
+  // expect: do nothing
+  @Test
+  public void testEliminate_outRange() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{4, 1}, {5, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.eliminate(1, 3);
+
+    assertEquals(new Rational(5, 1), matrix.getElem()[1][1]);
+  }
+
+  // ********************************
+  // nonZeroColumn(row)
+  // ********************************
+
+  // when:   non-zero column exists
+  // expect: index of non-zero column
+  @Test
+  public void testNonZeroColumn_exist() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(2, matrix.nonZeroColumn(1));
+  }
+
+  // when:   non-zero column does not exist
+  // expect: number of columns
+  @Test
+  public void testNonZeroColumn_not_exist() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {0, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(3, matrix.nonZeroColumn(1));
+  }
+
+  // when:   row is out of range
+  // expect: raise AssertionError
+  @Test(expected = AssertionError.class)
+  public void testNonZeroColumn_outRange() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.nonZeroColumn(3);
+  }
+
+  // ********************************
+  // isEchelonForm()
+  // ********************************
+
+  // when:   matrix is echelon form
+  // expect: true
+  @Test
+  public void testIsEchelonForm_true() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {5, 1}, {0, 1}},
+            {{0, 1}, {0, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertTrue(matrix.isEchelonForm());
+  }
+
+  // when:   matrix is not echelon form
+  // expect: false
+  @Test
+  public void testIsEchelonForm_false() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {0, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertFalse(matrix.isEchelonForm());
+  }
+
+  // ********************************
+  // echelonForm()
+  // ********************************
+
+  // when:
+  // expect: introduce echelon form
+  @Test
+  public void testEchelonForm() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{4, 1}, {5, 1}, {6, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.echelonForm();
+
+    // -1 -2 -3
+    // 0 -1 -2
+    // 0 0 0
+    assertTrue(matrix.isEchelonForm());
+    assertEquals(new Rational(-3), matrix.getElem()[0][2]);
+    assertEquals(new Rational(-2), matrix.getElem()[1][2]);
+  }
+
+  // when:
+  // expect: introduce echelon form
+  @Test
+  public void testEchelonForm_2() {
+    long[][][] array = {
+            {{0, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {5, 1}, {6, 1}},
+            {{0, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.echelonForm();
+
+    // 0 -1 -3/2
+    // 0 0 -1
+    // 0 0 0
+    assertTrue(matrix.isEchelonForm());
+    assertEquals(new Rational(-3, 2), matrix.getElem()[0][2]);
+  }
+
+  // when:
+  // expect: introduce echelon form
+  @Test
+  public void testEchelonForm_3() {
+    long[][][] array = {
+            {{0, 1}, {2, 1}, {3, 1}},
+            {{1, 1}, {5, 1}, {6, 1}},
+            {{0, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+    matrix.echelonForm();
+
+    // -1 -5 -6
+    // 0 -1 -3/2
+    // 0 0 -1
+    assertTrue(matrix.isEchelonForm());
+    assertEquals(new Rational(-6), matrix.getElem()[0][2]);
+    assertEquals(new Rational(-3, 2), matrix.getElem()[1][2]);
+  }
 }

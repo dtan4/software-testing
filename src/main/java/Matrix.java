@@ -248,4 +248,87 @@ public class Matrix {
       elem[i][col2] = tmpRational;
     }
   }
+
+  public void eliminate(int row, int col) {
+    if (!(isInRowRange(row) && isInColumnRange(col))) {
+      return;
+    }
+
+    Rational inversed = elem[row][col].inverse().multiply(minusOne);
+    multiplyRow(row, inversed);
+
+    for (int i = 0; i < nRow; i++) {
+      if (i == row) {
+        continue;
+      }
+
+      addMultipliedRow(row, elem[i][row], i);
+    }
+  }
+
+  protected int nonZeroColumn(int row) {
+    assert(isInRowRange(row));
+
+    for (int colIndex = 0; colIndex < nCol; colIndex++) {
+      if (!elem[row][colIndex].equals(zero)) {
+        return colIndex;
+      }
+    }
+
+    return nCol;
+  }
+
+  public boolean isEchelonForm() {
+    int previousNonZeroColumn = -1;
+
+    for (int i = 0; i < nRow; i++) {
+      int currentNonZeroColumn = nonZeroColumn(i);
+
+      if (previousNonZeroColumn == nCol) {
+        if (currentNonZeroColumn != nCol) {
+          return false;
+        }
+      } else {
+        if (currentNonZeroColumn <= previousNonZeroColumn) {
+          return false;
+        }
+
+        previousNonZeroColumn = currentNonZeroColumn;
+      }
+    }
+
+    return true;
+  }
+
+  public void echelonForm() {
+    if (elem[0][0].equals(zero)) {
+      for (int i = 1; i < nRow; i++) {
+        if (!elem[i][0].equals(zero)) {
+          exchangeRow(0, i);
+          echelonForm();
+
+          return;
+        }
+      }
+
+      if (nCol == 1) {
+        return;
+      }
+
+      Matrix rightLower = rightLower(0, 1);
+      rightLower.echelonForm();
+      replace(0, 1, rightLower);
+
+    } else {
+      eliminate(0, 0);
+
+      if ((nRow == 1) || (nCol == 1)) {
+        return;
+      }
+
+      Matrix rightLower = rightLower(1, 1);
+      rightLower.echelonForm();
+      replace(1, 1, rightLower);
+    }
+  }
 }
