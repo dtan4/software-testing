@@ -77,6 +77,11 @@ public class Rational {
   }
 
   @Override
+  public Object clone() {
+    return new Rational(this.num, this.den);
+  }
+
+  @Override
   public String toString() {
     if (this.den == 1) {
       return String.valueOf(this.num);
