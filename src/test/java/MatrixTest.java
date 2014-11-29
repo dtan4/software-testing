@@ -127,4 +127,18 @@ public class MatrixTest {
 
     assertTrue(cloned.getElem()[0][0].equals(new Rational(1, 2)));
   }
+
+  // ********************************
+  // toString()
+  // ********************************
+
+  // when:
+  // expect: string of matrix
+  @Test
+  public void testToString() {
+    long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertEquals(matrix.toString(), "1/2, 3/4\n5/6, 7/8\n");
+  }
 }

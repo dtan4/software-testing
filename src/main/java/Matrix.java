@@ -100,4 +100,23 @@ public class Matrix {
 
     return new Matrix(elem);
   }
+
+  @Override
+  public String toString() {
+    StringBuffer sb = new StringBuffer();
+
+    for (int i = 0; i < nCol; i++) {
+      for (int j = 0; j < nRow; j++) {
+        sb.append(elem[i][j]);
+
+        if (j < nRow - 1) {
+          sb.append(", ");
+        }
+      }
+
+      sb.append("\n");
+    }
+
+    return sb.toString();
+  }
 }
