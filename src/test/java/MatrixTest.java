@@ -630,6 +630,20 @@ public class MatrixTest {
     assertFalse(matrix.isEchelonForm());
   }
 
+  // when:   matrix is not echelon form
+  // expect: false
+  @Test
+  public void testIsEchelonForm_false2() {
+    long[][][] array = {
+            {{1, 1}, {2, 1}, {3, 1}},
+            {{0, 1}, {0, 1}, {1, 1}},
+            {{7, 1}, {8, 1}, {9, 1}},
+    };
+    Matrix matrix = Matrix.arrayReader(array);
+
+    assertFalse(matrix.isEchelonForm());
+  }
+
   // ********************************
   // echelonForm()
   // ********************************
