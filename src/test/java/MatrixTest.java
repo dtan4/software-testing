@@ -199,7 +199,7 @@ public class MatrixTest {
             {{1, 3}, {5, 7}}
     };
     Matrix matrix = Matrix.arrayReader(array);
-    Matrix rightLower = matrix.rightLower(2, 2);
+    Matrix rightLower = matrix.rightLower(1, 1);
 
     assertEquals(2, rightLower.getNRow());
     assertEquals(new Rational(7, 8), rightLower.getElem()[0][0]);
@@ -212,7 +212,7 @@ public class MatrixTest {
   public void testRightLower_outRange() {
     long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
     Matrix matrix = Matrix.arrayReader(array);
-    Matrix rightLower = matrix.rightLower(3, 4);
+    Matrix rightLower = matrix.rightLower(1, 2);
 
     assertNull(rightLower);
   }
@@ -231,7 +231,7 @@ public class MatrixTest {
             {{1, 3}, {5, 7}}
     };
     Matrix matrix = Matrix.arrayReader(array);
-    Matrix leftUpper = matrix.leftUpper(2, 2);
+    Matrix leftUpper = matrix.leftUpper(1, 1);
 
     assertEquals(2, leftUpper.getNRow());
     assertEquals(new Rational(1, 2), leftUpper.getElem()[0][0]);
@@ -244,7 +244,7 @@ public class MatrixTest {
   public void testLeftUpper_outRange() {
     long[][][] array = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
     Matrix matrix = Matrix.arrayReader(array);
-    Matrix leftUpper = matrix.leftUpper(3, 4);
+    Matrix leftUpper = matrix.leftUpper(1, 2);
 
     assertNull(leftUpper);
   }
@@ -267,7 +267,7 @@ public class MatrixTest {
             {{11, 12}, {13, 14}}
     };
     Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
-    matrix.replace(1, 1, replaceMatrix);
+    matrix.replace(0, 0, replaceMatrix);
 
     assertEquals(new Rational(11, 12), matrix.getElem()[0][0]);
     assertEquals(new Rational(13, 14), matrix.getElem()[0][1]);
@@ -287,7 +287,7 @@ public class MatrixTest {
             {{11, 12}}
     };
     Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
-    matrix.replace(1, 1, replaceMatrix);
+    matrix.replace(0, 0, replaceMatrix);
 
     assertEquals(new Rational(11, 12), matrix.getElem()[0][0]);
     assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
@@ -307,7 +307,7 @@ public class MatrixTest {
             {{11, 12}, {13, 14}, {15, 16}}
     };
     Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
-    matrix.replace(1, 1, replaceMatrix);
+    matrix.replace(0, 0, replaceMatrix);
 
     assertEquals(new Rational(11, 12), matrix.getElem()[0][0]);
     assertEquals(new Rational(13, 14), matrix.getElem()[0][1]);
@@ -327,7 +327,7 @@ public class MatrixTest {
             {{11, 12}, {13, 14}}
     };
     Matrix replaceMatrix = Matrix.arrayReader(replaceArray);
-    matrix.replace(0, 1, replaceMatrix);
+    matrix.replace(0, 3, replaceMatrix);
 
     assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
     assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
