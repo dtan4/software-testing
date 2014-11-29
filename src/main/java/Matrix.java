@@ -105,8 +105,8 @@ public class Matrix {
   public String toString() {
     StringBuffer sb = new StringBuffer();
 
-    for (int i = 0; i < nCol; i++) {
-      for (int j = 0; j < nRow; j++) {
+    for (int i = 0; i < nRow; i++) {
+      for (int j = 0; j < nCol; j++) {
         sb.append(elem[i][j]);
 
         if (j < nRow - 1) {
