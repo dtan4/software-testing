@@ -141,6 +141,12 @@ public class Rational {
   }
 
   public boolean lessThan(Rational r) {
+    if (r.num == Long.MAX_VALUE) {
+      return true;
+    } else if (r.num == -Long.MAX_VALUE) {
+      return false;
+    }
+
     return compareWith(r) < 0;
   }
 }

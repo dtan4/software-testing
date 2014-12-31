@@ -456,4 +456,24 @@ public class RationalTest {
 
     assertFalse(rational1.lessThan(rational2));
   }
+
+  // when:   num is Long.MAX_VALUE
+  // expect: true
+  @Test
+  public void testLessThan_LongMax() {
+    Rational rational1 = new Rational(2, 3);
+    Rational rational2 = new Rational(Long.MAX_VALUE, 3);
+
+    assertTrue(rational1.lessThan(rational2));
+  }
+
+  // when:   num is -Long.MAX_VALUE
+  // expect: false
+  @Test
+  public void testLessThan_minusLongMax() {
+    Rational rational1 = new Rational(2, 3);
+    Rational rational2 = new Rational(-Long.MAX_VALUE, 3);
+
+    assertFalse(rational1.lessThan(rational2));
+  }
 }
