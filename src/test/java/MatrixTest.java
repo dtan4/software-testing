@@ -24,6 +24,9 @@ public class MatrixTest {
 
     assertEquals(2, matrix.getNRow());
     assertEquals(3, matrix.getNCol());
+
+    int[] expectArray = {0, 1, 2};
+    assertArrayEquals(expectArray, matrix.getP());
   }
 
   // when:   no elements
@@ -586,6 +589,8 @@ public class MatrixTest {
 
     assertEquals(new Rational(3, 4), matrix.getElem()[0][0]);
     assertEquals(new Rational(1, 2), matrix.getElem()[0][1]);
+    assertEquals(1, matrix.getP()[0]);
+    assertEquals(0, matrix.getP()[1]);
   }
 
   // when:   col is out of range
@@ -602,6 +607,8 @@ public class MatrixTest {
 
     assertEquals(new Rational(1, 2), matrix.getElem()[0][0]);
     assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
+    assertEquals(0, matrix.getP()[0]);
+    assertEquals(1, matrix.getP()[1]);
   }
 
   // ********************************

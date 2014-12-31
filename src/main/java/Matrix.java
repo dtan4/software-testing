@@ -1,5 +1,6 @@
 public class Matrix {
   private Rational[][] elem;
+  private int[] p;
   private int nRow;
   private int nCol;
   private final Rational minusOne = new Rational(-1);
@@ -14,10 +15,24 @@ public class Matrix {
     } else {
       this.nCol = 0;
     }
+
+    this.p = new int[nCol];
+
+    for (int i = 0; i < nCol; i++) {
+      p[i] = i;
+    }
   }
 
   public Rational[][] getElem() {
     return this.elem;
+  }
+
+  public int[] getP() {
+    return this.p;
+  }
+
+  public void setP(int[] p) {
+    this.p = p;
   }
 
   public int getNRow() {
@@ -247,6 +262,10 @@ public class Matrix {
       elem[i][col1] = elem[i][col2];
       elem[i][col2] = tmpRational;
     }
+
+    int tmpP = p[col1];
+    p[col1] = p[col2];
+    p[col2] = tmpP;
   }
 
   public void eliminate(int row, int col) {
