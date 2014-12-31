@@ -24,6 +24,9 @@ public class MatrixTest {
 
     assertEquals(2, matrix.getNRow());
     assertEquals(3, matrix.getNCol());
+
+    int[] expectArray = {0, 1, 2};
+    assertArrayEquals(expectArray, matrix.getP());
   }
 
   // when:   no elements
