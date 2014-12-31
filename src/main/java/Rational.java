@@ -3,10 +3,16 @@ public class Rational {
   private long den; // denominator
 
   public Rational(long num, long den) {
-    this.num = num;
+    if (num == Long.MIN_VALUE) {
+      this.num = -Long.MAX_VALUE;
+    } else {
+      this.num = num;
+    }
 
     if (den == 0) {
       this.den = 1;
+    } else if (den == Long.MIN_VALUE) {
+      this.den = -Long.MAX_VALUE;
     } else {
       this.den = den;
     }

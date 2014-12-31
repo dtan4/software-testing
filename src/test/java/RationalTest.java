@@ -68,6 +68,28 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
+  // when:   Long.MIN_VALUE is given to denominator
+  // expect: Use -Long.MAX_VALUE
+  @Test
+  public void testNormalize_LongMin_3() {
+    Rational rational = new Rational(Long.MIN_VALUE, 3);
+    rational.normalize();
+
+    assertEquals(rational.getNum(), -Long.MAX_VALUE);
+    assertEquals(rational.getDen(), 3);
+  }
+
+  // when:   Long.MIN_VALUE is given to denominator
+  // expect: Use -Long.MAX_VALUE
+  @Test
+  public void testNormalize_2_LongMin() {
+    Rational rational = new Rational(2, Long.MIN_VALUE);
+    rational.normalize();
+
+    assertEquals(rational.getNum(), -2);
+    assertEquals(rational.getDen(), Long.MAX_VALUE);
+  }
+
   // ********************************
   // Rational(num)
   // ********************************
