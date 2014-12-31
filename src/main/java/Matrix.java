@@ -262,6 +262,10 @@ public class Matrix {
       elem[i][col1] = elem[i][col2];
       elem[i][col2] = tmpRational;
     }
+
+    int tmpP = p[col1];
+    p[col1] = p[col2];
+    p[col2] = tmpP;
   }
 
   public void eliminate(int row, int col) {
