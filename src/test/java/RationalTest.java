@@ -68,6 +68,28 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
+  // when:   Long.MIN_VALUE is given to num
+  // expect: Use -Long.MAX_VALUE
+  @Test
+  public void testNormalize_LongMin_3() {
+    Rational rational = new Rational(Long.MIN_VALUE, 3);
+    rational.normalize();
+
+    assertEquals(rational.getNum(), -Long.MAX_VALUE);
+    assertEquals(rational.getDen(), 3);
+  }
+
+  // when:   Long.MIN_VALUE is given to den
+  // expect: Use -Long.MAX_VALUE
+  @Test
+  public void testNormalize_2_LongMin() {
+    Rational rational = new Rational(2, Long.MIN_VALUE);
+    rational.normalize();
+
+    assertEquals(rational.getNum(), -2);
+    assertEquals(rational.getDen(), Long.MAX_VALUE);
+  }
+
   // ********************************
   // Rational(num)
   // ********************************
@@ -251,6 +273,33 @@ public class RationalTest {
     assertEquals(rational.toString(), "-2/3");
   }
 
+  // when:   den is Long.MAX_VALUE
+  // expect: "0"
+  @Test
+  public void testToString_2_LongMax() {
+    Rational rational = new Rational(2, Long.MAX_VALUE);
+
+    assertEquals(rational.toString(), "0");
+  }
+
+  // when:   num is Long.MAX_VALUE
+  // expect: "inf"
+  @Test
+  public void testToString_LongMax_3() {
+    Rational rational = new Rational(Long.MAX_VALUE, 3);
+
+    assertEquals(rational.toString(), "inf");
+  }
+
+  // when:   num is -Long.MAX_VALUE
+  // expect: "-inf"
+  @Test
+  public void testToString_minusLongMax_3() {
+    Rational rational = new Rational(-Long.MAX_VALUE, 3);
+
+    assertEquals(rational.toString(), "-inf");
+  }
+
   // ********************************
   // add(r)
   // ********************************
@@ -354,6 +403,26 @@ public class RationalTest {
     assertTrue(rational1.greaterThan(rational2));
   }
 
+  // when:   num is Long.MAX_VALUE
+  // expect: false
+  @Test
+  public void testGreaterThan_LongMax() {
+    Rational rational1 = new Rational(2, 3);
+    Rational rational2 = new Rational(Long.MAX_VALUE, 3);
+
+    assertFalse(rational1.greaterThan(rational2));
+  }
+
+  // when:   num is -Long.MAX_VALUE
+  // expect: true
+  @Test
+  public void testGreaterThan_minusLongMax() {
+    Rational rational1 = new Rational(2, 3);
+    Rational rational2 = new Rational(-Long.MAX_VALUE, 3);
+
+    assertTrue(rational1.greaterThan(rational2));
+  }
+
   // ********************************
   // lessThan(r)
   // ********************************
@@ -384,6 +453,26 @@ public class RationalTest {
   public void testLessThan_less() {
     Rational rational1 = new Rational(2, 3);
     Rational rational2 = new Rational(1, 3);
+
+    assertFalse(rational1.lessThan(rational2));
+  }
+
+  // when:   num is Long.MAX_VALUE
+  // expect: true
+  @Test
+  public void testLessThan_LongMax() {
+    Rational rational1 = new Rational(2, 3);
+    Rational rational2 = new Rational(Long.MAX_VALUE, 3);
+
+    assertTrue(rational1.lessThan(rational2));
+  }
+
+  // when:   num is -Long.MAX_VALUE
+  // expect: false
+  @Test
+  public void testLessThan_minusLongMax() {
+    Rational rational1 = new Rational(2, 3);
+    Rational rational2 = new Rational(-Long.MAX_VALUE, 3);
 
     assertFalse(rational1.lessThan(rational2));
   }
