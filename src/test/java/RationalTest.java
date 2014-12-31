@@ -68,7 +68,7 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
-  // when:   Long.MIN_VALUE is given to denominator
+  // when:   Long.MIN_VALUE is given to num
   // expect: Use -Long.MAX_VALUE
   @Test
   public void testNormalize_LongMin_3() {
@@ -79,7 +79,7 @@ public class RationalTest {
     assertEquals(rational.getDen(), 3);
   }
 
-  // when:   Long.MIN_VALUE is given to denominator
+  // when:   Long.MIN_VALUE is given to den
   // expect: Use -Long.MAX_VALUE
   @Test
   public void testNormalize_2_LongMin() {
@@ -271,6 +271,33 @@ public class RationalTest {
     Rational rational = new Rational(-2, 3);
 
     assertEquals(rational.toString(), "-2/3");
+  }
+
+  // when:   den is Long.MAX_VALUE
+  // expect: "0"
+  @Test
+  public void testToString_2_LongMax() {
+    Rational rational = new Rational(2, Long.MAX_VALUE);
+
+    assertEquals(rational.toString(), "0");
+  }
+
+  // when:   num is Long.MAX_VALUE
+  // expect: "inf"
+  @Test
+  public void testToString_LongMax_3() {
+    Rational rational = new Rational(Long.MAX_VALUE, 3);
+
+    assertEquals(rational.toString(), "inf");
+  }
+
+  // when:   num is -Long.MAX_VALUE
+  // expect: "-inf"
+  @Test
+  public void testToString_minusLongMax_3() {
+    Rational rational = new Rational(-Long.MAX_VALUE, 3);
+
+    assertEquals(rational.toString(), "-inf");
   }
 
   // ********************************
