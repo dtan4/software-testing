@@ -92,4 +92,22 @@ public class LIS {
             x[i] = zero;
         }
     }
+
+    private void makeBoundaryCondition() {
+        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
+        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
+
+        lb = new Rational[aRow + aCol];
+        ub = new Rational[aRow + aCol];
+
+        for (int i = 0; i < aRow; i++) {
+            lb[i] = (c[i] == GREATER) ? b[i] : negativeInfinity;
+            ub[i] = (c[i] == LESS) ? b[i] : positiveInfinity;
+        }
+
+        for (int i = aRow; i < aRow + aCol; i++) {
+            lb[i] = negativeInfinity;
+            ub[i] = positiveInfinity;
+        }
+    }
 }
