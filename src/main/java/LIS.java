@@ -71,6 +71,11 @@ public class LIS {
         return true;
     }
 
+    public void init() {
+        makeHLES();
+        makeBoundaryCondition();
+    }
+
     private void makeHLES() {
         Rational[][] dElem = new Rational[aRow][aRow + aCol];
         Rational[][] aElem = a.getElem();
