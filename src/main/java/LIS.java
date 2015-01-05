@@ -9,8 +9,8 @@ public class LIS {
     // H = (D, ~x)
     private Matrix d;      // D
     private Rational[] x;  // ~x
-    private Rational[] lb; // lower limit of R
-    private Rational[] ub; // upeer limit of R
+    private Rational[] lb; // lower limit of R, size is aRow + aCol
+    private Rational[] ub; // upeer limit of R, size is aRow + aCol
     private int bvIncDec;
     private int nbvIncdec;
     private boolean verbose;
@@ -55,5 +55,19 @@ public class LIS {
         }
 
         return EQUAL;
+    }
+
+    public boolean hasValidNBV() {
+        int[] p = d.getP();
+
+        for (int i = aRow; i < aRow + aCol; i++) {
+            int valNum = p[i];
+
+            if ((x[valNum].lessThan(lb[valNum])) || (x[valNum].greaterThan(ub[valNum]))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
