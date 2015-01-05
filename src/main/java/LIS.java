@@ -70,4 +70,26 @@ public class LIS {
 
         return true;
     }
+
+    private void makeHLES() {
+        Rational[][] dElem = new Rational[aRow][aRow + aCol];
+        Rational[][] aElem = a.getElem();
+
+        for (int i = 0; i < aRow; i++) {
+            for (int j = 0; j < aRow; j++) {
+                dElem[i][j] = (i == j) ? minusOne : zero;
+            }
+
+            for (int j = aRow; j < aRow + aCol; j++) {
+                dElem[i][j] = aElem[i][j - aRow];
+            }
+        }
+
+        d = new Matrix(dElem);
+        x = new Rational[aRow + aCol];
+
+        for (int i = 0; i < aRow + aCol; i++) {
+            x[i] = zero;
+        }
+    }
 }
