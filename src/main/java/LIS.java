@@ -1,13 +1,16 @@
 public class LIS {
-    private Matrix a;
-    private Rational[] b;
-    private int[] c;
-    private Matrix d;
+    // S = (A, ~b, ~c, ~z)
+    private Matrix a;     // A
+    private Rational[] b; // ~b
+    private int[] c;      // ~c
     private int aRow;
     private int aCol;
-    private Rational[] x;
-    private Rational[] lb;
-    private Rational[] ub;
+
+    // H = (D, ~x)
+    private Matrix d;      // D
+    private Rational[] x;  // ~x
+    private Rational[] lb; // lower limit of R
+    private Rational[] ub; // upeer limit of R
     private int bvIncDec;
     private int nbvIncdec;
     private boolean verbose;
