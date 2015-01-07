@@ -350,4 +350,22 @@ public class Matrix {
             replace(1, 1, rightLower);
         }
     }
+
+    public boolean isLeftIdentity() {
+        for (int i = 0; i < nRow; i++) {
+            for (int j = 0; j < nRow; j++) {
+                if (i == j) {
+                    if (!this.elem[i][j].equals(minusOne)) {
+                        return false;
+                    }
+                } else {
+                    if (!this.elem[i][j].equals(zero)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
 }

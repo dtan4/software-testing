@@ -800,4 +800,34 @@ public class MatrixTest {
         assertEquals(new Rational(-6), matrix.getElem()[0][2]);
         assertEquals(new Rational(-3, 2), matrix.getElem()[1][2]);
     }
+
+    // ********************************
+    // isLeftIdentity()
+    // ********************************
+
+    // when:   matrix is left identity matrix
+    // expect: true
+    @Test
+    public void testIsLeftIdentity_true() {
+        long[][][] array = {
+                        {{-1}, {0}, {1}},
+                        {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+
+        assertTrue(matrix.isLeftIdentity());
+    }
+
+    // when:   matrix is not left identity matrix
+    // expect: false
+    @Test
+    public void testIsLeftIdentity_false() {
+        long[][][] array = {
+                        {{-1}, {0}, {1}},
+                        {{1}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+
+        assertFalse(matrix.isLeftIdentity());
+    }
 }
