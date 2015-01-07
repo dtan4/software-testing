@@ -204,17 +204,44 @@ public class MatrixTest {
     // toString()
     // ********************************
 
-    // when:
+    // when:   square matrix
     // expect: string of matrix
     @Test
-    public void testToString() {
+    public void testToString_square() {
         long[][][] array = {
                         {{1, 2}, {3, 4}},
                         {{5, 6}, {7, 8}}
         };
         Matrix matrix = Matrix.arrayReader(array);
 
-        assertEquals(matrix.toString(), "1/2, 3/4\n5/6, 7/8\n");
+        assertEquals("1/2, 3/4\n5/6, 7/8\n", matrix.toString());
+    }
+
+    // when:   nRow > nCol
+    // expect: string of matrix
+    @Test
+    public void testToString_moreRow() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}},
+                {{5, 6}, {7, 8}},
+                {{1, 3}, {5, 7}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+
+        assertEquals("1/2, 3/4\n5/6, 7/8\n1/3, 5/7\n", matrix.toString());
+    }
+
+    // when:   nRow < nCol
+    // expect: string of matrix
+    @Test
+    public void testToString_moreCol() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}, {1, 3}},
+                {{5, 6}, {7, 8}, {5, 7}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+
+        assertEquals("1/2, 3/4, 1/3\n5/6, 7/8, 5/7\n", matrix.toString());
     }
 
     // ********************************

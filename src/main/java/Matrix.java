@@ -120,11 +120,11 @@ public class Matrix {
     public String toString() {
         StringBuffer sb = new StringBuffer();
 
-        for (int i = 0; i < nRow; i++) {
-            for (int j = 0; j < nCol; j++) {
+        for (int i = 0; i < elem.length; i++) {
+            for (int j = 0; j < elem[i].length; j++) {
                 sb.append(elem[i][j]);
 
-                if (j < nRow - 1) {
+                if (j < elem[i].length - 1) {
                     sb.append(", ");
                 }
             }
