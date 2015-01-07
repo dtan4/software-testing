@@ -21,4 +21,22 @@ public class HLES {
     public void setX(int j, Rational r) {
         this.x[this.d.p[j]] = r;
     }
+
+    public boolean hasValidX() {
+        Rational[] x1 = new Rational[d.nCol];
+
+        for (int i = 0; i < x1.length; i++) {
+            x1[i] = x[d.p[i]];
+        }
+
+        Rational[] subst = d.substVector(x1);
+
+        for (Rational r : subst) {
+            if (!r.equals(zero)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

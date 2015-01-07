@@ -2,21 +2,26 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class HLESTest {
-    private int NROW = 2;
-    private int NCOL = 3;
+    private static final int NROW = 2;
+    private static final int NCOL = 3;
+    private static final Rational zero = new Rational(0);
 
-    private Matrix createMatrix() {
-        Rational[][] elem = new Rational[2][];
+    private Matrix createMatrix(int nRow, int nCol) {
+        Rational[][] elem = new Rational[nRow][];
 
-        for (int i = 0; i < 2; i++) {
-            elem[i] = new Rational[3];
+        for (int i = 0; i < nRow; i++) {
+            elem[i] = new Rational[nCol];
 
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < nCol; j++) {
                 elem[i][j] = new Rational(i + 1, j + 1);
             }
         }
 
         return new Matrix(elem);
+    }
+
+    private Matrix createMatrix() {
+        return createMatrix(NROW, NCOL);
     }
 
     // ********************************
@@ -37,7 +42,7 @@ public class HLESTest {
         Rational[] expectX = new Rational[NCOL];
 
         for (int i = 0; i < NCOL; i++) {
-            expectX[i] = new Rational(0);
+            expectX[i] = zero;
         }
 
         assertArrayEquals(expectX, hles.x);
@@ -61,7 +66,7 @@ public class HLESTest {
         Rational[] expectX = new Rational[NCOL];
 
         for (int i = 0; i < NCOL; i++) {
-            expectX[i] = new Rational(0);
+            expectX[i] = zero;
         }
 
         assertArrayEquals(expectX, x);
@@ -84,5 +89,32 @@ public class HLESTest {
         hles.setX(j, r);
 
         assertEquals(hles.x[hles.d.p[j]], r);
+    }
+
+    // ********************************
+    // hasValidX()
+    // ********************************
+
+    // when:   matrix has valid x
+    // expect: true
+
+    @Test
+    public void testHasValidX_valid() {
+        Matrix matrix = createMatrix();
+        HLES hles = new HLES(matrix);
+
+        assertTrue(hles.hasValidX());
+    }
+
+    // when:   matrix has invalid x
+    // expect: false
+
+    @Test
+    public void testHasValidX_invalid() {
+        Matrix matrix = createMatrix();
+        HLES hles = new HLES(matrix);
+        hles.setX(1, new Rational(1));
+
+        assertFalse(hles.hasValidX());
     }
 }
