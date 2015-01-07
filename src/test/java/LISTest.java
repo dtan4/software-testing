@@ -200,4 +200,35 @@ public class LISTest {
         Rational[] expectX = {zero, zero, zero, zero, zero, zero};
         assertArrayEquals(expectX, lis.x);
     }
+
+    // ********************************
+    // makeRestriction()
+    // ********************************
+
+    // when:
+    // expect: set lb and ub
+    @Test
+    public void testMakeRestriction() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        lis.d = createMatrix(3, 6);
+        lis.makeRestriction();
+
+        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
+        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
+
+        Rational[] expectLb =
+                {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
+        Rational[] expectUb =
+                {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+        assertArrayEquals(expectLb, lis.lb);
+        assertArrayEquals(expectUb, lis.ub);
+    }
 }

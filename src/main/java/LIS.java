@@ -1,3 +1,5 @@
+import java.util.LongSummaryStatistics;
+
 public class LIS {
     // S = (A, ~b, ~c, ~z)
     protected Matrix a;     // A
@@ -94,8 +96,26 @@ public class LIS {
 
         this.d = new Matrix(dElem);
         int[] p = new int[aRow + aCol];
-        d.setP(p);
-        this.h = new HLES(d);
+        this.d.setP(p);
+        this.h = new HLES(this.d);
         this.x = h.x;
+    }
+
+    protected void makeRestriction() {
+        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
+        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
+
+        this.lb = new Rational[aRow + aCol];
+        this.ub = new Rational[aRow + aCol];
+
+        for (int i = 0; i < aRow; i++) {
+            this.lb[d.p[i]] = (c[i] == GREATER) ? b[i] : negativeInfinity;
+            this.ub[d.p[i]] = (c[i] == LESS) ? b[i] : positiveInfinity;
+        }
+
+        for (int i = aRow; i < aRow + aCol; i++) {
+            this.lb[d.p[i]] = negativeInfinity;
+            this.ub[d.p[i]] = positiveInfinity;
+        }
     }
 }
