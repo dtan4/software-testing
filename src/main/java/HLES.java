@@ -51,9 +51,7 @@ public class HLES {
     }
 
     protected void setY(Rational[] y) {
-        if (y.length != d.nRow) {
-            return;
-        }
+        assert y.length == d.nRow;
 
         for (int i = 0; i < d.nRow; i++) {
             x[d.p[i]] = y[i];
