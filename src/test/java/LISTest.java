@@ -48,6 +48,7 @@ public class LISTest {
         int[] c = {0, 1, 2};
 
         LIS lis = new LIS(a, b, c);
+
         assertEquals(a, lis.a);
         assertArrayEquals(b, lis.b);
         assertArrayEquals(c, lis.c);
@@ -66,6 +67,7 @@ public class LISTest {
 
         LIS lis = new LIS(a, b, c);
         Rational[] expectB = {new Rational(1), zero, zero};
+
         assertArrayEquals(expectB, lis.b);
     }
 
@@ -83,6 +85,7 @@ public class LISTest {
 
         LIS lis = new LIS(a, b, c);
         int[] expectC = {0, 1, 0};
+
         assertArrayEquals(expectC, lis.c);
     }
 
@@ -100,7 +103,31 @@ public class LISTest {
 
         LIS lis = new LIS(a, b, c);
         int[] expectC = {0, 1, 0};
+
         assertArrayEquals(expectC, lis.c);
+    }
+
+    // ********************************
+    // getX()
+    // ********************************
+
+    // when:
+    // expect: return x
+    @Test
+    public void testGetX() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {zero, zero, zero};
+        lis.x = x;
+
+        assertArrayEquals(x, lis.getX());
     }
 
     // ********************************
