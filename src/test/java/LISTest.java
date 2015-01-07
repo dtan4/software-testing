@@ -171,4 +171,33 @@ public class LISTest {
 
         assertFalse(lis.hasValidX());
     }
+
+    // ********************************
+    // makeHLES()
+    // ********************************
+
+    // when:
+    // expect: create new HLES
+    @Test
+    public void testMakeHLES() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        lis.makeHLES();
+
+        assertEquals(lis.aRow, lis.d.nRow);
+        assertEquals(lis.aRow + lis.aCol, lis.d.nCol);
+        assertTrue(lis.d.isLeftIdentity());
+        assertNotNull(lis.h);
+        assertEquals(lis.aRow + lis.aCol, lis.x.length);
+
+        Rational[] expectX = {zero, zero, zero, zero, zero, zero};
+        assertArrayEquals(expectX, lis.x);
+    }
 }

@@ -8,6 +8,7 @@ public class LIS {
 
     // H = (D, ~x)
     protected Matrix d;      // D
+    protected HLES h;
     protected Rational[] x;  // ~x
     protected Rational[] lb; // lower limit of R, size is aRow + aCol
     protected Rational[] ub; // upeer limit of R, size is aRow + aCol
@@ -78,9 +79,8 @@ public class LIS {
         return EQUAL;
     }
 
-    private void makeHLES() {
+    protected void makeHLES() {
         Rational[][] dElem = new Rational[aRow][aRow + aCol];
-        Rational[][] aElem = a.getElem();
 
         for (int i = 0; i < aRow; i++) {
             for (int j = 0; j < aRow; j++) {
@@ -88,15 +88,14 @@ public class LIS {
             }
 
             for (int j = aRow; j < aRow + aCol; j++) {
-                dElem[i][j] = aElem[i][j - aRow];
+                dElem[i][j] = a.elem[i][j - aRow];
             }
         }
 
-        d = new Matrix(dElem);
-        x = new Rational[aRow + aCol];
-
-        for (int i = 0; i < aRow + aCol; i++) {
-            x[i] = zero;
-        }
+        this.d = new Matrix(dElem);
+        int[] p = new int[aRow + aCol];
+        d.setP(p);
+        this.h = new HLES(d);
+        this.x = h.x;
     }
 }
