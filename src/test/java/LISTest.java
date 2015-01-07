@@ -129,4 +129,46 @@ public class LISTest {
 
         assertArrayEquals(x, lis.getX());
     }
+
+    // ********************************
+    // hasValidX()
+    // ********************************
+
+    // when:   x is valid
+    // expect: true
+    @Test
+    public void testHasValidX_validX() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {new Rational(1), new Rational(2), new Rational(3)};
+        lis.x = x;
+
+        assertTrue(lis.hasValidX());
+    }
+
+    // when:   x is invalid
+    // expect: false
+    @Test
+    public void testHasValidX_invalidX() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {zero, zero, zero};
+        lis.x = x;
+
+        assertFalse(lis.hasValidX());
+    }
 }

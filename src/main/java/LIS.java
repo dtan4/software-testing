@@ -56,6 +56,28 @@ public class LIS {
         return this.x;
     }
 
+    public boolean hasValidX() {
+        Rational[] r = a.substVector(x);
+
+        for (int i = 0; i < r.length; i++) {
+            if (compare(r[i], b[i]) != c[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private int compare(Rational r1, Rational r2) {
+        if (r1.greaterThan(r2)) {
+            return GREATER;
+        } else if (r1.lessThan(r2)) {
+            return LESS;
+        }
+
+        return EQUAL;
+    }
+
     private void makeHLES() {
         Rational[][] dElem = new Rational[aRow][aRow + aCol];
         Rational[][] aElem = a.getElem();
