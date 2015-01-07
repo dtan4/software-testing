@@ -173,6 +173,46 @@ public class LISTest {
     }
 
     // ********************************
+    // transform()
+    // ********************************
+
+    // when:
+    // expect: transform
+    @Test
+    public void testTransform() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        lis.transform();
+
+        assertEquals(lis.aRow, lis.d.nRow);
+        assertEquals(lis.aRow + lis.aCol, lis.d.nCol);
+        assertTrue(lis.d.isLeftIdentity());
+        assertNotNull(lis.h);
+        assertEquals(lis.aRow + lis.aCol, lis.x.length);
+
+        Rational[] expectX = {zero, zero, zero, zero, zero, zero};
+        assertArrayEquals(expectX, lis.x);
+
+        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
+        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
+        Rational[] expectLb =
+                {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
+        Rational[] expectUb =
+                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
+
+        assertArrayEquals(expectLb, lis.lb);
+        assertArrayEquals(expectUb, lis.ub);
+    }
+
+
+    // ********************************
     // makeHLES()
     // ********************************
 
@@ -223,11 +263,11 @@ public class LISTest {
 
         Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
         Rational positiveInfinity = new Rational(Long.MAX_VALUE);
-
         Rational[] expectLb =
                 {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
         Rational[] expectUb =
                 {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);
     }

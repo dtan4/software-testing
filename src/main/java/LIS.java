@@ -81,6 +81,11 @@ public class LIS {
         return EQUAL;
     }
 
+    public void transform() {
+        makeHLES();
+        makeRestriction();
+    }
+
     protected void makeHLES() {
         Rational[][] dElem = new Rational[aRow][aRow + aCol];
 
@@ -96,6 +101,11 @@ public class LIS {
 
         this.d = new Matrix(dElem);
         int[] p = new int[aRow + aCol];
+
+        for (int i = 0; i < p.length; i++) {
+            p[i] = (i < aCol) ? i + aRow : i - aCol;
+        }
+
         this.d.setP(p);
         this.h = new HLES(this.d);
         this.x = h.x;
