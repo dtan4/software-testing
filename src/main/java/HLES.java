@@ -17,4 +17,8 @@ public class HLES {
     public Rational[] getX() {
         return this.x;
     }
+
+    public void setX(int j, Rational r) {
+        this.x[this.d.p[j]] = r;
+    }
 }

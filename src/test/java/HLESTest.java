@@ -66,4 +66,23 @@ public class HLESTest {
 
         assertArrayEquals(expectX, x);
     }
+
+    // ********************************
+    // setX()
+    // ********************************
+
+    // when:
+    // expect: update element
+
+    @Test
+    public void testSetX() {
+        Matrix matrix = createMatrix();
+        HLES hles = new HLES(matrix);
+
+        int j = 1;
+        Rational r = new Rational(2, 3);
+        hles.setX(j, r);
+
+        assertEquals(hles.x[hles.d.p[j]], r);
+    }
 }
