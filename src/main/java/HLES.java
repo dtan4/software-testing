@@ -39,4 +39,14 @@ public class HLES {
 
         return true;
     }
+
+    protected Rational[] getZ() {
+        Rational[] z = new Rational[d.nCol - d.nRow];
+
+        for (int i = d.nRow; i < d.nCol; i++) {
+            z[i - d.nRow] = x[d.p[i]];
+        }
+
+        return z;
+    }
 }

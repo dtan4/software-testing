@@ -117,4 +117,22 @@ public class HLESTest {
 
         assertFalse(hles.hasValidX());
     }
+
+    // ********************************
+    // getZ()
+    // ********************************
+
+    // when:
+    // expect: calculated z
+
+    @Test
+    public void testGetZ() {
+        Matrix matrix = createMatrix(3, 5);
+        HLES hles = new HLES(matrix);
+
+        Rational[] z = hles.getZ();
+        Rational[] expectZ = {zero, zero};
+
+        assertArrayEquals(expectZ, z);
+    }
 }
