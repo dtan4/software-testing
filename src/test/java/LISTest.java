@@ -7,6 +7,8 @@ public class LISTest {
     private static final int NCOL = 3;
     private static final Rational zero = new Rational(0);
     private static final Rational minusOne = new Rational(-1);
+    private static final Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
+    private static final Rational positiveInfinity = new Rational(Long.MAX_VALUE);
 
     private Matrix createMatrix(int nRow, int nCol) {
         Rational[][] elem = new Rational[nRow][];
@@ -200,8 +202,6 @@ public class LISTest {
         Rational[] expectX = {zero, zero, zero, zero, zero, zero};
         assertArrayEquals(expectX, lis.x);
 
-        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
-        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
         Rational[] expectLb =
                 {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
         Rational[] expectUb =
@@ -261,8 +261,6 @@ public class LISTest {
         lis.d = createMatrix(3, 6);
         lis.makeRestriction();
 
-        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
-        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
         Rational[] expectLb =
                 {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
         Rational[] expectUb =
@@ -270,5 +268,91 @@ public class LISTest {
 
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);
+    }
+
+    // ********************************
+    // findBasicVar()
+    // ********************************
+
+    // when:   all basic vars are valid
+    // expect: -1
+    @Test
+    public void testFindBasicVar_valid() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {new Rational(1), new Rational(2), new Rational(3)};
+        Rational[] lb = {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
+        Rational[] ub = {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.d = createMatrix(3, 6);
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findBasicVar();
+
+        assertEquals(-1, result);
+    }
+
+    // when:   basic var is less than lower limit
+    // expect: column number of invalid var
+    @Test
+    public void testFindBasicVar_less() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {new Rational(1), new Rational(1), new Rational(3)};
+        Rational[] lb = {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
+        Rational[] ub = {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.d = createMatrix(3, 6);
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findBasicVar();
+
+        assertEquals(1, result);
+        assertEquals(1, lis.bvIncDec);
+        assertEquals(new Rational(2), lis.x[1]);
+    }
+
+    // when:   basic var is more than upper limit
+    // expect: column number of invalid var
+    @Test
+    public void testFindBasicVar_more() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {new Rational(1), new Rational(2), new Rational(5)};
+        Rational[] lb = {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
+        Rational[] ub = {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.d = createMatrix(3, 6);
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findBasicVar();
+
+        assertEquals(2, result);
+        assertEquals(-1, lis.bvIncDec);
+        assertEquals(new Rational(3), lis.x[2]);
     }
 }

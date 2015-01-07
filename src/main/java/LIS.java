@@ -13,12 +13,19 @@ public class LIS {
     protected Rational[] lb; // lower limit of R, size is aRow + aCol
     protected Rational[] ub; // upeer limit of R, size is aRow + aCol
 
+    protected int bvIncDec;    // increase: 1, decrease: -1
+    protected int nbcIncDec;   // increase: 1, decrease: -1
+    protected boolean verbose; // whether showing info
+
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
 
     private static final int EQUAL = 0;   // =
     private static final int GREATER = 1; // >=
     private static final int LESS = 2;    // <=
+
+    private static final int INCREASE = 1;
+    private static final int DECREASE = -1;
 
     public LIS(Matrix a, Rational[] b, int[] c) {
         this.a = a;
@@ -125,5 +132,29 @@ public class LIS {
             this.lb[d.p[i]] = negativeInfinity;
             this.ub[d.p[i]] = positiveInfinity;
         }
+    }
+
+    protected int findBasicVar() {
+        int org;
+
+        for (int i = 0; i < aRow; i++) {
+            org = d.p[i];
+
+            if (x[org].lessThan(lb[org])) {
+                bvIncDec = INCREASE;
+                x[org] = lb[org];
+
+                return org;
+            }
+
+            if (x[org].greaterThan(ub[org])) {
+                bvIncDec = DECREASE;
+                x[org] = ub[org];
+
+                return org;
+            }
+        }
+
+        return -1;
     }
 }
