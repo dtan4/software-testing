@@ -1,19 +1,19 @@
 public class LIS {
     // S = (A, ~b, ~c, ~z)
-    private Matrix a;     // A
-    private Rational[] b; // ~b
-    private int[] c;      // ~c
-    private int aRow;
-    private int aCol;
+    protected Matrix a;     // A
+    protected Rational[] b; // ~b
+    protected int[] c;      // ~c
+    protected int aRow;
+    protected int aCol;
 
     // H = (D, ~x)
-    private Matrix d;      // D
-    private Rational[] x;  // ~x
-    private Rational[] lb; // lower limit of R, size is aRow + aCol
-    private Rational[] ub; // upeer limit of R, size is aRow + aCol
-    private int bvIncDec;
-    private int nbvIncdec;
-    private boolean verbose;
+    protected Matrix d;      // D
+    protected Rational[] x;  // ~x
+    protected Rational[] lb; // lower limit of R, size is aRow + aCol
+    protected Rational[] ub; // upeer limit of R, size is aRow + aCol
+    protected int bvIncDec;
+    protected int nbvIncdec;
+    protected boolean verbose;
 
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
