@@ -1,6 +1,6 @@
 public class IntegerPair {
-    private long a;
-    private long b;
+    protected long a;
+    protected long b;
 
     public IntegerPair(long a, long b) {
         this.a = a;
