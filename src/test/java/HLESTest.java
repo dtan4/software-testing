@@ -184,11 +184,16 @@ public class HLESTest {
 
     @Test
     public void testPivot_success() {
-        Matrix matrix = createMatrix(3, 5);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        Matrix matrix = Matrix.arrayReader(dElem);
 
         HLES hles = new HLES(matrix);
 
-        assertEquals(0, hles.pivot(1, 1));
+        assertEquals(0, hles.pivot(0, 3));
         assertTrue(hles.d.isLeftIdentity());
         assertTrue(hles.hasValidX());
     }

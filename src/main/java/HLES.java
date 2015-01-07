@@ -74,7 +74,7 @@ public class HLES {
         }
 
         d.exchangeCol(col1, col2);
-        d.eliminate(col1, col2);
+        d.eliminate(col1, col1);
         Matrix a = d.rightLower(0, d.nRow);
         setY(a.substVector(getZ()));
 
