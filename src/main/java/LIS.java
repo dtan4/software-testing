@@ -24,11 +24,35 @@ public class LIS {
 
     public LIS(Matrix a, Rational[] b, int[] c) {
         this.a = a;
-        this.b = b;
-        this.c = c;
-        this.aRow = a.getNRow();
-        this.aCol = a.getNCol();
+        this.aRow = a.nRow;
+        this.aCol = a.nCol;
         this.x = new Rational[this.aCol];
+
+        if (b.length < this.aRow) {
+            this.b = new Rational[this.aRow];
+
+            for (int i = 0; i < this.b.length; i++) {
+                this.b[i] = (i < b.length) ? b[i] : zero;
+            }
+        } else {
+            this.b = b;
+        }
+
+        if (c.length < this.aRow) {
+            this.c = new int[this.aRow];
+
+            for (int i = 0; i < this.c.length; i++) {
+                this.c[i] = (i < c.length) ? c[i] : 0;
+            }
+        } else {
+            this.c = c;
+        }
+
+        for (int i = 0; i < this.c.length; i++) {
+            if (!(this.c[i] == EQUAL) && !(this.c[i] == GREATER) && !(this.c[i] == LESS)) {
+                this.c[i] = 0;
+            }
+        }
     }
 
     public Rational[] getX() {
