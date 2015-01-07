@@ -11,9 +11,6 @@ public class LIS {
     protected Rational[] x;  // ~x
     protected Rational[] lb; // lower limit of R, size is aRow + aCol
     protected Rational[] ub; // upeer limit of R, size is aRow + aCol
-    protected int bvIncDec;
-    protected int nbvIncdec;
-    protected boolean verbose;
 
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
