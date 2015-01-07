@@ -1,6 +1,6 @@
 public class Rational {
-    private long num; // numerator
-    private long den; // denominator
+    protected long num; // numerator
+    protected long den; // denominator
 
     public Rational(long num, long den) {
         if (num == Long.MIN_VALUE) {

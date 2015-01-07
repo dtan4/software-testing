@@ -1,10 +1,10 @@
 public class Matrix {
-    private Rational[][] elem;
-    private int[] p;
-    private int nRow;
-    private int nCol;
-    private final Rational minusOne = new Rational(-1);
-    private final Rational zero = new Rational(0);
+    protected Rational[][] elem;
+    protected int[] p;
+    protected int nRow;
+    protected int nCol;
+    protected final Rational minusOne = new Rational(-1);
+    protected final Rational zero = new Rational(0);
 
     public Matrix(Rational[][] elem) {
         this.elem = elem;
