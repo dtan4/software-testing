@@ -144,14 +144,14 @@ public class LIS {
                 bvIncDec = INCREASE;
                 x[org] = lb[org];
 
-                return org;
+                return i;
             }
 
             if (x[org].greaterThan(ub[org])) {
                 bvIncDec = DECREASE;
                 x[org] = ub[org];
 
-                return org;
+                return i;
             }
         }
 
