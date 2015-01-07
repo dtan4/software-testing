@@ -7,10 +7,14 @@ public class HLES {
 
     public HLES(Matrix d) {
         this.d = d;
-        this.x = new Rational[d.getNCol()];
+        this.x = new Rational[d.nCol];
 
         for (int i = 0; i < this.x.length; i++) {
             this.x[i] = zero;
         }
+    }
+
+    public Rational[] getX() {
+        return this.x;
     }
 }

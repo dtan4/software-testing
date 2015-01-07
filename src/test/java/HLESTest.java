@@ -33,6 +33,37 @@ public class HLESTest {
 
         assertEquals(matrix, hles.d);
         assertEquals(NCOL, hles.x.length);
-        assertEquals(new Rational(0), hles.x[0]);
+
+        Rational[] expectX = new Rational[NCOL];
+
+        for (int i = 0; i < NCOL; i++) {
+            expectX[i] = new Rational(0);
+        }
+
+        assertArrayEquals(expectX, hles.x);
+    }
+
+    // ********************************
+    // getX()
+    // ********************************
+
+    // when:
+    // expect: x
+
+    @Test
+    public void testGetX() {
+        Matrix matrix = createMatrix();
+        HLES hles = new HLES(matrix);
+
+        Rational[] x = hles.getX();
+        assertEquals(NCOL, x.length);
+
+        Rational[] expectX = new Rational[NCOL];
+
+        for (int i = 0; i < NCOL; i++) {
+            expectX[i] = new Rational(0);
+        }
+
+        assertArrayEquals(expectX, x);
     }
 }
