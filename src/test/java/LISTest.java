@@ -355,4 +355,88 @@ public class LISTest {
         assertEquals(-1, lis.bvIncDec);
         assertEquals(new Rational(3), lis.x[2]);
     }
+
+    // ********************************
+    // findNonBasicVar()
+    // ********************************
+
+    // when:   all non basic vars are valid
+    // expect: -1
+    @Test
+    public void testFindNonBasicVar_valid() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(2), new Rational(3)};
+        Rational[] lb = {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
+        lis.x = x;
+        lis.d = createMatrix(3, 6);
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findNonBasicVar(2);
+
+        assertEquals(-1, result);
+    }
+
+    // when:   non basic var is less than lower limit
+    // expect: column number of invalid var
+    @Test
+    public void testFindNonBasicVar_less() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(1), new Rational(3)};
+        Rational[] lb = {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
+        lis.x = x;
+        lis.d = createMatrix(3, 6);
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findNonBasicVar(0);
+
+        assertEquals(4, result);
+        assertEquals(1, lis.nbvIncDec);
+    }
+
+    // when:   basic var is more than upper limit
+    // expect: column number of invalid var
+    @Test
+    public void testFindNonBasicVar_more() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                minusOne,
+                new Rational(-5),
+                new Rational(2)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(2), new Rational(5)};
+        Rational[] lb = {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
+        lis.x = x;
+        lis.d = createMatrix(3, 6);
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findNonBasicVar(1);
+
+        assertEquals(5, result);
+        assertEquals(-1, lis.nbvIncDec);
+    }
 }

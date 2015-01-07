@@ -14,7 +14,7 @@ public class LIS {
     protected Rational[] ub; // upeer limit of R, size is aRow + aCol
 
     protected int bvIncDec;    // increase: 1, decrease: -1
-    protected int nbcIncDec;   // increase: 1, decrease: -1
+    protected int nbvIncDec;   // increase: 1, decrease: -1
     protected boolean verbose; // whether showing info
 
     private final Rational zero = new Rational(0);
@@ -151,6 +151,26 @@ public class LIS {
                 bvIncDec = DECREASE;
                 x[org] = ub[org];
 
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    protected int findNonBasicVar(int bv) { // bv is equal to k
+        int org;
+
+        for (int i = aRow; i < aRow + aCol; i++) {
+            org = d.p[i];
+
+            if (x[org].lessThan(lb[org])) {
+                nbvIncDec = (d.elem[bv][i].greaterThan(zero)) ? INCREASE : DECREASE;
+                return i;
+            }
+
+            if (x[org].greaterThan(ub[org])) {
+                nbvIncDec = (d.elem[bv][i].greaterThan(zero)) ? DECREASE : INCREASE;
                 return i;
             }
         }
