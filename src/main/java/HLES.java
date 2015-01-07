@@ -59,4 +59,29 @@ public class HLES {
             x[d.p[i]] = y[i];
         }
     }
+
+    public int pivot(int col1, int col2) {
+        if (!d.isLeftIdentity()) {
+            return -1;
+        }
+
+        if (!isInRange(0, d.nCol - 1, col1) || !isInRange(0, d.nCol - 1, col2)) {
+            return -1;
+        }
+
+        if (d.elem[col1][col2].equals(zero)) {
+            return -1;
+        }
+
+        d.exchangeCol(col1, col2);
+        d.eliminate(col1, col2);
+        Matrix a = d.rightLower(0, d.nRow);
+        setY(a.substVector(getZ()));
+
+        return 0;
+    }
+
+    private boolean isInRange(int min, int max, int n) {
+        return (min <= n) && (n <= max);
+    }
 }

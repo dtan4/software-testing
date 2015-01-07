@@ -120,11 +120,11 @@ public class Matrix {
     public String toString() {
         StringBuffer sb = new StringBuffer();
 
-        for (int i = 0; i < nRow; i++) {
-            for (int j = 0; j < nCol; j++) {
+        for (int i = 0; i < elem.length; i++) {
+            for (int j = 0; j < elem[i].length; j++) {
                 sb.append(elem[i][j]);
 
-                if (j < nRow - 1) {
+                if (j < elem[i].length - 1) {
                     sb.append(", ");
                 }
             }
@@ -349,5 +349,23 @@ public class Matrix {
             rightLower.echelonForm();
             replace(1, 1, rightLower);
         }
+    }
+
+    public boolean isLeftIdentity() {
+        for (int i = 0; i < nRow; i++) {
+            for (int j = 0; j < nRow; j++) {
+                if (i == j) {
+                    if (!this.elem[i][j].equals(minusOne)) {
+                        return false;
+                    }
+                } else {
+                    if (!this.elem[i][j].equals(zero)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
