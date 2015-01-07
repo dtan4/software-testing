@@ -6,6 +6,7 @@ public class LISTest {
     private static final int NROW = 2;
     private static final int NCOL = 3;
     private static final Rational zero = new Rational(0);
+    private static final Rational one = new Rational(1);
     private static final Rational minusOne = new Rational(-1);
     private static final Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
     private static final Rational positiveInfinity = new Rational(Long.MAX_VALUE);
@@ -182,14 +183,14 @@ public class LISTest {
     // expect: transform
     @Test
     public void testTransform() {
-        Matrix a = createMatrix(3, 3);
-        Rational[] b = {
-                new Rational(1),
-                new Rational(2),
-                new Rational(3)
+        long[][][] elem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
         };
-        int[] c = {0, 1, 2};
-
+        Matrix a = Matrix.arrayReader(elem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
         LIS lis = new LIS(a, b, c);
         lis.transform();
 
@@ -199,13 +200,14 @@ public class LISTest {
         assertNotNull(lis.h);
         assertEquals(lis.aRow + lis.aCol, lis.x.length);
 
-        Rational[] expectX = {zero, zero, zero, zero, zero, zero};
-        assertArrayEquals(expectX, lis.x);
+        for (Rational r : lis.x) {
+            assertNotNull(r);
+        }
 
         Rational[] expectLb =
-                {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
+                {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
         Rational[] expectUb =
-                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
+                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
 
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);
@@ -220,14 +222,14 @@ public class LISTest {
     // expect: create new HLES
     @Test
     public void testMakeHLES() {
-        Matrix a = createMatrix(3, 3);
-        Rational[] b = {
-                new Rational(1),
-                new Rational(2),
-                new Rational(3)
+        long[][][] elem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
         };
-        int[] c = {0, 1, 2};
-
+        Matrix a = Matrix.arrayReader(elem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
         LIS lis = new LIS(a, b, c);
         lis.makeHLES();
 
@@ -237,8 +239,9 @@ public class LISTest {
         assertNotNull(lis.h);
         assertEquals(lis.aRow + lis.aCol, lis.x.length);
 
-        Rational[] expectX = {zero, zero, zero, zero, zero, zero};
-        assertArrayEquals(expectX, lis.x);
+        for (Rational r : lis.x) {
+            assertNotNull(r);
+        }
     }
 
     // ********************************
@@ -249,22 +252,29 @@ public class LISTest {
     // expect: set lb and ub
     @Test
     public void testMakeRestriction() {
-        Matrix a = createMatrix(3, 3);
-        Rational[] b = {
-                new Rational(1),
-                new Rational(2),
-                new Rational(3)
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
         };
-        int[] c = {0, 1, 2};
-
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
         LIS lis = new LIS(a, b, c);
-        lis.d = createMatrix(3, 6);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 2, 3, 4, 0, 1 };
+        lis.d.p = p;
         lis.makeRestriction();
 
         Rational[] expectLb =
-                {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
+                {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
         Rational[] expectUb =
-                {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
 
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);

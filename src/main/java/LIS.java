@@ -79,7 +79,9 @@ public class LIS {
     private int compare(Rational r1, Rational r2) {
         if (r1.greaterThan(r2)) {
             return GREATER;
-        } else if (r1.lessThan(r2)) {
+        }
+
+        if (r1.lessThan(r2)) {
             return LESS;
         }
 
@@ -108,7 +110,7 @@ public class LIS {
         int[] p = new int[aRow + aCol];
 
         for (int i = 0; i < p.length; i++) {
-            p[i] = (i < aCol) ? i + aRow : i - aCol;
+            p[i] = (i <= aCol) ? i + aRow - 1 : i - aCol - 1;
         }
 
         this.d.setP(p);
@@ -124,8 +126,22 @@ public class LIS {
         this.ub = new Rational[aRow + aCol];
 
         for (int i = 0; i < aRow; i++) {
-            this.lb[d.p[i]] = (c[i] == GREATER) ? b[i] : negativeInfinity;
-            this.ub[d.p[i]] = (c[i] == LESS) ? b[i] : positiveInfinity;
+            int colNum = d.p[i];
+
+            switch (c[i]) {
+                case EQUAL:
+                    this.lb[colNum] = b[i];
+                    this.ub[colNum] = b[i];
+                    break;
+                case GREATER:
+                    this.lb[colNum] = b[i];
+                    this.ub[colNum] = positiveInfinity;
+                    break;
+                case LESS:
+                    this.lb[colNum] = negativeInfinity;
+                    this.ub[colNum] = b[i];
+                    break;
+            }
         }
 
         for (int i = aRow; i < aRow + aCol; i++) {
