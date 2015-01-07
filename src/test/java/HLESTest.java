@@ -5,6 +5,7 @@ public class HLESTest {
     private static final int NROW = 2;
     private static final int NCOL = 3;
     private static final Rational zero = new Rational(0);
+    private static final Rational minusOne = new Rational(-1);
 
     private Matrix createMatrix(int nRow, int nCol) {
         Rational[][] elem = new Rational[nRow][];
@@ -13,7 +14,11 @@ public class HLESTest {
             elem[i] = new Rational[nCol];
 
             for (int j = 0; j < nCol; j++) {
-                elem[i][j] = new Rational(i + 1, j + 1);
+                if (nRow < j) {
+                    elem[i][j] = new Rational(i + 1, j + 1);
+                } else {
+                    elem[i][j] = (i == j) ? minusOne : zero;
+                }
             }
         }
 
@@ -168,5 +173,63 @@ public class HLESTest {
         hles.setY(y);
 
         assertArrayEquals(expectX, hles.x);
+    }
+
+    // ********************************
+    // pivot()
+    // ********************************
+
+    // when:   success
+    // expect: 0
+
+    @Test
+    public void testPivot_success() {
+        Matrix matrix = createMatrix(3, 5);
+
+        HLES hles = new HLES(matrix);
+
+        assertEquals(0, hles.pivot(1, 1));
+        assertTrue(hles.d.isLeftIdentity());
+        assertTrue(hles.hasValidX());
+    }
+
+    // when:   d is not left identity matrix
+    // expect: -1
+
+    @Test
+    public void testPivot_notIdentityMatrix() {
+        Matrix matrix = createMatrix(3, 5);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                matrix.elem[i][j] = new Rational(i + 1, j + 1);
+            }
+        }
+
+        HLES hles = new HLES(matrix);
+
+        assertEquals(-1, hles.pivot(0, 1));
+    }
+
+    // when:   col1 or col2 is not in range
+    // expect: -1
+
+    @Test
+    public void testPivot_outOfRange() {
+        Matrix matrix = createMatrix();
+        HLES hles = new HLES(matrix);
+
+        assertEquals(-1, hles.pivot(0, -1));
+    }
+
+    // when:   d.elem[col1][col2] is zero
+    // expect: -1
+
+    @Test
+    public void testPivot_zeroElem() {
+        Matrix matrix = createMatrix();
+        HLES hles = new HLES(matrix);
+
+        assertEquals(-1, hles.pivot(0, 1));
     }
 }
