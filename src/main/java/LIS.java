@@ -164,14 +164,28 @@ public class LIS {
         for (int i = aRow; i < aRow + aCol; i++) {
             org = d.p[i];
 
-            if (x[org].lessThan(lb[org])) {
-                nbvIncDec = (d.elem[bv][i].greaterThan(zero)) ? INCREASE : DECREASE;
-                return i;
+            if (bvIncDec == INCREASE) {
+                if (d.elem[bv][i].greaterThan(zero) && x[org].lessThan(ub[org])) {
+                    nbvIncDec = INCREASE;
+                    return i;
+                }
+
+                if (d.elem[bv][i].lessThan(zero) && x[org].greaterThan(lb[org])) {
+                    nbvIncDec = DECREASE;
+                    return i;
+                }
             }
 
-            if (x[org].greaterThan(ub[org])) {
-                nbvIncDec = (d.elem[bv][i].greaterThan(zero)) ? DECREASE : INCREASE;
-                return i;
+            if (bvIncDec == DECREASE) {
+                if (d.elem[bv][i].greaterThan(zero) && x[org].greaterThan(lb[org])) {
+                    nbvIncDec = DECREASE;
+                    return i;
+                }
+
+                if (d.elem[bv][i].lessThan(zero) && x[org].lessThan(ub[org])) {
+                    nbvIncDec = INCREASE;
+                    return i;
+                }
             }
         }
 

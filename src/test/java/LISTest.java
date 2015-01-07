@@ -399,13 +399,14 @@ public class LISTest {
         int[] c = {0, 1, 2};
 
         LIS lis = new LIS(a, b, c);
-        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(1), new Rational(3)};
+        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(2), new Rational(3)};
         Rational[] lb = {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
         Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
         lis.x = x;
         lis.d = createMatrix(3, 6);
         lis.lb = lb;
         lis.ub = ub;
+        lis.bvIncDec = 1;
 
         int result = lis.findNonBasicVar(0);
 
@@ -426,13 +427,14 @@ public class LISTest {
         int[] c = {0, 1, 2};
 
         LIS lis = new LIS(a, b, c);
-        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(2), new Rational(5)};
+        Rational[] x = {zero, zero, zero, new Rational(1), new Rational(2), new Rational(3)};
         Rational[] lb = {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
         Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
         lis.x = x;
         lis.d = createMatrix(3, 6);
         lis.lb = lb;
         lis.ub = ub;
+        lis.bvIncDec = -1;
 
         int result = lis.findNonBasicVar(1);
 
