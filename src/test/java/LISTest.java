@@ -6,7 +6,10 @@ public class LISTest {
     private static final int NROW = 2;
     private static final int NCOL = 3;
     private static final Rational zero = new Rational(0);
+    private static final Rational one = new Rational(1);
     private static final Rational minusOne = new Rational(-1);
+    private static final Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
+    private static final Rational positiveInfinity = new Rational(Long.MAX_VALUE);
 
     private Matrix createMatrix(int nRow, int nCol) {
         Rational[][] elem = new Rational[nRow][];
@@ -180,14 +183,14 @@ public class LISTest {
     // expect: transform
     @Test
     public void testTransform() {
-        Matrix a = createMatrix(3, 3);
-        Rational[] b = {
-                new Rational(1),
-                new Rational(2),
-                new Rational(3)
+        long[][][] elem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
         };
-        int[] c = {0, 1, 2};
-
+        Matrix a = Matrix.arrayReader(elem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
         LIS lis = new LIS(a, b, c);
         lis.transform();
 
@@ -197,15 +200,14 @@ public class LISTest {
         assertNotNull(lis.h);
         assertEquals(lis.aRow + lis.aCol, lis.x.length);
 
-        Rational[] expectX = {zero, zero, zero, zero, zero, zero};
-        assertArrayEquals(expectX, lis.x);
+        for (Rational r : lis.x) {
+            assertNotNull(r);
+        }
 
-        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
-        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
         Rational[] expectLb =
-                {negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity, new Rational(2), negativeInfinity};
+                {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
         Rational[] expectUb =
-                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, new Rational(3)};
+                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
 
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);
@@ -220,14 +222,14 @@ public class LISTest {
     // expect: create new HLES
     @Test
     public void testMakeHLES() {
-        Matrix a = createMatrix(3, 3);
-        Rational[] b = {
-                new Rational(1),
-                new Rational(2),
-                new Rational(3)
+        long[][][] elem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
         };
-        int[] c = {0, 1, 2};
-
+        Matrix a = Matrix.arrayReader(elem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
         LIS lis = new LIS(a, b, c);
         lis.makeHLES();
 
@@ -237,8 +239,9 @@ public class LISTest {
         assertNotNull(lis.h);
         assertEquals(lis.aRow + lis.aCol, lis.x.length);
 
-        Rational[] expectX = {zero, zero, zero, zero, zero, zero};
-        assertArrayEquals(expectX, lis.x);
+        for (Rational r : lis.x) {
+            assertNotNull(r);
+        }
     }
 
     // ********************************
@@ -249,26 +252,307 @@ public class LISTest {
     // expect: set lb and ub
     @Test
     public void testMakeRestriction() {
-        Matrix a = createMatrix(3, 3);
-        Rational[] b = {
-                new Rational(1),
-                new Rational(2),
-                new Rational(3)
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
         };
-        int[] c = {0, 1, 2};
-
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
         LIS lis = new LIS(a, b, c);
-        lis.d = createMatrix(3, 6);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 2, 3, 4, 0, 1 };
+        lis.d.p = p;
         lis.makeRestriction();
 
-        Rational negativeInfinity = new Rational(-Long.MAX_VALUE);
-        Rational positiveInfinity = new Rational(Long.MAX_VALUE);
         Rational[] expectLb =
-                {negativeInfinity, new Rational(2), negativeInfinity, negativeInfinity, negativeInfinity, negativeInfinity};
+                {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
         Rational[] expectUb =
-                {positiveInfinity, positiveInfinity, new Rational(3), positiveInfinity, positiveInfinity, positiveInfinity};
+                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
 
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);
+    }
+
+    // ********************************
+    // findBasicVar()
+    // ********************************
+
+    // when:   all basic vars are valid
+    // expect: -1
+    @Test
+    public void testFindBasicVar_valid() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 2, 3 }, { -1, 3 } },
+                { { 0 }, { -1 }, { 0 }, { 1 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { 1, 3 }, { 1, 3 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 0, 3, 1, 2, 4 };
+        lis.d.p = p;
+
+        Rational[] x = {one, one, one, new Rational(2), one};
+        Rational[] lb = {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findBasicVar();
+
+        assertEquals(-1, result);
+    }
+
+    // when:   basic var is less than lower limit
+    // expect: column number of invalid var
+    @Test
+    public void testFindBasicVar_less() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 2, 3, 4, 0, 1 };
+        lis.d.p = p;
+
+        Rational[] x = {zero, zero, zero, zero, zero};
+        Rational[] lb = {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findBasicVar();
+
+        assertEquals(0, result);
+        assertEquals(1, lis.bvIncDec);
+        assertEquals(new Rational(2), lis.x[2]);
+    }
+
+    // when:   basic var is more than upper limit
+    // expect: column number of invalid var
+    @Test
+    public void testFindBasicVar_more() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 2, 3, 4, 0, 1 };
+        lis.d.p = p;
+
+        Rational[] x = {zero, zero, zero, zero, zero};
+        Rational[] lb = {negativeInfinity, negativeInfinity, negativeInfinity, zero, one};
+        Rational[] ub = {positiveInfinity, positiveInfinity, minusOne, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findBasicVar();
+
+        assertEquals(0, result);
+        assertEquals(-1, lis.bvIncDec);
+        assertEquals(minusOne, lis.x[2]);
+    }
+
+    // ********************************
+    // findNonBasicVar()
+    // ********************************
+
+    // when:   all non basic vars are valid
+    // expect: -1
+    @Test
+    public void testFindNonBasicVar_valid() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 2, 3 }, { -1, 3 } },
+                { { 0 }, { -1 }, { 0 }, { 1 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { 1, 3 }, { 1, 3 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 0, 3, 1, 2, 4 };
+        lis.d.p = p;
+
+        Rational[] x = {one, one, one, new Rational(2), one};
+        Rational[] lb = {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.lb = lb;
+        lis.ub = ub;
+
+        int result = lis.findNonBasicVar(2);
+
+        assertEquals(-1, result);
+    }
+
+    // when:   bvIncDec is INCREASE
+    // expect: column number of invalid var
+    @Test
+    public void testFindNonBasicVar_increase() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 2, 3, 4, 0, 1 };
+        lis.d.p = p;
+
+        Rational[] x = {zero, zero, zero, zero, zero};
+        Rational[] lb = {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.lb = lb;
+        lis.ub = ub;
+        lis.bvIncDec = 1;
+
+        int result = lis.findNonBasicVar(0);
+
+        assertEquals(3, result);
+        assertEquals(1, lis.nbvIncDec);
+
+        result = lis.findNonBasicVar(2);
+
+        assertEquals(3, result);
+        assertEquals(-1, lis.nbvIncDec);
+    }
+
+    // when:   bvIncDec is DECREASE
+    // expect: column number of invalid var
+    @Test
+    public void testFindNonBasicVar_decrease() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        long[][][] dElem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        lis.d = Matrix.arrayReader(dElem);
+        int[] p = { 2, 3, 4, 0, 1 };
+        lis.d.p = p;
+
+        Rational[] x = {zero, zero, zero, zero, zero};
+        Rational[] lb = {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
+        Rational[] ub = {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
+        lis.x = x;
+        lis.lb = lb;
+        lis.ub = ub;
+        lis.bvIncDec = -1;
+
+        int result = lis.findNonBasicVar(2);
+
+        assertEquals(3, result);
+        assertEquals(1, lis.nbvIncDec);
+
+        result = lis.findNonBasicVar(0);
+
+        assertEquals(3, result);
+        assertEquals(-1, lis.nbvIncDec);
+    }
+
+    // ********************************
+    // solve()
+    // ********************************
+
+    // when:   S has result
+    // expect: 1
+    @Test
+    public void testSolve_haveResult() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        lis.transform();
+
+        int result = lis.solve();
+
+        assertEquals(1, result);
+        assertTrue(lis.hasValidX());
+    }
+
+    // when:   S does not have result
+    // expect: 0
+    @Test
+    public void testSolve_notHaveResult() {
+        long[][][] elem = {
+                { { 1 }, { 1 }, { -1 } },
+                { { 1 }, { -1 }, { 1 } },
+                { { -1 }, { 1 }, { 1 } },
+                { { 1 }, { 0 }, { 0 } }
+        };
+        Matrix a = Matrix.arrayReader(elem);
+        Rational[] b = {one, one, one, zero};
+        int[] c = {1, 1, 1, 2};
+        LIS lis = new LIS(a, b, c);
+        lis.transform();
+
+        int result = lis.solve();
+
+        assertEquals(0, result);
     }
 }

@@ -13,12 +13,19 @@ public class LIS {
     protected Rational[] lb; // lower limit of R, size is aRow + aCol
     protected Rational[] ub; // upeer limit of R, size is aRow + aCol
 
+    protected int bvIncDec;    // increase: 1, decrease: -1
+    protected int nbvIncDec;   // increase: 1, decrease: -1
+    protected boolean verbose; // whether showing info
+
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
 
     private static final int EQUAL = 0;   // =
     private static final int GREATER = 1; // >=
     private static final int LESS = 2;    // <=
+
+    private static final int INCREASE = 1;
+    private static final int DECREASE = -1;
 
     public LIS(Matrix a, Rational[] b, int[] c) {
         this.a = a;
@@ -59,24 +66,27 @@ public class LIS {
 
     public boolean hasValidX() {
         Rational[] r = a.substVector(x);
-
-        for (int i = 0; i < r.length; i++) {
-            if (compare(r[i], b[i]) != c[i]) {
-                return false;
+        for (int i = 0; i < b.length; i++) {
+            switch (c[i])
+            {
+                case EQUAL:
+                    if (!r[i].equals(b[i])) {
+                        return false;
+                    }
+                    break;
+                case GREATER:
+                    if (r[i].lessThan(b[i])) {
+                        return false;
+                    }
+                    break;
+                case LESS:
+                    if (r[i].greaterThan(b[i])) {
+                        return false;
+                    }
+                    break;
             }
         }
-
         return true;
-    }
-
-    private int compare(Rational r1, Rational r2) {
-        if (r1.greaterThan(r2)) {
-            return GREATER;
-        } else if (r1.lessThan(r2)) {
-            return LESS;
-        }
-
-        return EQUAL;
     }
 
     public void transform() {
@@ -101,7 +111,7 @@ public class LIS {
         int[] p = new int[aRow + aCol];
 
         for (int i = 0; i < p.length; i++) {
-            p[i] = (i < aCol) ? i + aRow : i - aCol;
+            p[i] = (i <= aCol) ? i + aRow - 1 : i - aCol - 1;
         }
 
         this.d.setP(p);
@@ -117,13 +127,99 @@ public class LIS {
         this.ub = new Rational[aRow + aCol];
 
         for (int i = 0; i < aRow; i++) {
-            this.lb[d.p[i]] = (c[i] == GREATER) ? b[i] : negativeInfinity;
-            this.ub[d.p[i]] = (c[i] == LESS) ? b[i] : positiveInfinity;
+            int colNum = d.p[i];
+
+            switch (c[i]) {
+                case EQUAL:
+                    this.lb[colNum] = b[i];
+                    this.ub[colNum] = b[i];
+                    break;
+                case GREATER:
+                    this.lb[colNum] = b[i];
+                    this.ub[colNum] = positiveInfinity;
+                    break;
+                case LESS:
+                    this.lb[colNum] = negativeInfinity;
+                    this.ub[colNum] = b[i];
+                    break;
+            }
         }
 
         for (int i = aRow; i < aRow + aCol; i++) {
             this.lb[d.p[i]] = negativeInfinity;
             this.ub[d.p[i]] = positiveInfinity;
         }
+    }
+
+    protected int findBasicVar() {
+        int org;
+
+        for (int i = 0; i < aRow; i++) {
+            org = d.p[i];
+
+            if (x[org].lessThan(lb[org])) {
+                bvIncDec = INCREASE;
+                x[org] = lb[org];
+
+                return i;
+            }
+
+            if (x[org].greaterThan(ub[org])) {
+                bvIncDec = DECREASE;
+                x[org] = ub[org];
+
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    protected int findNonBasicVar(int bv) { // bv is equal to k
+        int org;
+
+        for (int i = aRow; i < aRow + aCol; i++) {
+            org = d.p[i];
+
+            if (bvIncDec == INCREASE) {
+                if (d.elem[bv][i].greaterThan(zero) && x[org].lessThan(ub[org])) {
+                    nbvIncDec = INCREASE;
+                    return i;
+                }
+
+                if (d.elem[bv][i].lessThan(zero) && x[org].greaterThan(lb[org])) {
+                    nbvIncDec = DECREASE;
+                    return i;
+                }
+            }
+
+            if (bvIncDec == DECREASE) {
+                if (d.elem[bv][i].greaterThan(zero) && x[org].greaterThan(lb[org])) {
+                    nbvIncDec = DECREASE;
+                    return i;
+                }
+
+                if (d.elem[bv][i].lessThan(zero) && x[org].lessThan(ub[org])) {
+                    nbvIncDec = INCREASE;
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public int solve() {
+        int bv, nbv;
+
+        while ((bv = findBasicVar()) != -1) {
+            if ((nbv = findNonBasicVar(bv)) == -1) {
+                return 0;
+            }
+
+            h.pivot(bv, nbv);
+        }
+
+        return 1;
     }
 }

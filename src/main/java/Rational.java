@@ -89,16 +89,20 @@ public class Rational {
 
     @Override
     public String toString() {
-        if (this.den == 1) {
-            return String.valueOf(this.num);
-        } else if (this.den == Long.MAX_VALUE) {
+        if (this.den == Long.MAX_VALUE) {
             return "0";
         }
 
         if (this.num == Long.MAX_VALUE) {
             return "inf";
-        } else if (this.num == -Long.MAX_VALUE) {
+        }
+
+        if (this.num == -Long.MAX_VALUE) {
             return "-inf";
+        }
+
+        if (this.den == 1) {
+            return String.valueOf(this.num);
         }
 
         return String.valueOf(this.num) + "/" + String.valueOf(this.den);

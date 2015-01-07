@@ -51,9 +51,7 @@ public class HLES {
     }
 
     protected void setY(Rational[] y) {
-        if (y.length != d.nRow) {
-            return;
-        }
+        assert y.length == d.nRow;
 
         for (int i = 0; i < d.nRow; i++) {
             x[d.p[i]] = y[i];
@@ -74,7 +72,7 @@ public class HLES {
         }
 
         d.exchangeCol(col1, col2);
-        d.eliminate(col1, col2);
+        d.eliminate(col1, col1);
         Matrix a = d.rightLower(0, d.nRow);
         setY(a.substVector(getZ()));
 

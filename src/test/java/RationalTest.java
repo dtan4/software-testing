@@ -243,7 +243,7 @@ public class RationalTest {
     public void testToString_2_3() {
         Rational rational = new Rational(2, 3);
 
-        assertEquals(rational.toString(), "2/3");
+        assertEquals("2/3", rational.toString());
     }
 
     // when:   約分を生じる有理数を与える
@@ -252,7 +252,7 @@ public class RationalTest {
     public void testToString_12_18() {
         Rational rational = new Rational(12, 18);
 
-        assertEquals(rational.toString(), "2/3");
+        assertEquals("2/3", rational.toString());
     }
 
     // when:   分母が1の有理数を与える
@@ -261,7 +261,7 @@ public class RationalTest {
     public void testToString_12_1() {
         Rational rational = new Rational(12, 1);
 
-        assertEquals(rational.toString(), "12");
+        assertEquals("12", rational.toString());
     }
 
     // when:   負の有理数を与える
@@ -270,7 +270,7 @@ public class RationalTest {
     public void testToString_minus2_3() {
         Rational rational = new Rational(-2, 3);
 
-        assertEquals(rational.toString(), "-2/3");
+        assertEquals("-2/3", rational.toString());
     }
 
     // when:   den is Long.MAX_VALUE
@@ -279,7 +279,7 @@ public class RationalTest {
     public void testToString_2_LongMax() {
         Rational rational = new Rational(2, Long.MAX_VALUE);
 
-        assertEquals(rational.toString(), "0");
+        assertEquals("0", rational.toString());
     }
 
     // when:   num is Long.MAX_VALUE
@@ -288,7 +288,16 @@ public class RationalTest {
     public void testToString_LongMax_3() {
         Rational rational = new Rational(Long.MAX_VALUE, 3);
 
-        assertEquals(rational.toString(), "inf");
+        assertEquals("inf", rational.toString());
+    }
+
+    // when:   num is Long.MAX_VALUE
+    // expect: "inf"
+    @Test
+    public void testToString_LongMax_1() {
+        Rational rational = new Rational(Long.MAX_VALUE, 1);
+
+        assertEquals("inf", rational.toString());
     }
 
     // when:   num is -Long.MAX_VALUE
@@ -297,7 +306,7 @@ public class RationalTest {
     public void testToString_minusLongMax_3() {
         Rational rational = new Rational(-Long.MAX_VALUE, 3);
 
-        assertEquals(rational.toString(), "-inf");
+        assertEquals("-inf", rational.toString());
     }
 
     // ********************************

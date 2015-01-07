@@ -150,11 +150,19 @@ public class HLESTest {
 
     @Test
     public void testSetY_validY() {
-        Matrix matrix = createMatrix(3, 3);
+        long[][][] elem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        Matrix matrix = Matrix.arrayReader(elem);
         HLES hles = new HLES(matrix);
 
-        Rational[] y = {zero, new Rational(1), new Rational(2)};
-        Rational[] expectX = {zero, new Rational(1), new Rational(2)};
+        Rational one = new Rational(1);
+        Rational two = new Rational(2);
+
+        Rational[] y = {two, one, one};
+        Rational[] expectX = {two, one, one, zero, zero};
         hles.setY(y);
 
         assertArrayEquals(expectX, hles.x);
@@ -163,16 +171,22 @@ public class HLESTest {
     // when:   length of y does not equal to d.nRow
     // expect: do not refresh x
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void testSetY_invalidX() {
-        Matrix matrix = createMatrix(3, 3);
+        long[][][] elem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        Matrix matrix = Matrix.arrayReader(elem);
         HLES hles = new HLES(matrix);
 
-        Rational[] y = {new Rational(1)};
-        Rational[] expectX = hles.x;
-        hles.setY(y);
+        Rational one = new Rational(1);
+        Rational two = new Rational(2);
 
-        assertArrayEquals(expectX, hles.x);
+        Rational[] y = {two, one};
+        Rational[] expectX = {two, one, one, zero, zero};
+        hles.setY(y);
     }
 
     // ********************************
@@ -184,11 +198,16 @@ public class HLESTest {
 
     @Test
     public void testPivot_success() {
-        Matrix matrix = createMatrix(3, 5);
+        long[][][] elem = {
+                { { -1 }, { 0 }, { 0 }, { 1 }, { 1 } },
+                { { 0 }, { -1 }, { 0 }, { 2 }, { -1 } },
+                { { 0 }, { 0 }, { -1 }, { -1 }, { 2 } }
+        };
+        Matrix matrix = Matrix.arrayReader(elem);
 
         HLES hles = new HLES(matrix);
 
-        assertEquals(0, hles.pivot(1, 1));
+        assertEquals(0, hles.pivot(0, 3));
         assertTrue(hles.d.isLeftIdentity());
         assertTrue(hles.hasValidX());
     }
