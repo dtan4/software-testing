@@ -66,26 +66,27 @@ public class LIS {
 
     public boolean hasValidX() {
         Rational[] r = a.substVector(x);
-
-        for (int i = 0; i < r.length; i++) {
-            if (compare(r[i], b[i]) != c[i]) {
-                return false;
+        for (int i = 0; i < b.length; i++) {
+            switch (c[i])
+            {
+                case EQUAL:
+                    if (!r[i].equals(b[i])) {
+                        return false;
+                    }
+                    break;
+                case GREATER:
+                    if (r[i].lessThan(b[i])) {
+                        return false;
+                    }
+                    break;
+                case LESS:
+                    if (r[i].greaterThan(b[i])) {
+                        return false;
+                    }
+                    break;
             }
         }
-
         return true;
-    }
-
-    private int compare(Rational r1, Rational r2) {
-        if (r1.greaterThan(r2)) {
-            return GREATER;
-        }
-
-        if (r1.lessThan(r2)) {
-            return LESS;
-        }
-
-        return EQUAL;
     }
 
     public void transform() {
@@ -206,5 +207,19 @@ public class LIS {
         }
 
         return -1;
+    }
+
+    public int solve() {
+        int bv, nbv;
+
+        while ((bv = findBasicVar()) != -1) {
+            if ((nbv = findNonBasicVar(bv)) == -1) {
+                return 0;
+            }
+
+            h.pivot(bv, nbv);
+        }
+
+        return 1;
     }
 }

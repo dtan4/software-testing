@@ -509,4 +509,50 @@ public class LISTest {
         assertEquals(3, result);
         assertEquals(-1, lis.nbvIncDec);
     }
+
+    // ********************************
+    // solve()
+    // ********************************
+
+    // when:   S has result
+    // expect: 1
+    @Test
+    public void testSolve_haveResult() {
+        long[][][] aElem = {
+                { { 1 }, { 1 } },
+                { { 2 }, { -1 } },
+                { { -1 }, { 2 } }
+        };
+        Matrix a = Matrix.arrayReader(aElem);
+        Rational[] b = {new Rational(2), zero, one};
+        int[] c = {1, 1, 1};
+        LIS lis = new LIS(a, b, c);
+        lis.transform();
+
+        int result = lis.solve();
+
+        assertEquals(1, result);
+        assertTrue(lis.hasValidX());
+    }
+
+    // when:   S does not have result
+    // expect: 0
+    @Test
+    public void testSolve_notHaveResult() {
+        long[][][] elem = {
+                { { 1 }, { 1 }, { -1 } },
+                { { 1 }, { -1 }, { 1 } },
+                { { -1 }, { 1 }, { 1 } },
+                { { 1 }, { 0 }, { 0 } }
+        };
+        Matrix a = Matrix.arrayReader(elem);
+        Rational[] b = {one, one, one, zero};
+        int[] c = {1, 1, 1, 2};
+        LIS lis = new LIS(a, b, c);
+        lis.transform();
+
+        int result = lis.solve();
+
+        assertEquals(0, result);
+    }
 }
