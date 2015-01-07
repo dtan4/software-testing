@@ -135,4 +135,38 @@ public class HLESTest {
 
         assertArrayEquals(expectZ, z);
     }
+
+    // ********************************
+    // setY()
+    // ********************************
+
+    // when:   length of y equals to d.nRow
+    // expect: refresh x
+
+    @Test
+    public void testSetY_validY() {
+        Matrix matrix = createMatrix(3, 3);
+        HLES hles = new HLES(matrix);
+
+        Rational[] y = {zero, new Rational(1), new Rational(2)};
+        Rational[] expectX = {zero, new Rational(1), new Rational(2)};
+        hles.setY(y);
+
+        assertArrayEquals(expectX, hles.x);
+    }
+
+    // when:   length of y does not equal to d.nRow
+    // expect: do not refresh x
+
+    @Test
+    public void testSetY_invalidX() {
+        Matrix matrix = createMatrix(3, 3);
+        HLES hles = new HLES(matrix);
+
+        Rational[] y = {new Rational(1)};
+        Rational[] expectX = hles.x;
+        hles.setY(y);
+
+        assertArrayEquals(expectX, hles.x);
+    }
 }

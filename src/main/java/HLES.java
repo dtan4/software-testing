@@ -49,4 +49,14 @@ public class HLES {
 
         return z;
     }
+
+    protected void setY(Rational[] y) {
+        if (y.length != d.nRow) {
+            return;
+        }
+
+        for (int i = 0; i < d.nRow; i++) {
+            x[d.p[i]] = y[i];
+        }
+    }
 }
