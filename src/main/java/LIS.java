@@ -19,10 +19,15 @@ public class LIS {
 
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
+    private final Rational one = new Rational(1);
 
     private static final int EQUAL = 0;   // =
     private static final int GREATER = 1; // >=
     private static final int LESS = 2;    // <=
+
+    private static final String OP_EQUAL = "=";
+    private static final String OP_GREATER = ">";
+    private static final String OP_LESS = "<";
 
     private static final int INCREASE = 1;
     private static final int DECREASE = -1;
@@ -106,6 +111,35 @@ public class LIS {
 
     public Rational[] getX() {
         return this.x;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < aRow; i++) {
+            for (int j = 0; j < aCol; j++) {
+                sb.append(a.elem[i][j]);
+                sb.append(" ");
+            }
+
+            switch (c[i]) {
+                case EQUAL:
+                    sb.append(OP_EQUAL);
+                    break;
+                case GREATER:
+                    sb.append(OP_GREATER);
+                    break;
+                case LESS:
+                    sb.append(OP_LESS);
+            }
+
+            sb.append(" ");
+            sb.append(b[i]);
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     public boolean hasValidX() {

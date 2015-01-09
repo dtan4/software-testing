@@ -192,6 +192,24 @@ public class LISTest {
     }
 
     // ********************************
+    // getX()
+    // ********************************
+
+    // when:
+    // expect: return x
+    @Test
+    public void testToString() {
+        long[][][] array = {
+                {{1}, {0}, {-2}, {3}, {0}},
+                {{0}, {1}, {2}, {4}, {1}},
+                {{1}, {0}, {0}, {4}, {2}}
+        };
+        LIS lis = LIS.arrayReader(array);
+
+        assertEquals("1 0 -2 = 3\n0 1 2 > 4\n1 0 0 < 4\n", lis.toString());
+    }
+
+    // ********************************
     // hasValidX()
     // ********************************
 
