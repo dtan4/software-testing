@@ -111,6 +111,64 @@ public class LISTest {
     }
 
     // ********************************
+    // arrayReader(array)
+    // ********************************
+
+    // when:   array.length == 0
+    // expect: null
+    @Test
+    public void testArrayReader_empty() {
+        long[][][] array = {};
+        assertNull(LIS.arrayReader(array));
+    }
+
+    // when:   array[0].length <= 2
+    // expect: null
+    @Test
+    public void testArrayReader_empty_2() {
+        long[][][] array = {{{}, {}}};
+        assertNull(LIS.arrayReader(array));
+    }
+
+    // when:   non-empty array
+    // expect: Matrix
+    @Test
+    public void testArrayReader() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}, {5, 6}, {0}},
+                {{7, 8}, {9, 10}, {11, 12}, {1}}
+        };
+        LIS lis = LIS.arrayReader(array);
+
+        long[][][] aElem = {
+                {{1, 2}, {3, 4}},
+                {{7, 8}, {9, 10}}
+        };
+        Matrix expectA = Matrix.arrayReader(aElem);
+        Rational[] expectB = {new Rational(5, 6), new Rational(11, 12)};
+        int[] expectC = {0, 1};
+
+        assertEquals(expectA, lis.a);
+        assertArrayEquals(expectB, lis.b);
+        assertArrayEquals(expectC, lis.c);
+    }
+
+    // when:   c[i] is out of range
+    // expect: Matrix
+    @Test
+    public void testArrayReader_invalidC() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}, {5, 6}, {0}},
+                {{7, 8}, {9, 10}, {11, 12}, {-1}}
+        };
+        LIS lis = LIS.arrayReader(array);
+
+        int[] expectC = {0, 0};
+
+        assertArrayEquals(expectC, lis.c);
+    }
+
+    // ********************************
     // getX()
     // ********************************
 

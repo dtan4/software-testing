@@ -27,6 +27,50 @@ public class LIS {
     private static final int INCREASE = 1;
     private static final int DECREASE = -1;
 
+    public static LIS arrayReader(long[][][] array) {
+        int nRow, nCol;
+
+        if (array.length == 0) {
+            return null;
+        }
+
+        nRow = array.length;
+
+        if (array[0].length <= 2) {
+            return null;
+        }
+
+        nCol = array[0].length - 2;
+
+        Rational[][] elem = new Rational[nRow][];
+
+        for (int i = 0; i < nRow; i++) {
+            elem[i] = new Rational[nCol];
+        }
+
+        Rational[] b = new Rational[nRow];
+        int[] c = new int[nRow];
+
+        for (int i = 0; i < nRow; i++) {
+            for (int j = 0; j < nCol; j++) {
+                elem[i][j] = Rational.arrayReader(array[i][j]);
+                b[i] = Rational.arrayReader(array[i][nCol]);
+
+                long tmpC = array[i][nCol + 1][0];
+
+                if ((0 <= tmpC) && (tmpC <= 2)) {
+                    c[i] = (int)tmpC;
+                } else {
+                    c[i] = 0;
+                }
+            }
+        }
+
+        Matrix a = new Matrix(elem);
+
+        return new LIS(a, b, c);
+    }
+
     public LIS(Matrix a, Rational[] b, int[] c) {
         this.a = a;
         this.aRow = a.nRow;
