@@ -368,4 +368,18 @@ public class Matrix {
 
         return true;
     }
+
+    public int pInverse(int var) {
+        if ((var < 0) || (var >= nCol)) {
+            return -1;
+        }
+
+        for (int i = 0; i < nCol; i++) {
+            if (p[i] == var) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }
