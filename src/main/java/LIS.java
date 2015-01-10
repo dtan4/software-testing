@@ -175,6 +175,19 @@ public class LIS {
         }
     }
 
+    public void printBasicVarInfo(int i) {
+        System.out.println("RowNum: " + i);
+        System.out.println("ValNum: " + d.p[i]);
+
+        if (bvIncDec == INCREASE) {
+            System.out.println(x[d.p[i]] + " < " + lb[d.p[i]] + " To be increased");
+        }
+
+        if (bvIncDec == DECREASE) {
+            System.out.println(x[d.p[i]] + " > " + ub[d.p[i]] + " To be decreased");
+        }
+    }
+
     public boolean hasValidX() {
         Rational[] r = a.substVector(x);
         for (int i = 0; i < b.length; i++) {
@@ -272,12 +285,20 @@ public class LIS {
                 bvIncDec = INCREASE;
                 x[org] = lb[org];
 
+                if (verbose) {
+                    printBasicVarInfo(i);
+                }
+
                 return i;
             }
 
             if (x[org].greaterThan(ub[org])) {
                 bvIncDec = DECREASE;
                 x[org] = ub[org];
+
+                if (verbose) {
+                    printBasicVarInfo(i);
+                }
 
                 return i;
             }
