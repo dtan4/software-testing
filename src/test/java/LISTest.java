@@ -522,6 +522,7 @@ public class LISTest {
         lis.x = x;
         lis.lb = lb;
         lis.ub = ub;
+        lis.sortP();
 
         int result = lis.findNonBasicVar(2);
 
@@ -557,6 +558,7 @@ public class LISTest {
         lis.lb = lb;
         lis.ub = ub;
         lis.bvIncDec = 1;
+        lis.sortP();
 
         int result = lis.findNonBasicVar(0);
 
@@ -598,6 +600,7 @@ public class LISTest {
         lis.lb = lb;
         lis.ub = ub;
         lis.bvIncDec = -1;
+        lis.sortP();
 
         int result = lis.findNonBasicVar(2);
 
@@ -640,15 +643,12 @@ public class LISTest {
     @Test
     public void testSolve_notHaveResult() {
         long[][][] elem = {
-                { { 1 }, { 1 }, { -1 } },
-                { { 1 }, { -1 }, { 1 } },
-                { { -1 }, { 1 }, { 1 } },
-                { { 1 }, { 0 }, { 0 } }
+                { { 1 }, { 1 }, { -1 }, { 1 }, { 1 } },
+                { { 1 }, { -1 }, { 1 }, { 1 }, { 1 } },
+                { { -1 }, { 1 }, { 1 }, { 1 }, { 1 } },
+                { { 1 }, { 0 }, { 0 }, { 0 }, { 2 } }
         };
-        Matrix a = Matrix.arrayReader(elem);
-        Rational[] b = {one, one, one, zero};
-        int[] c = {1, 1, 1, 2};
-        LIS lis = new LIS(a, b, c);
+        LIS lis = LIS.arrayReader(elem);
         lis.transform();
 
         int result = lis.solve();
