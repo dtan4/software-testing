@@ -23,7 +23,6 @@ public class LIS {
 
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
-    private final Rational one = new Rational(1);
 
     private static final int EQUAL = 0;   // =
     private static final int GREATER = 1; // >=

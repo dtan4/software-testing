@@ -1,10 +1,7 @@
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 public class LISTest {
-    private static final int NROW = 2;
-    private static final int NCOL = 3;
     private static final Rational zero = new Rational(0);
     private static final Rational one = new Rational(1);
     private static final Rational minusOne = new Rational(-1);
