@@ -1,3 +1,5 @@
+import com.sun.org.apache.xml.internal.serializer.utils.SystemIDResolver;
+
 public class LIS {
     // S = (A, ~b, ~c, ~z)
     protected Matrix a;     // A
@@ -143,6 +145,8 @@ public class LIS {
     }
 
     public void printTable() {
+        System.out.print("[Table]");
+
         System.out.print("ColNum: ");
 
         for (int i = 0; i < aCol; i++) {
@@ -176,6 +180,8 @@ public class LIS {
     }
 
     public void printBasicVarInfo(int i) {
+        System.out.println("[Basic Variables]");
+
         System.out.println("RowNum: " + i);
         System.out.println("ValNum: " + d.p[i]);
 
@@ -189,6 +195,8 @@ public class LIS {
     }
 
     public void printNonBasicVarInfo(int i, int bv) {
+        System.out.println("[Non Basic Variables]");
+
         System.out.println("RowNum: " + i);
         System.out.println("ValNum: " + d.p[i]);
 
@@ -203,13 +211,11 @@ public class LIS {
         }
 
         if (nbvIncDec == 1) {
-            System.out.println("Value = " + x[orgCol] + " < " + ub[orgCol] + " = UpperBound");
-            System.out.println("[+] Can Be Increased.");
+            System.out.println("Value = " + x[orgCol] + " < " + ub[orgCol] + " Can Be Increased.");
         }
 
         if (nbvIncDec == -1) {
-            System.out.println("Value = " + x[orgCol] + " > " + lb[orgCol] + " = LowerBound");
-            System.out.println("[-] Can Be Decreased.");
+            System.out.println("Value = " + x[orgCol] + " > " + lb[orgCol] + " Can Be Decreased.");
         }
     }
 
