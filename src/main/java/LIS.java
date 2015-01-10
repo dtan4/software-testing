@@ -142,6 +142,39 @@ public class LIS {
         return sb.toString();
     }
 
+    public void printTable() {
+        System.out.print("ColNum: ");
+
+        for (int i = 0; i < aCol; i++) {
+            System.out.print(i + " ");
+        }
+
+        System.out.print("\n");
+        System.out.print("ValNum: ");
+
+        for (int i = 0; i < aCol; i++) {
+            System.out.print(d.p[i] + " ");
+        }
+
+        System.out.print("\n");
+        System.out.print("Val:    ");
+
+        for (int i = 0; i < aCol; i++) {
+            System.out.print(x[d.p[i]] + " ");
+        }
+
+        for (int i = 0; i < aRow; i++) {
+            System.out.print(i + " " + d.p[i] + " ");
+
+            for (int j = 0; j < aCol; j++) {
+                System.out.print(d.elem[i][j] + " ");
+            }
+
+            System.out.print(lb[d.p[i]] + " <= " + x[d.p[i]] + " <= " + ub[d.p[i]]);
+            System.out.print("\n");
+        }
+    }
+
     public boolean hasValidX() {
         Rational[] r = a.substVector(x);
         for (int i = 0; i < b.length; i++) {
@@ -290,12 +323,20 @@ public class LIS {
     public int solve() {
         int bv, nbv;
 
+        if (verbose) {
+            printTable();
+        }
+
         while ((bv = findBasicVar()) != -1) {
             if ((nbv = findNonBasicVar(bv)) == -1) {
                 return 0;
             }
 
             h.pivot(bv, nbv);
+
+            if (verbose) {
+                printTable();
+            }
         }
 
         return 1;
