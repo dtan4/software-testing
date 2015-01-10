@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class LIS {
     // S = (A, ~b, ~c, ~z)
     protected Matrix a;     // A
@@ -17,15 +19,66 @@ public class LIS {
     protected int nbvIncDec;   // increase: 1, decrease: -1
     protected boolean verbose; // whether showing info
 
+    protected int[] sortedP;
+
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
+    private final Rational one = new Rational(1);
 
     private static final int EQUAL = 0;   // =
     private static final int GREATER = 1; // >=
     private static final int LESS = 2;    // <=
 
+    private static final String OP_EQUAL = "=";
+    private static final String OP_GREATER = ">";
+    private static final String OP_LESS = "<";
+
     private static final int INCREASE = 1;
     private static final int DECREASE = -1;
+
+    public static LIS arrayReader(long[][][] array) {
+        int nRow, nCol;
+
+        if (array.length == 0) {
+            return null;
+        }
+
+        nRow = array.length;
+
+        if (array[0].length <= 2) {
+            return null;
+        }
+
+        nCol = array[0].length - 2;
+
+        Rational[][] elem = new Rational[nRow][];
+
+        for (int i = 0; i < nRow; i++) {
+            elem[i] = new Rational[nCol];
+        }
+
+        Rational[] b = new Rational[nRow];
+        int[] c = new int[nRow];
+
+        for (int i = 0; i < nRow; i++) {
+            for (int j = 0; j < nCol; j++) {
+                elem[i][j] = Rational.arrayReader(array[i][j]);
+                b[i] = Rational.arrayReader(array[i][nCol]);
+
+                long tmpC = array[i][nCol + 1][0];
+
+                if ((0 <= tmpC) && (tmpC <= 2)) {
+                    c[i] = (int)tmpC;
+                } else {
+                    c[i] = 0;
+                }
+            }
+        }
+
+        Matrix a = new Matrix(elem);
+
+        return new LIS(a, b, c);
+    }
 
     public LIS(Matrix a, Rational[] b, int[] c) {
         this.a = a;
@@ -58,10 +111,128 @@ public class LIS {
                 this.c[i] = 0;
             }
         }
+
+        this.verbose = false;
+        this.sortedP = new int[this.aRow + this.aCol];
     }
 
     public Rational[] getX() {
         return this.x;
+    }
+
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < aRow; i++) {
+            for (int j = 0; j < aCol; j++) {
+                sb.append(a.elem[i][j]);
+                sb.append(" ");
+            }
+
+            switch (c[i]) {
+                case EQUAL:
+                    sb.append(OP_EQUAL);
+                    break;
+                case GREATER:
+                    sb.append(OP_GREATER);
+                    break;
+                case LESS:
+                    sb.append(OP_LESS);
+            }
+
+            sb.append(" ");
+            sb.append(b[i]);
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public void printTable() {
+        System.out.println("[Table]");
+
+        System.out.print("ColNum: ");
+
+        int dRow = d.nRow;
+        int dCol = d.nCol;
+
+        for (int i = 0; i < dCol; i++) {
+            System.out.print(i + " ");
+        }
+
+        System.out.print("\n");
+        System.out.print("ValNum: ");
+
+        for (int i = 0; i < dCol; i++) {
+            System.out.print(d.p[i] + " ");
+        }
+
+        System.out.print("\n");
+        System.out.print("Val:    ");
+
+        for (int i = 0; i < dCol; i++) {
+            System.out.print(x[d.p[i]] + " ");
+        }
+
+        System.out.print("\n");
+
+        for (int i = 0; i < dRow; i++) {
+            System.out.print(i + " : " + d.p[i] + " : ");
+
+            for (int j = 0; j < dCol; j++) {
+                System.out.print(d.elem[i][j] + " ");
+            }
+
+            System.out.print(": " + lb[d.p[i]] + " <= " + x[d.p[i]] + " <= " + ub[d.p[i]]);
+            System.out.print("\n");
+        }
+    }
+
+    public void printBasicVarInfo(int i) {
+        System.out.println("[Basic Variables]");
+
+        int orgCol = d.p[i];
+
+        System.out.println("RowNum: " + i);
+        System.out.println("ValNum: " + orgCol);
+
+        if (bvIncDec == INCREASE) {
+            System.out.println("Value = " + x[orgCol] + " < " + lb[orgCol] + " To be increased");
+        }
+
+        if (bvIncDec == DECREASE) {
+            System.out.println("Value = " + x[orgCol] + " > " + ub[orgCol] + " To be decreased");
+        }
+    }
+
+    public void printNonBasicVarInfo(int i, int bv) {
+        System.out.println("[Non Basic Variables]");
+
+        int orgCol = d.p[i];
+
+        System.out.println("RowNum: " + i);
+        System.out.println("ValNum: " + orgCol);
+
+        if (bvIncDec * nbvIncDec == 1) {
+            System.out.println("[+] Coefficient(" + bv + "," + i + ") = " + d.elem[bv][i] + " > 0");
+        }
+
+        if (bvIncDec * nbvIncDec == -1) {
+            System.out.println("[-] Coefficient(" + bv + "," + i + ") = " + d.elem[bv][i] + " < 0");
+        }
+
+        if (nbvIncDec == INCREASE) {
+            System.out.println("Value = " + x[orgCol] + " < " + ub[orgCol] + " Can Be Increased.");
+        }
+
+        if (nbvIncDec == DECREASE) {
+            System.out.println("Value = " + x[orgCol] + " > " + lb[orgCol] + " Can Be Decreased.");
+        }
     }
 
     public boolean hasValidX() {
@@ -154,21 +325,32 @@ public class LIS {
     protected int findBasicVar() {
         int org;
 
+        sortP();
+
         for (int i = 0; i < aRow; i++) {
-            org = d.p[i];
+            org = sortedP[i];
+            int colNum = d.pInverse(org);
 
             if (x[org].lessThan(lb[org])) {
                 bvIncDec = INCREASE;
                 x[org] = lb[org];
 
-                return i;
+                if (verbose) {
+                    printBasicVarInfo(colNum);
+                }
+
+                return colNum;
             }
 
             if (x[org].greaterThan(ub[org])) {
                 bvIncDec = DECREASE;
                 x[org] = ub[org];
 
-                return i;
+                if (verbose) {
+                    printBasicVarInfo(colNum);
+                }
+
+                return colNum;
             }
         }
 
@@ -177,31 +359,53 @@ public class LIS {
 
     protected int findNonBasicVar(int bv) { // bv is equal to k
         int org;
+        int colNum;
 
         for (int i = aRow; i < aRow + aCol; i++) {
-            org = d.p[i];
+            org = sortedP[i];
+            colNum = d.pInverse(org);
 
             if (bvIncDec == INCREASE) {
-                if (d.elem[bv][i].greaterThan(zero) && x[org].lessThan(ub[org])) {
+                if (d.elem[bv][colNum].greaterThan(zero) && x[org].lessThan(ub[org])) {
                     nbvIncDec = INCREASE;
-                    return i;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(colNum, bv);
+                    }
+
+                    return colNum;
                 }
 
-                if (d.elem[bv][i].lessThan(zero) && x[org].greaterThan(lb[org])) {
+                if (d.elem[bv][colNum].lessThan(zero) && x[org].greaterThan(lb[org])) {
                     nbvIncDec = DECREASE;
-                    return i;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(colNum, bv);
+                    }
+
+                    return colNum;
                 }
             }
 
             if (bvIncDec == DECREASE) {
-                if (d.elem[bv][i].greaterThan(zero) && x[org].greaterThan(lb[org])) {
+                if (d.elem[bv][colNum].greaterThan(zero) && x[org].greaterThan(lb[org])) {
                     nbvIncDec = DECREASE;
-                    return i;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(colNum, bv);
+                    }
+
+                    return colNum;
                 }
 
-                if (d.elem[bv][i].lessThan(zero) && x[org].lessThan(ub[org])) {
+                if (d.elem[bv][colNum].lessThan(zero) && x[org].lessThan(ub[org])) {
                     nbvIncDec = INCREASE;
-                    return i;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(colNum, bv);
+                    }
+
+                    return colNum;
                 }
             }
         }
@@ -212,14 +416,28 @@ public class LIS {
     public int solve() {
         int bv, nbv;
 
+        if (verbose) {
+            printTable();
+        }
+
         while ((bv = findBasicVar()) != -1) {
             if ((nbv = findNonBasicVar(bv)) == -1) {
                 return 0;
             }
 
             h.pivot(bv, nbv);
+
+            if (verbose) {
+                printTable();
+            }
         }
 
         return 1;
+    }
+
+    protected void sortP() {
+        sortedP = Arrays.copyOf(d.p, d.p.length);
+        Arrays.sort(sortedP, 0, aRow);
+        Arrays.sort(sortedP, aRow, aRow + aCol);
     }
 }

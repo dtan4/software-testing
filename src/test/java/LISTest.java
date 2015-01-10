@@ -55,6 +55,7 @@ public class LISTest {
         assertEquals(a, lis.a);
         assertArrayEquals(b, lis.b);
         assertArrayEquals(c, lis.c);
+        assertFalse(lis.verbose);
     }
 
 
@@ -111,6 +112,64 @@ public class LISTest {
     }
 
     // ********************************
+    // arrayReader(array)
+    // ********************************
+
+    // when:   array.length == 0
+    // expect: null
+    @Test
+    public void testArrayReader_empty() {
+        long[][][] array = {};
+        assertNull(LIS.arrayReader(array));
+    }
+
+    // when:   array[0].length <= 2
+    // expect: null
+    @Test
+    public void testArrayReader_empty_2() {
+        long[][][] array = {{{}, {}}};
+        assertNull(LIS.arrayReader(array));
+    }
+
+    // when:   non-empty array
+    // expect: LIS
+    @Test
+    public void testArrayReader() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}, {5, 6}, {0}},
+                {{7, 8}, {9, 10}, {11, 12}, {1}}
+        };
+        LIS lis = LIS.arrayReader(array);
+
+        long[][][] aElem = {
+                {{1, 2}, {3, 4}},
+                {{7, 8}, {9, 10}}
+        };
+        Matrix expectA = Matrix.arrayReader(aElem);
+        Rational[] expectB = {new Rational(5, 6), new Rational(11, 12)};
+        int[] expectC = {0, 1};
+
+        assertEquals(expectA, lis.a);
+        assertArrayEquals(expectB, lis.b);
+        assertArrayEquals(expectC, lis.c);
+    }
+
+    // when:   c[i] is out of range
+    // expect: LIS
+    @Test
+    public void testArrayReader_invalidC() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}, {5, 6}, {0}},
+                {{7, 8}, {9, 10}, {11, 12}, {-1}}
+        };
+        LIS lis = LIS.arrayReader(array);
+
+        int[] expectC = {0, 0};
+
+        assertArrayEquals(expectC, lis.c);
+    }
+
+    // ********************************
     // getX()
     // ********************************
 
@@ -131,6 +190,47 @@ public class LISTest {
         lis.x = x;
 
         assertArrayEquals(x, lis.getX());
+    }
+
+    // ********************************
+    // setVerbose()
+    // ********************************
+
+    // when:
+    // expect: return x
+    @Test
+    public void testSetVerbose() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        lis.setVerbose(true);
+
+        assertTrue(lis.verbose);
+    }
+
+
+    // ********************************
+    // toString()
+    // ********************************
+
+    // when:
+    // expect: string of LIS
+    @Test
+    public void testToString() {
+        long[][][] array = {
+                {{1}, {0}, {-2}, {3}, {0}},
+                {{0}, {1}, {2}, {4}, {1}},
+                {{1}, {0}, {0}, {4}, {2}}
+        };
+        LIS lis = LIS.arrayReader(array);
+
+        assertEquals("1 0 -2 = 3\n0 1 2 > 4\n1 0 0 < 4\n", lis.toString());
     }
 
     // ********************************
@@ -422,6 +522,7 @@ public class LISTest {
         lis.x = x;
         lis.lb = lb;
         lis.ub = ub;
+        lis.sortP();
 
         int result = lis.findNonBasicVar(2);
 
@@ -457,6 +558,7 @@ public class LISTest {
         lis.lb = lb;
         lis.ub = ub;
         lis.bvIncDec = 1;
+        lis.sortP();
 
         int result = lis.findNonBasicVar(0);
 
@@ -498,6 +600,7 @@ public class LISTest {
         lis.lb = lb;
         lis.ub = ub;
         lis.bvIncDec = -1;
+        lis.sortP();
 
         int result = lis.findNonBasicVar(2);
 
@@ -540,15 +643,12 @@ public class LISTest {
     @Test
     public void testSolve_notHaveResult() {
         long[][][] elem = {
-                { { 1 }, { 1 }, { -1 } },
-                { { 1 }, { -1 }, { 1 } },
-                { { -1 }, { 1 }, { 1 } },
-                { { 1 }, { 0 }, { 0 } }
+                { { 1 }, { 1 }, { -1 }, { 1 }, { 1 } },
+                { { 1 }, { -1 }, { 1 }, { 1 }, { 1 } },
+                { { -1 }, { 1 }, { 1 }, { 1 }, { 1 } },
+                { { 1 }, { 0 }, { 0 }, { 0 }, { 2 } }
         };
-        Matrix a = Matrix.arrayReader(elem);
-        Rational[] b = {one, one, one, zero};
-        int[] c = {1, 1, 1, 2};
-        LIS lis = new LIS(a, b, c);
+        LIS lis = LIS.arrayReader(elem);
         lis.transform();
 
         int result = lis.solve();
