@@ -131,7 +131,7 @@ public class LISTest {
     }
 
     // when:   non-empty array
-    // expect: Matrix
+    // expect: LIS
     @Test
     public void testArrayReader() {
         long[][][] array = {
@@ -154,7 +154,7 @@ public class LISTest {
     }
 
     // when:   c[i] is out of range
-    // expect: Matrix
+    // expect: LIS
     @Test
     public void testArrayReader_invalidC() {
         long[][][] array = {
@@ -192,11 +192,11 @@ public class LISTest {
     }
 
     // ********************************
-    // getX()
+    // toString()
     // ********************************
 
     // when:
-    // expect: return x
+    // expect: string of LIS
     @Test
     public void testToString() {
         long[][][] array = {
