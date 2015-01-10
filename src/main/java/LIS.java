@@ -109,10 +109,16 @@ public class LIS {
                 this.c[i] = 0;
             }
         }
+
+        this.verbose = false;
     }
 
     public Rational[] getX() {
         return this.x;
+    }
+
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
     }
 
     @Override

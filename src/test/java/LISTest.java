@@ -55,6 +55,7 @@ public class LISTest {
         assertEquals(a, lis.a);
         assertArrayEquals(b, lis.b);
         assertArrayEquals(c, lis.c);
+        assertFalse(lis.verbose);
     }
 
 
@@ -190,6 +191,29 @@ public class LISTest {
 
         assertArrayEquals(x, lis.getX());
     }
+
+    // ********************************
+    // setVerbose()
+    // ********************************
+
+    // when:
+    // expect: return x
+    @Test
+    public void testSetVerbose() {
+        Matrix a = createMatrix(3, 3);
+        Rational[] b = {
+                new Rational(1),
+                new Rational(2),
+                new Rational(3)
+        };
+        int[] c = {0, 1, 2};
+
+        LIS lis = new LIS(a, b, c);
+        lis.setVerbose(true);
+
+        assertTrue(lis.verbose);
+    }
+
 
     // ********************************
     // toString()
