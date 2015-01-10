@@ -188,6 +188,31 @@ public class LIS {
         }
     }
 
+    public void printNonBasicVarInfo(int i, int bv) {
+        System.out.println("RowNum: " + i);
+        System.out.println("ValNum: " + d.p[i]);
+
+        int orgCol = d.p[i];
+
+        if (bvIncDec * nbvIncDec == 1) {
+            System.out.println("[+] Coefficient(" + bv + "," + i + ") = " + d.elem[bv][i] + " > 0");
+        }
+
+        if (bvIncDec * nbvIncDec == -1) {
+            System.out.println("[-] Coefficient(" + bv + "," + i + ") = " + d.elem[bv][i] + " < 0");
+        }
+
+        if (nbvIncDec == 1) {
+            System.out.println("Value = " + x[orgCol] + " < " + ub[orgCol] + " = UpperBound");
+            System.out.println("[+] Can Be Increased.");
+        }
+
+        if (nbvIncDec == -1) {
+            System.out.println("Value = " + x[orgCol] + " > " + lb[orgCol] + " = LowerBound");
+            System.out.println("[-] Can Be Decreased.");
+        }
+    }
+
     public boolean hasValidX() {
         Rational[] r = a.substVector(x);
         for (int i = 0; i < b.length; i++) {
@@ -316,11 +341,21 @@ public class LIS {
             if (bvIncDec == INCREASE) {
                 if (d.elem[bv][i].greaterThan(zero) && x[org].lessThan(ub[org])) {
                     nbvIncDec = INCREASE;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(i, bv);
+                    }
+
                     return i;
                 }
 
                 if (d.elem[bv][i].lessThan(zero) && x[org].greaterThan(lb[org])) {
                     nbvIncDec = DECREASE;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(i, bv);
+                    }
+
                     return i;
                 }
             }
@@ -328,11 +363,21 @@ public class LIS {
             if (bvIncDec == DECREASE) {
                 if (d.elem[bv][i].greaterThan(zero) && x[org].greaterThan(lb[org])) {
                     nbvIncDec = DECREASE;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(i, bv);
+                    }
+
                     return i;
                 }
 
                 if (d.elem[bv][i].lessThan(zero) && x[org].lessThan(ub[org])) {
                     nbvIncDec = INCREASE;
+
+                    if (verbose) {
+                        printNonBasicVarInfo(i, bv);
+                    }
+
                     return i;
                 }
             }
