@@ -1,5 +1,7 @@
 import com.sun.org.apache.xml.internal.serializer.utils.SystemIDResolver;
 
+import java.util.Arrays;
+
 public class LIS {
     // S = (A, ~b, ~c, ~z)
     protected Matrix a;     // A
@@ -18,6 +20,8 @@ public class LIS {
     protected int bvIncDec;    // increase: 1, decrease: -1
     protected int nbvIncDec;   // increase: 1, decrease: -1
     protected boolean verbose; // whether showing info
+
+    protected int[] sortedP;
 
     private final Rational zero = new Rational(0);
     private final Rational minusOne = new Rational(-1);
@@ -418,5 +422,11 @@ public class LIS {
         }
 
         return 1;
+    }
+
+    protected void sortP() {
+        sortedP = Arrays.copyOf(d.p, d.p.length);
+        Arrays.sort(sortedP, 0, aRow);
+        Arrays.sort(sortedP, aRow, aRow + aCol);
     }
 }
