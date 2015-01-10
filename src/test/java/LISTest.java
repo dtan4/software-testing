@@ -621,15 +621,12 @@ public class LISTest {
     // expect: 1
     @Test
     public void testSolve_haveResult() {
-        long[][][] aElem = {
-                { { 1 }, { 1 } },
-                { { 2 }, { -1 } },
-                { { -1 }, { 2 } }
+        long[][][] elem = {
+                { { 1 }, { 1 } ,{ 2 }, { 1 }},
+                { { 2 }, { -1 }, { 0 }, { 1 } },
+                { { -1 }, { 2 }, { 1 }, { 1 } }
         };
-        Matrix a = Matrix.arrayReader(aElem);
-        Rational[] b = {new Rational(2), zero, one};
-        int[] c = {1, 1, 1};
-        LIS lis = new LIS(a, b, c);
+        LIS lis = LIS.arrayReader(elem);
         lis.transform();
 
         int result = lis.solve();
