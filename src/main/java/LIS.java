@@ -319,29 +319,35 @@ public class LIS {
     protected int findBasicVar() {
         int org;
 
+        sortP();
+
         for (int i = 0; i < aRow; i++) {
-            org = d.p[i];
+            org = sortedP[i];
 
             if (x[org].lessThan(lb[org])) {
                 bvIncDec = INCREASE;
                 x[org] = lb[org];
 
+                int colNum = d.pInverse(org);
+
                 if (verbose) {
-                    printBasicVarInfo(i);
+                    printBasicVarInfo(colNum);
                 }
 
-                return i;
+                return colNum;
             }
 
             if (x[org].greaterThan(ub[org])) {
                 bvIncDec = DECREASE;
                 x[org] = ub[org];
 
+                int colNum = d.pInverse(org);
+
                 if (verbose) {
-                    printBasicVarInfo(i);
+                    printBasicVarInfo(colNum);
                 }
 
-                return i;
+                return colNum;
             }
         }
 
