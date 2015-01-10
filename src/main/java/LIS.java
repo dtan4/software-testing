@@ -155,36 +155,41 @@ public class LIS {
     }
 
     public void printTable() {
-        System.out.print("[Table]");
+        System.out.println("[Table]");
 
         System.out.print("ColNum: ");
 
-        for (int i = 0; i < aCol; i++) {
+        int dRow = d.nRow;
+        int dCol = d.nCol;
+
+        for (int i = 0; i < dCol; i++) {
             System.out.print(i + " ");
         }
 
         System.out.print("\n");
         System.out.print("ValNum: ");
 
-        for (int i = 0; i < aCol; i++) {
+        for (int i = 0; i < dCol; i++) {
             System.out.print(d.p[i] + " ");
         }
 
         System.out.print("\n");
         System.out.print("Val:    ");
 
-        for (int i = 0; i < aCol; i++) {
+        for (int i = 0; i < dCol; i++) {
             System.out.print(x[d.p[i]] + " ");
         }
 
-        for (int i = 0; i < aRow; i++) {
-            System.out.print(i + " " + d.p[i] + " ");
+        System.out.print("\n");
 
-            for (int j = 0; j < aCol; j++) {
+        for (int i = 0; i < dRow; i++) {
+            System.out.print(i + " : " + d.p[i] + " : ");
+
+            for (int j = 0; j < dCol; j++) {
                 System.out.print(d.elem[i][j] + " ");
             }
 
-            System.out.print(lb[d.p[i]] + " <= " + x[d.p[i]] + " <= " + ub[d.p[i]]);
+            System.out.print(": " + lb[d.p[i]] + " <= " + x[d.p[i]] + " <= " + ub[d.p[i]]);
             System.out.print("\n");
         }
     }
