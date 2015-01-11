@@ -236,26 +236,31 @@ public class LIS {
 
     public boolean hasValidX() {
         Rational[] r = a.substVector(x);
+
         for (int i = 0; i < b.length; i++) {
+            System.out.println(c[i]);
+
             switch (c[i])
             {
                 case EQUAL:
                     if (!r[i].equals(b[i])) {
                         return false;
                     }
+
                     break;
                 case GREATER:
                     if (r[i].lessThan(b[i])) {
                         return false;
                     }
+
                     break;
                 case LESS:
                     if (r[i].greaterThan(b[i])) {
                         return false;
                     }
-                    break;
             }
         }
+
         return true;
     }
 

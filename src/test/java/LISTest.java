@@ -235,16 +235,16 @@ public class LISTest {
                 { { -1 }, { 2 }, { 1 }, { 1 } }
         };
         LIS lis = LIS.arrayReader(elem);
-        Rational[] x = {new Rational(1), new Rational(2)};
+        Rational[] x = {one, new Rational(2)};
         lis.x = x;
 
         assertTrue(lis.hasValidX());
     }
 
-    // when:   x is invalid
+    // when:   x is less
     // expect: false
     @Test
-    public void testHasValidX_invalidX() {
+    public void testHasValidX_lessX() {
         long[][][] elem = {
                 { { 1 }, { 1 } ,{ 2 }, { 1 }},
                 { { 2 }, { -1 }, { 0 }, { 1 } },
@@ -252,6 +252,38 @@ public class LISTest {
         };
         LIS lis = LIS.arrayReader(elem);
         Rational[] x = {zero, zero};
+        lis.x = x;
+
+        assertFalse(lis.hasValidX());
+    }
+
+    // when:   x is greater
+    // expect: false
+    @Test
+    public void testHasValidX_greaterX() {
+        long[][][] elem = {
+                { { 1 }, { 1 } ,{ 2 }, { 2 }},
+                { { 2 }, { -1 }, { 0 }, { 1 } },
+                { { -1 }, { 2 }, { 1 }, { 1 } }
+        };
+        LIS lis = LIS.arrayReader(elem);
+        Rational[] x = {new Rational(2), new Rational(2)};
+        lis.x = x;
+
+        assertFalse(lis.hasValidX());
+    }
+
+    // when:   x is not equal
+    // expect: false
+    @Test
+    public void testHasValidX_notEqualX() {
+        long[][][] elem = {
+                { { 1 }, { 1 } ,{ 2 }, { 0 }},
+                { { 2 }, { -1 }, { 0 }, { 1 } },
+                { { -1 }, { 2 }, { 1 }, { 1 } }
+        };
+        LIS lis = LIS.arrayReader(elem);
+        Rational[] x = {one, new Rational(2)};
         lis.x = x;
 
         assertFalse(lis.hasValidX());
@@ -329,9 +361,9 @@ public class LISTest {
     @Test
     public void testMakeRestriction() {
         long[][][] elem = {
-                { { 1 }, { 1 } ,{ 2 }, { 1 }},
+                { { 1 }, { 1 } ,{ 2 }, { 0 }},
                 { { 2 }, { -1 }, { 0 }, { 1 } },
-                { { -1 }, { 2 }, { 1 }, { 1 } }
+                { { -1 }, { 2 }, { 1 }, { 2 } }
         };
         LIS lis = LIS.arrayReader(elem);
         long[][][] dElem = {
@@ -345,9 +377,9 @@ public class LISTest {
         lis.makeRestriction();
 
         Rational[] expectLb =
-                {negativeInfinity, negativeInfinity, new Rational(2), zero, one};
+                {negativeInfinity, negativeInfinity, new Rational(2), zero, negativeInfinity};
         Rational[] expectUb =
-                {positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity, positiveInfinity};
+                {positiveInfinity, positiveInfinity, new Rational(2), positiveInfinity, one};
 
         assertArrayEquals(expectLb, lis.lb);
         assertArrayEquals(expectUb, lis.ub);
