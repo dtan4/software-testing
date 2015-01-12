@@ -26,7 +26,7 @@ public class LIS {
 
     private static final int EQUAL   = 0; // ==
     private static final int GREATER = 1; // >=
-    private static final int LESS    = 2;  // <=
+    private static final int LESS    = 2; // <=
 
     private static final String OP_EQUAL   = "==";
     private static final String OP_GREATER = ">";

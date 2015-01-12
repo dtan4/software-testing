@@ -218,7 +218,7 @@ public class LISTest {
         };
         LIS lis = LIS.arrayReader(array);
 
-        assertEquals("1 0 -2 = 3\n0 1 2 > 4\n1 0 0 < 4\n", lis.toString());
+        assertEquals("1 0 -2 == 3\n0 1 2 > 4\n1 0 0 < 4\n", lis.toString());
     }
 
     // ********************************
