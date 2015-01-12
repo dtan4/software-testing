@@ -238,8 +238,6 @@ public class LIS {
         Rational[] r = a.substVector(x);
 
         for (int i = 0; i < b.length; i++) {
-            System.out.println(c[i]);
-
             switch (c[i])
             {
                 case EQUAL:
