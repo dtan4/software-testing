@@ -21,16 +21,16 @@ public class LIS {
 
     protected int[] sortedP;
 
-    private final Rational zero = new Rational(0);
+    private final Rational zero     = new Rational(0);
     private final Rational minusOne = new Rational(-1);
 
-    private static final int EQUAL = 0;   // =
+    private static final int EQUAL   = 0; // ==
     private static final int GREATER = 1; // >=
-    private static final int LESS = 2;    // <=
+    private static final int LESS    = 2;  // <=
 
-    private static final String OP_EQUAL = "=";
+    private static final String OP_EQUAL   = "==";
     private static final String OP_GREATER = ">";
-    private static final String OP_LESS = "<";
+    private static final String OP_LESS    = "<";
 
     private static final int INCREASE = 1;
     private static final int DECREASE = -1;
