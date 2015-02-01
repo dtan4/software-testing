@@ -298,9 +298,7 @@ public class Matrix {
     }
 
     public void upperTriangular() {
-        if (!isEchelonForm()) {
-            return;
-        }
+        assert isEchelonForm();
 
         int[] sigma = new int[nCol];
         int cRank = 0;

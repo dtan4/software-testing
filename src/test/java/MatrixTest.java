@@ -1,3 +1,4 @@
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -656,6 +657,28 @@ public class MatrixTest {
         assertEquals(1, matrix.getP()[0]);
         assertEquals(0, matrix.getP()[1]);
     }
+
+    // ********************************
+    // upperTriangular()
+    // ********************************
+
+    // when:
+    // expect: make upperTriangular
+    @Test
+    @Ignore
+    public void testUpperTriangular() {
+        long[][][] array = {
+                {{1, 1}, {2, 1}, {3, 1}},
+                {{4, 1}, {5, 1}, {6, 1}},
+                {{7, 1}, {8, 1}, {9, 1}},
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        matrix.echelonForm();
+        matrix.upperTriangular();
+
+        assertTrue(matrix.isUpperTriangular());
+    }
+
 
     // ********************************
     // eliminate(row, col)
