@@ -679,6 +679,27 @@ public class MatrixTest {
         assertTrue(matrix.isUpperTriangular());
     }
 
+    // ********************************
+    // leftIdentity()
+    // ********************************
+
+    // when:
+    // expect: make leftIdentity
+    @Test
+    @Ignore
+    public void testLeftIdentity() {
+        long[][][] array = {
+                {{1, 1}, {2, 1}, {3, 1}},
+                {{4, 1}, {5, 1}, {6, 1}},
+                {{7, 1}, {8, 1}, {9, 1}},
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        matrix.echelonForm();
+        matrix.upperTriangular();
+        matrix.leftIdentity();
+
+        assertTrue(matrix.isLeftIdentity());
+    }
 
     // ********************************
     // eliminate(row, col)
