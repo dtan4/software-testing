@@ -270,7 +270,9 @@ public class Matrix {
     }
 
     public void exchangeCol(int[] sigma) {
-        assert isPermutation(sigma);
+        if (!isPermutation(sigma)) {
+            return;
+        }
 
         Rational[][] elem = new Rational[nRow][];
         int[] p = new int[nCol];
@@ -287,6 +289,29 @@ public class Matrix {
 
         this.elem = elem;
         this.p = p;
+    }
+
+    public void upperTriangular() {
+        if (!isEchelonForm()) {
+            return;
+        }
+
+        int[] sigma = new int[nCol];
+        int cRank = 0;
+        int nzc = nonZeroColumn(cRank);
+
+        for (int i = 0; i < nCol; i++) {
+            if (i == nzc) {
+                sigma[i] = cRank;
+                cRank++;
+
+                if (cRank < rank) {
+                    nzc = nonZeroColumn(cRank);
+                }
+            } else {
+                sigma[i] = i - cRank + rank;
+            }
+        }
     }
 
     public void eliminate(int row, int col) {
