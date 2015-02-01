@@ -291,6 +291,16 @@ public class Matrix {
         this.p = p;
     }
 
+    public boolean isUpperTriangular() {
+        for (int i = 0; i < nRow; i++) {
+            if (nonZeroColumn(i) != i) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void upperTriangular() {
         if (!isEchelonForm()) {
             return;
