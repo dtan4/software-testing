@@ -83,7 +83,7 @@ public class Matrix {
             return false;
         }
 
-        Matrix m = (Matrix)o;
+        Matrix m = (Matrix) o;
 
         if ((nRow != m.getNRow()) || (nCol != m.getNCol())) {
             return false;
@@ -110,7 +110,7 @@ public class Matrix {
             elem[i] = new Rational[nCol];
 
             for (int j = 0; j < nCol; j++) {
-                elem[i][j] = (Rational)this.elem[i][j].clone();
+                elem[i][j] = (Rational) this.elem[i][j].clone();
             }
         }
 
@@ -199,7 +199,7 @@ public class Matrix {
         }
 
         return new Matrix(leftUpperElem);
-     }
+    }
 
     public void replace(int row, int col, Matrix m) {
         if (!(isInRowRange(row) && isInColumnRange(col))) {
@@ -287,7 +287,7 @@ public class Matrix {
     }
 
     protected int nonZeroColumn(int row) {
-        assert(isInRowRange(row));
+        assert (isInRowRange(row));
 
         for (int colIndex = 0; colIndex < nCol; colIndex++) {
             if (!elem[row][colIndex].equals(zero)) {
@@ -382,5 +382,27 @@ public class Matrix {
         }
 
         return -1;
+    }
+
+    protected boolean isPermutation(int sigma[]) {
+        if (sigma.length != nCol) {
+            return false;
+        }
+
+        int[] check = new int[nCol];
+
+        for (int i = 0; i < nCol; i++) {
+            if ((sigma[i] < 0) || (nCol - 1 < sigma[i])) {
+                return false;
+            }
+
+            if (check[sigma[i]] == 0) {
+                check[sigma[i]] = 1;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
