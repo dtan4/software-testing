@@ -3,6 +3,7 @@ public class Matrix {
     protected int[] p;
     protected int nRow;
     protected int nCol;
+    protected int rank;
     protected final Rational minusOne = new Rational(-1);
     protected final Rational zero = new Rational(0);
 
