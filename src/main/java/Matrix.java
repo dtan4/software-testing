@@ -269,6 +269,26 @@ public class Matrix {
         p[col2] = tmpP;
     }
 
+    public void exchangeCol(int[] sigma) {
+        assert isPermutation(sigma);
+
+        Rational[][] elem = new Rational[nRow][];
+        int[] p = new int[nCol];
+
+        for (int i = 0; i < nRow; i++) {
+            elem[i] = new Rational[nCol];
+
+            for (int j = 0; j < nCol; j++) {
+                elem[i][j] = this.elem[sigma[i]][j];
+            }
+
+            p[i] = this.p[sigma[i]];
+        }
+
+        this.elem = elem;
+        this.p = p;
+    }
+
     public void eliminate(int row, int col) {
         if (!(isInRowRange(row) && isInColumnRange(col))) {
             return;
@@ -396,11 +416,11 @@ public class Matrix {
                 return false;
             }
 
-            if (check[sigma[i]] == 0) {
-                check[sigma[i]] = 1;
-            } else {
+            if (check[sigma[i]] == 1) {
                 return false;
             }
+
+            check[sigma[i]] = 1;
         }
 
         return true;
