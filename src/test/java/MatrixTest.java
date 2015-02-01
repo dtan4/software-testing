@@ -638,6 +638,25 @@ public class MatrixTest {
         assertEquals(1, matrix.getP()[1]);
     }
 
+    // when:   sigma is given
+    // expect: exchange col
+    @Test
+    public void testExchangeCol_sigma() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}},
+                {{5, 6}, {7, 8}},
+                {{1, 3}, {5, 7}}
+        };
+        int[] sigma = {1, 0};
+        Matrix matrix = Matrix.arrayReader(array);
+        matrix.exchangeCol(sigma);
+
+        assertEquals(new Rational(3, 4), matrix.getElem()[0][0]);
+        assertEquals(new Rational(1, 2), matrix.getElem()[0][1]);
+        assertEquals(1, matrix.getP()[0]);
+        assertEquals(0, matrix.getP()[1]);
+    }
+
     // ********************************
     // eliminate(row, col)
     // ********************************

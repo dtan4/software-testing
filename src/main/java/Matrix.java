@@ -270,21 +270,17 @@ public class Matrix {
     }
 
     public void exchangeCol(int[] sigma) {
-        if (!isPermutation(sigma)) {
-            return;
-        }
+        assert isPermutation(sigma);
 
-        Rational[][] elem = new Rational[nRow][];
+        Rational[][] elem = new Rational[nRow][nCol];
         int[] p = new int[nCol];
 
-        for (int i = 0; i < nRow; i++) {
-            elem[i] = new Rational[nCol];
-
-            for (int j = 0; j < nCol; j++) {
-                elem[i][j] = this.elem[sigma[i]][j];
+        for (int j = 0; j < nCol; j++) {
+            for (int i = 0; i < nRow; i++) {
+                elem[i][j] = this.elem[i][sigma[j]];
             }
 
-            p[i] = this.p[sigma[i]];
+            p[j] = this.p[sigma[j]];
         }
 
         this.elem = elem;
