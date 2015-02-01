@@ -324,6 +324,16 @@ public class Matrix {
         }
     }
 
+    public void leftIdentity() {
+        if (!isUpperTriangular()) {
+            return;
+        }
+
+        for (int i = 0; i < nRow; i++) {
+            eliminate(i, i);
+        }
+    }
+
     public void eliminate(int row, int col) {
         if (!(isInRowRange(row) && isInColumnRange(col))) {
             return;
