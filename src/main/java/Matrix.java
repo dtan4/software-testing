@@ -4,8 +4,9 @@ public class Matrix {
     protected int nRow;
     protected int nCol;
     protected int rank;
-    protected final Rational minusOne = new Rational(-1);
-    protected final Rational zero = new Rational(0);
+    protected static final Rational minusOne = new Rational(-1);
+    protected static final Rational zero = new Rational(0);
+    protected static final Rational one = new Rational(1);
 
     public Matrix(Rational[][] elem) {
         this.elem = elem;
@@ -483,5 +484,40 @@ public class Matrix {
         }
 
         return new Matrix(resultElem);
+    }
+
+    public Matrix inverse() {
+        if (nRow != nCol) {
+            return null;
+        }
+
+        Rational[][] resultElem = new Rational[nRow][nCol];
+
+        for (int j = 0; j < nCol; j++) {
+            Rational[] eVector = identityColumnVector(j);
+            LES les = new LES(this, eVector);
+
+            if (les.solve() == 0) {
+                return null;
+            }
+
+            Rational[] x = les.x;
+
+            for (int i = 0; i < nRow; i++) {
+                resultElem[i][j] = x[i];
+            }
+        }
+
+        return new Matrix(resultElem);
+    }
+
+    private Rational[] identityColumnVector(int col) {
+        Rational[] result = new Rational[nRow];
+
+        for (int i = 0; i < nRow; i++) {
+            result[i] = (i == col) ? one : zero;
+        }
+
+        return result;
     }
 }

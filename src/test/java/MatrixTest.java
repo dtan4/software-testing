@@ -953,4 +953,41 @@ public class MatrixTest {
 
         assertNull(result);
     }
+
+    // ********************************
+    // inverse()
+    // ********************************
+
+    // when:   matrix is square
+    // expect: inversed matrix
+    @Test
+    public void testInverse_valid() {
+        long[][][] array = {
+                {{1}, {2}},
+                {{2}, {1}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        Matrix result = matrix.inverse();
+
+        assertNotNull(result);
+        Rational[][] actualElem = result.elem;
+        assertEquals(new Rational(-1, 3), actualElem[0][0]);
+        assertEquals(new Rational(2, 3), actualElem[0][1]);
+        assertEquals(new Rational(2, 3), actualElem[1][0]);
+        assertEquals(new Rational(-1, 3), actualElem[1][1]);
+    }
+
+    // when:   matrix is not square
+    // expect: null
+    @Test
+    public void testInverse_invalid() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        Matrix result = matrix.inverse();
+
+        assertNull(result);
+    }
 }
