@@ -155,16 +155,12 @@ public class Matrix {
         return result;
     }
 
-    private boolean isInRowRange(int row) {
-        return (0 <= row) && (row < nRow);
-    }
-
-    private boolean isInColumnRange(int col) {
-        return (0 <= col) && (col < nCol);
+    private boolean isInRange(int lower, int value, int upper) {
+        return (lower <= value) && (value <= upper);
     }
 
     public Matrix rightLower(int row, int col) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(0, row, nRow - 1) && isInRange(0, col, nCol - 1))) {
             return null;
         }
 
@@ -184,7 +180,7 @@ public class Matrix {
     }
 
     public Matrix leftUpper(int row, int col) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(1, row, nRow) && isInRange(1, col, nCol))) {
             return null;
         }
 
@@ -202,7 +198,7 @@ public class Matrix {
     }
 
     public void replace(int row, int col, Matrix m) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(0, row, nRow - 1) && isInRange(0, col, nCol - 1))) {
             return;
         }
 
@@ -224,7 +220,7 @@ public class Matrix {
     }
 
     public void multiplyRow(int row, Rational r) {
-        if (!isInRowRange(row)) {
+        if (!isInRange(0, row, nRow - 1)) {
             return;
         }
 
@@ -234,7 +230,7 @@ public class Matrix {
     }
 
     public void addMultipliedRow(int row1, Rational r, int row2) {
-        if (!(isInRowRange(row1) && isInRowRange(row2))) {
+        if (!(isInRange(0, row1, nRow - 1) && isInRange(0, row2, nRow - 1))) {
             return;
         }
 
@@ -244,7 +240,7 @@ public class Matrix {
     }
 
     public void exchangeRow(int row1, int row2) {
-        if (!(isInRowRange(row1) && isInRowRange(row2))) {
+        if (!(isInRange(0, row1, nRow - 1) && isInRange(0, row2, nRow - 1))) {
             return;
         }
 
@@ -254,7 +250,7 @@ public class Matrix {
     }
 
     public void exchangeCol(int col1, int col2) {
-        if (!(isInColumnRange(col1) && isInColumnRange(col2))) {
+        if (!(isInRange(0, col1, nCol - 1) && isInRange(0, col2, nCol - 1))) {
             return;
         }
 
@@ -329,7 +325,7 @@ public class Matrix {
     }
 
     public void eliminate(int row, int col) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(0, row, nRow - 1) && isInRange(0, col, nCol - 1))) {
             return;
         }
 
@@ -346,7 +342,7 @@ public class Matrix {
     }
 
     protected int nonZeroColumn(int row) {
-        assert (isInRowRange(row));
+        assert (isInRange(0, row, nRow - 1));
 
         for (int colIndex = 0; colIndex < nCol; colIndex++) {
             if (!elem[row][colIndex].equals(zero)) {

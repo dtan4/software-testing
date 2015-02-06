@@ -362,7 +362,7 @@ public class MatrixTest {
                         {{5, 6}, {7, 8}}
         };
         Matrix matrix = Matrix.arrayReader(array);
-        Matrix leftUpper = matrix.leftUpper(1, 2);
+        Matrix leftUpper = matrix.leftUpper(0, 2);
 
         assertNull(leftUpper);
     }
