@@ -1,3 +1,4 @@
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -347,9 +348,8 @@ public class MatrixTest {
         Matrix matrix = Matrix.arrayReader(array);
         Matrix leftUpper = matrix.leftUpper(1, 1);
 
-        assertEquals(2, leftUpper.getNRow());
+        assertEquals(1, leftUpper.getNRow());
         assertEquals(new Rational(1, 2), leftUpper.getElem()[0][0]);
-        assertEquals(new Rational(7, 8), leftUpper.getElem()[1][1]);
     }
 
     // when:   row and col are out of range
@@ -361,7 +361,7 @@ public class MatrixTest {
                         {{5, 6}, {7, 8}}
         };
         Matrix matrix = Matrix.arrayReader(array);
-        Matrix leftUpper = matrix.leftUpper(1, 2);
+        Matrix leftUpper = matrix.leftUpper(0, 2);
 
         assertNull(leftUpper);
     }
@@ -636,6 +636,64 @@ public class MatrixTest {
         assertEquals(new Rational(3, 4), matrix.getElem()[0][1]);
         assertEquals(0, matrix.getP()[0]);
         assertEquals(1, matrix.getP()[1]);
+    }
+
+    // when:   sigma is given
+    // expect: exchange col
+    @Test
+    public void testExchangeCol_sigma() {
+        long[][][] array = {
+                {{1, 2}, {3, 4}},
+                {{5, 6}, {7, 8}},
+                {{1, 3}, {5, 7}}
+        };
+        int[] sigma = {1, 0};
+        Matrix matrix = Matrix.arrayReader(array);
+        matrix.exchangeCol(sigma);
+
+        assertEquals(new Rational(3, 4), matrix.getElem()[0][0]);
+        assertEquals(new Rational(1, 2), matrix.getElem()[0][1]);
+        assertEquals(1, matrix.getP()[0]);
+        assertEquals(0, matrix.getP()[1]);
+    }
+
+    // ********************************
+    // upperTriangular()
+    // ********************************
+
+    // when:
+    // expect: make upperTriangular
+    @Test
+    public void testUpperTriangular() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        matrix.echelonForm();
+        matrix.upperTriangular();
+
+        assertTrue(matrix.isUpperTriangular());
+    }
+
+    // ********************************
+    // leftIdentity()
+    // ********************************
+
+    // when:
+    // expect: make leftIdentity
+    @Test
+    public void testLeftIdentity() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        matrix.echelonForm();
+        matrix.upperTriangular();
+        matrix.leftIdentity();
+
+        assertTrue(matrix.isLeftIdentity());
     }
 
     // ********************************

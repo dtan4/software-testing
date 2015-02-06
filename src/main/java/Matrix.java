@@ -3,6 +3,7 @@ public class Matrix {
     protected int[] p;
     protected int nRow;
     protected int nCol;
+    protected int rank;
     protected final Rational minusOne = new Rational(-1);
     protected final Rational zero = new Rational(0);
 
@@ -82,7 +83,7 @@ public class Matrix {
             return false;
         }
 
-        Matrix m = (Matrix)o;
+        Matrix m = (Matrix) o;
 
         if ((nRow != m.getNRow()) || (nCol != m.getNCol())) {
             return false;
@@ -109,7 +110,7 @@ public class Matrix {
             elem[i] = new Rational[nCol];
 
             for (int j = 0; j < nCol; j++) {
-                elem[i][j] = (Rational)this.elem[i][j].clone();
+                elem[i][j] = (Rational) this.elem[i][j].clone();
             }
         }
 
@@ -154,16 +155,12 @@ public class Matrix {
         return result;
     }
 
-    private boolean isInRowRange(int row) {
-        return (0 <= row) && (row < nRow);
-    }
-
-    private boolean isInColumnRange(int col) {
-        return (0 <= col) && (col < nCol);
+    private boolean isInRange(int lower, int value, int upper) {
+        return (lower <= value) && (value <= upper);
     }
 
     public Matrix rightLower(int row, int col) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(0, row, nRow - 1) && isInRange(0, col, nCol - 1))) {
             return null;
         }
 
@@ -183,25 +180,25 @@ public class Matrix {
     }
 
     public Matrix leftUpper(int row, int col) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(1, row, nRow) && isInRange(1, col, nCol))) {
             return null;
         }
 
-        Rational[][] leftUpperElem = new Rational[row + 1][];
+        Rational[][] leftUpperElem = new Rational[row][];
 
-        for (int i = 0; i <= row; i++) {
-            leftUpperElem[i] = new Rational[col + 1];
+        for (int i = 0; i < row; i++) {
+            leftUpperElem[i] = new Rational[col];
 
-            for (int j = 0; j <= col; j++) {
+            for (int j = 0; j < col; j++) {
                 leftUpperElem[i][j] = elem[i][j];
             }
         }
 
         return new Matrix(leftUpperElem);
-     }
+    }
 
     public void replace(int row, int col, Matrix m) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(0, row, nRow - 1) && isInRange(0, col, nCol - 1))) {
             return;
         }
 
@@ -223,7 +220,7 @@ public class Matrix {
     }
 
     public void multiplyRow(int row, Rational r) {
-        if (!isInRowRange(row)) {
+        if (!isInRange(0, row, nRow - 1)) {
             return;
         }
 
@@ -233,7 +230,7 @@ public class Matrix {
     }
 
     public void addMultipliedRow(int row1, Rational r, int row2) {
-        if (!(isInRowRange(row1) && isInRowRange(row2))) {
+        if (!(isInRange(0, row1, nRow - 1) && isInRange(0, row2, nRow - 1))) {
             return;
         }
 
@@ -243,7 +240,7 @@ public class Matrix {
     }
 
     public void exchangeRow(int row1, int row2) {
-        if (!(isInRowRange(row1) && isInRowRange(row2))) {
+        if (!(isInRange(0, row1, nRow - 1) && isInRange(0, row2, nRow - 1))) {
             return;
         }
 
@@ -253,7 +250,7 @@ public class Matrix {
     }
 
     public void exchangeCol(int col1, int col2) {
-        if (!(isInColumnRange(col1) && isInColumnRange(col2))) {
+        if (!(isInRange(0, col1, nCol - 1) && isInRange(0, col2, nCol - 1))) {
             return;
         }
 
@@ -268,8 +265,67 @@ public class Matrix {
         p[col2] = tmpP;
     }
 
+    public void exchangeCol(int[] sigma) {
+        assert isPermutation(sigma);
+
+        Rational[][] elem = new Rational[nRow][nCol];
+        int[] p = new int[nCol];
+
+        for (int j = 0; j < nCol; j++) {
+            for (int i = 0; i < nRow; i++) {
+                elem[i][j] = this.elem[i][sigma[j]];
+            }
+
+            p[j] = this.p[sigma[j]];
+        }
+
+        this.elem = elem;
+        this.p = p;
+    }
+
+    public boolean isUpperTriangular() {
+        for (int i = 0; i < nRow; i++) {
+            if (nonZeroColumn(i) != i) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void upperTriangular() {
+        assert isEchelonForm();
+
+        int[] sigma = new int[nCol];
+        int cRank = 0;
+        int nzc = nonZeroColumn(cRank);
+
+        for (int i = 0; i < nCol; i++) {
+            if (i == nzc) {
+                sigma[i] = cRank;
+                cRank++;
+
+                if (cRank < rank) {
+                    nzc = nonZeroColumn(cRank);
+                }
+            } else {
+                sigma[i] = i - cRank + rank;
+            }
+        }
+    }
+
+    public void leftIdentity() {
+        if (!isUpperTriangular()) {
+            return;
+        }
+
+        for (int i = 0; i < nRow; i++) {
+            eliminate(i, i);
+        }
+    }
+
     public void eliminate(int row, int col) {
-        if (!(isInRowRange(row) && isInColumnRange(col))) {
+        if (!(isInRange(0, row, nRow - 1) && isInRange(0, col, nCol - 1))) {
             return;
         }
 
@@ -286,7 +342,7 @@ public class Matrix {
     }
 
     protected int nonZeroColumn(int row) {
-        assert(isInRowRange(row));
+        assert (isInRange(0, row, nRow - 1));
 
         for (int colIndex = 0; colIndex < nCol; colIndex++) {
             if (!elem[row][colIndex].equals(zero)) {
@@ -331,23 +387,27 @@ public class Matrix {
             }
 
             if (nCol == 1) {
+                rank = 0;
                 return;
             }
 
             Matrix rightLower = rightLower(0, 1);
             rightLower.echelonForm();
             replace(0, 1, rightLower);
+            rank = rightLower.rank;
 
         } else {
             eliminate(0, 0);
 
             if ((nRow == 1) || (nCol == 1)) {
+                rank = 1;
                 return;
             }
 
             Matrix rightLower = rightLower(1, 1);
             rightLower.echelonForm();
             replace(1, 1, rightLower);
+            rank = rightLower.rank + 1;
         }
     }
 
@@ -381,5 +441,27 @@ public class Matrix {
         }
 
         return -1;
+    }
+
+    protected boolean isPermutation(int sigma[]) {
+        if (sigma.length != nCol) {
+            return false;
+        }
+
+        int[] check = new int[nCol];
+
+        for (int i = 0; i < nCol; i++) {
+            if ((sigma[i] < 0) || (nCol - 1 < sigma[i])) {
+                return false;
+            }
+
+            if (check[sigma[i]] == 1) {
+                return false;
+            }
+
+            check[sigma[i]] = 1;
+        }
+
+        return true;
     }
 }
