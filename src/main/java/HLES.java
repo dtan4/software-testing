@@ -88,4 +88,25 @@ public class HLES {
     private boolean isInRange(int min, int max, int n) {
         return (min <= n) && (n <= max);
     }
+
+    public int solve() {
+        d.echelonForm();
+
+        if (d.rank == d.nCol) {
+            return 0;
+        }
+
+        int dRank = d.rank;
+        d = d.leftUpper(d.rank, d.nCol);
+        d.rank = dRank;
+
+        d.upperTriangular();
+        d.leftIdentity();
+
+        Matrix a = d.rightLower(0, d.nRow);
+        setZ(one);
+        setY(a.substVector(getZ()));
+
+        return 1;
+    }
 }

@@ -251,4 +251,42 @@ public class HLESTest {
 
         assertEquals(-1, hles.pivot(0, 1));
     }
+
+    // ********************************
+    // solve()
+    // ********************************
+
+    // when:   d's rank is equal to number of columns
+    // expect: return 0
+
+    @Test
+    public void testSetY_0() {
+        long[][][] elem = {
+                { { -1 }, { 0 } },
+                { { 0 }, { -1 } }
+        };
+        Matrix matrix = Matrix.arrayReader(elem);
+        HLES hles = new HLES(matrix);
+
+        int result = hles.solve();
+        assertEquals(0, result);
+        assertTrue(hles.hasValidX());
+    }
+
+    // when:   d's rank is not equal to number of columns
+    // expect: return 1
+
+    @Test
+    public void testSetY_1() {
+        long[][][] elem = {
+                { { -1 }, { 0 }, { 1 } },
+                { { 0 }, { -1 }, { 1 } }
+        };
+        Matrix matrix = Matrix.arrayReader(elem);
+        HLES hles = new HLES(matrix);
+
+        int result = hles.solve();
+        assertEquals(1, result);
+        assertTrue(hles.hasValidX());
+    }
 }
