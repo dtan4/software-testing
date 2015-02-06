@@ -50,6 +50,12 @@ public class HLES {
         return z;
     }
 
+    protected void setZ(Rational r) {
+        for (int i = d.nRow; i < d.nCol; i++) {
+            x[d.p[i]] = r;
+        }
+    }
+
     protected void setY(Rational[] y) {
         assert y.length == d.nRow;
 
