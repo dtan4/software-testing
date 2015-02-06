@@ -697,6 +697,53 @@ public class MatrixTest {
     }
 
     // ********************************
+    // pInverse(var)
+    // ********************************
+
+    // when:   var matches a certain p's element
+    // expect: matched p's element
+    @Test
+    public void testPInverse() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        int[] p = {0, 1, 2};
+        matrix.p = p;
+
+        assertEquals(1, matrix.pInverse(1));
+    }
+
+    // when:   var does not match any p's element
+    // expect: -1
+    @Test
+    public void testPInverse_notMatch() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        int[] p = {0, 1, 1};
+        matrix.p = p;
+
+        assertEquals(-1, matrix.pInverse(2));
+    }
+
+    // when:   var is out of range
+    // expect: -1
+    @Test
+    public void testPInverse_outOfRange() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+
+        assertEquals(-1, matrix.pInverse(-1));
+    }
+
+    // ********************************
     // eliminate(row, col)
     // ********************************
 
@@ -980,10 +1027,24 @@ public class MatrixTest {
     // when:   matrix is not square
     // expect: null
     @Test
-    public void testInverse_invalid() {
+    public void testInverse_notSquare() {
         long[][][] array = {
                 {{-1}, {0}, {1}},
                 {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        Matrix result = matrix.inverse();
+
+        assertNull(result);
+    }
+
+    // when:   invalid square matrix
+    // expect: null
+    @Test
+    public void testInverse_invalid() {
+        long[][][] array = {
+                {{-1}, {0}},
+                {{0}, {0}}
         };
         Matrix matrix = Matrix.arrayReader(array);
         Matrix result = matrix.inverse();
