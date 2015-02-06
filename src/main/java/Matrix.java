@@ -296,20 +296,20 @@ public class Matrix {
     public void upperTriangular() {
         assert isEchelonForm();
 
-        int[] sigma = new int[nCol];
+        int[] inverseSigma = new int[nCol];
         int cRank = 0;
         int nzc = nonZeroColumn(cRank);
 
         for (int i = 0; i < nCol; i++) {
             if (i == nzc) {
-                sigma[i] = cRank;
+                inverseSigma[cRank] = i;
                 cRank++;
 
                 if (cRank < rank) {
                     nzc = nonZeroColumn(cRank);
                 }
             } else {
-                sigma[i] = i - cRank + rank;
+                inverseSigma[i - cRank + rank] = i;
             }
         }
     }
