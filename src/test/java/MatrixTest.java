@@ -664,12 +664,10 @@ public class MatrixTest {
     // when:
     // expect: make upperTriangular
     @Test
-    @Ignore
     public void testUpperTriangular() {
         long[][][] array = {
-                {{1, 1}, {2, 1}, {3, 1}},
-                {{4, 1}, {5, 1}, {6, 1}},
-                {{7, 1}, {8, 1}, {9, 1}},
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
         };
         Matrix matrix = Matrix.arrayReader(array);
         matrix.echelonForm();
@@ -685,12 +683,10 @@ public class MatrixTest {
     // when:
     // expect: make leftIdentity
     @Test
-    @Ignore
     public void testLeftIdentity() {
         long[][][] array = {
-                {{1, 1}, {2, 1}, {3, 1}},
-                {{4, 1}, {5, 1}, {6, 1}},
-                {{7, 1}, {8, 1}, {9, 1}},
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
         };
         Matrix matrix = Matrix.arrayReader(array);
         matrix.echelonForm();
