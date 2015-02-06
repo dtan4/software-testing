@@ -312,6 +312,8 @@ public class Matrix {
                 inverseSigma[i - cRank + rank] = i;
             }
         }
+
+        this.exchangeCol(inverseSigma);
     }
 
     public void leftIdentity() {
