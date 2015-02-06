@@ -13,11 +13,7 @@ public class LES {
     public boolean hasValidX() {
         Rational[] substVector = a.substVector(x);
 
-        for (int i = 0; i < substVector.length; i++) {
-            if (i >= a.nCol) {
-                return true;
-            }
-
+        for (int i = 0; i < a.nRow; i++) {
             if (!substVector[i].equals(b[i])) {
                 return false;
             }
@@ -38,10 +34,6 @@ public class LES {
         h.solve();
         x = h.getX();
 
-        if (x[d.nCol - 1].equals(ZERO)) {
-            return 0;
-        }
-
-        return 1;
+        return x[d.nCol - 1].equals(ZERO) ? 0 : 1;
     }
 }

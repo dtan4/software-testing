@@ -26,6 +26,7 @@ public class LESTest {
         LES les = new LES(a, b);
 
         assertEquals(1, les.solve());
+        assertTrue(les.hasValidX());
     }
 
     // when:   matrix has NO solution
@@ -47,7 +48,7 @@ public class LESTest {
         };
         LES les = new LES(a, b);
 
-        assertEquals(1, les.solve());
+        assertEquals(0, les.solve());
+        assertFalse(les.hasValidX());
     }
-
 }
