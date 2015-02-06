@@ -915,4 +915,42 @@ public class MatrixTest {
 
         assertFalse(matrix.isLeftIdentity());
     }
+
+    // ********************************
+    // concatVector()
+    // ********************************
+
+    // when:   b is valid
+    // expect: concat
+    @Test
+    public void testConcatVector_valid() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        Rational one = new Rational(1);
+        Rational[] b = {one, one};
+        Matrix result = matrix.concatVector(b);
+
+        assertEquals(2, result.nRow);
+        assertEquals(4, result.nCol);
+        assertEquals(one, result.elem[0][3]);
+        assertEquals(one, result.elem[1][3]);
+    }
+
+    // when:   b is invalid
+    // expect: null
+    @Test
+    public void testConcatVector_invalid() {
+        long[][][] array = {
+                {{-1}, {0}, {1}},
+                {{0}, {-1}, {2}}
+        };
+        Matrix matrix = Matrix.arrayReader(array);
+        Rational[] b = {};
+        Matrix result = matrix.concatVector(b);
+
+        assertNull(result);
+    }
 }

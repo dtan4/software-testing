@@ -464,4 +464,22 @@ public class Matrix {
 
         return true;
     }
+
+    public Matrix concatVector(Rational[] b) {
+        if (nRow != b.length) {
+            return null;
+        }
+
+        Rational[][] resultElem = new Rational[nRow][nCol + 1];
+
+        for (int i = 0; i < nRow; i++) {
+            for (int j = 0; j < nCol; j++) {
+                resultElem[i][j] = elem[i][j];
+            }
+
+            resultElem[i][nCol] = b[i];
+        }
+
+        return new Matrix(resultElem);
+    }
 }
