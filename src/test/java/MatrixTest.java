@@ -348,9 +348,8 @@ public class MatrixTest {
         Matrix matrix = Matrix.arrayReader(array);
         Matrix leftUpper = matrix.leftUpper(1, 1);
 
-        assertEquals(2, leftUpper.getNRow());
+        assertEquals(1, leftUpper.getNRow());
         assertEquals(new Rational(1, 2), leftUpper.getElem()[0][0]);
-        assertEquals(new Rational(7, 8), leftUpper.getElem()[1][1]);
     }
 
     // when:   row and col are out of range

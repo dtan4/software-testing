@@ -184,12 +184,12 @@ public class Matrix {
             return null;
         }
 
-        Rational[][] leftUpperElem = new Rational[row + 1][];
+        Rational[][] leftUpperElem = new Rational[row][];
 
-        for (int i = 0; i <= row; i++) {
-            leftUpperElem[i] = new Rational[col + 1];
+        for (int i = 0; i < row; i++) {
+            leftUpperElem[i] = new Rational[col];
 
-            for (int j = 0; j <= col; j++) {
+            for (int j = 0; j < col; j++) {
                 leftUpperElem[i][j] = elem[i][j];
             }
         }
@@ -387,23 +387,27 @@ public class Matrix {
             }
 
             if (nCol == 1) {
+                rank = 0;
                 return;
             }
 
             Matrix rightLower = rightLower(0, 1);
             rightLower.echelonForm();
             replace(0, 1, rightLower);
+            rank = rightLower.rank;
 
         } else {
             eliminate(0, 0);
 
             if ((nRow == 1) || (nCol == 1)) {
+                rank = 1;
                 return;
             }
 
             Matrix rightLower = rightLower(1, 1);
             rightLower.echelonForm();
             replace(1, 1, rightLower);
+            rank = rightLower.rank + 1;
         }
     }
 
